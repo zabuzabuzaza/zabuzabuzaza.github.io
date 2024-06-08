@@ -1,0 +1,47 @@
+
+
+.form {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 25px;
+}
+
+.intro {
+    position: sticky;
+    background-color: beige;
+    top: 0;
+}
+
+.click-question {
+    font-size: 25px;
+
+    .question {
+        position: sticky;
+        top: calc(80px + 3rem); 
+        background-color: aqua;
+        margin-bottom: 10px;
+    }
+
+    .answer {
+        font-size: 20px;
+        
+
+        p {
+            background-color: cornsilk;
+            padding: 100px 50px 100px 50px;
+            margin-top: 100px;
+            margin-bottom: 100px; 
+            margin-left: 150px; 
+            margin-right: 150px; 
+        }
+    }
+
+    
+}
+
+
+
+.question:hover {
+    color:blueviolet; 
+    text-decoration: underline;
+}
+
