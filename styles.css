@@ -1,47 +1,101 @@
+:root {
+    --main-bg-color-light: #eae5db; 
+    --main-bg-color-white: #ffffff; 
 
+    --green-highlight-1: #c8cebc; 
+    --green-highlight-2: #9ab59a; 
+    --green-highlight-3: #6b9c79; 
+    --green-highlight-4: #306544; 
+
+    --orange-highlight-1: #ded4bb; 
+    --orange-highlight-2: #d5c38a; 
+    --orange-highlight-3: #b69d4b; 
+    --orange-highlight-4: #98751d; 
+
+    --red-highlight-1: #e9c1b4; 
+    --red-highlight-2: #d5a193; 
+    --red-highlight-3: #cb6e5e; 
+    --red-highlight-4: #b53c27; 
+
+    --blue-highlight-1: #a3c5ca; 
+    --blue-highlight-2: #95bac4; 
+    --blue-highlight-3: #6bb1cc; 
+
+}
+
+body {
+    background-color: var(--main-bg-color-light);
+}
 
 .form {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 25px;
+    margin: 100px;
 }
 
 .intro {
-    position: sticky;
-    background-color: beige;
-    top: 0;
+    /* position: sticky; */
+    background-color: var(--blue-highlight-2);
+    padding: 30px;
+    /* top: 10px; */
+
+    h1 {
+        font-size: 50px;
+    }
+}
+
+.question-block {
+    margin: 10px 0px;
 }
 
 .click-question {
     font-size: 25px;
+    
 
     .question {
         position: sticky;
-        top: calc(80px + 3rem); 
-        background-color: aqua;
-        margin-bottom: 10px;
+        top: calc(-50px + 3rem); 
+        background-color: var(--orange-highlight-2);
+        margin: 10px 0px;
+        padding: 20px;
+
+        p {
+            padding: 10px 60px 10px 30px;
+        }
+        
+    }
+
+    .question:hover {
+        color: var(--orange-highlight-4); 
+        font-weight: bold;
+        letter-spacing: -1.8px;
+        /* text-decoration: underline; */
     }
 
     .answer {
         font-size: 20px;
-        
+        background-color: var(--orange-highlight-1);
+        margin-left: 100px;
+        padding: 10px 0px;
 
         p {
-            background-color: cornsilk;
-            padding: 100px 50px 100px 50px;
-            margin-top: 100px;
-            margin-bottom: 100px; 
-            margin-left: 150px; 
-            margin-right: 150px; 
+            background-color: var(--main-bg-color-light);
+            padding: 10px 50px 10px 50px;
+            margin: 200px 50px;
+            /* margin-top: 100px;
+            margin-bottom: 150px; 
+            margin-left: 100px; 
+            margin-right: 150px;  */
         }
     }
 
     
 }
 
-
-
-.question:hover {
-    color:blueviolet; 
-    text-decoration: underline;
+footer {
+    position: ;
+    bottom: 0px;
 }
+
+
 
