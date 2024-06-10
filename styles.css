@@ -60,7 +60,7 @@ body {
         max-height: 50%;
         background-color: var(--orange-highlight-2);
         margin: 10px 0px;
-        padding: 20px;
+        padding: 5px 20px;
 
         p {
             padding: 10px 60px 10px 30px;
@@ -79,7 +79,7 @@ body {
     .answer {
         font-size: 20px;
         background-color: var(--orange-highlight-1);
-        margin-left: 5%;
+        margin: 0% 15%;
         padding: 10px 0px;
 
         p {
@@ -121,6 +121,8 @@ figcaption {
     
 
     .main-footer {
+        font-weight: 1000;
+        
         display: grid;
         grid-template-columns: repeat(2, 1fr); 
         position: fixed;
