@@ -24,13 +24,15 @@
 }
 
 body {
-    background-color: var(--main-bg-color-light);
+    background: url(images/lines_0_light.png) repeat;
+    /* background-color: var(--main-bg-color-light); */
 }
 
 .form {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 25px;
-    margin: 100px;
+    font-weight: 500;
+    margin: 5%;
 }
 
 .intro {
@@ -55,6 +57,7 @@ body {
     .question {
         position: sticky;
         top: calc(-50px + 3rem); 
+        max-height: 50%;
         background-color: var(--orange-highlight-2);
         margin: 10px 0px;
         padding: 20px;
@@ -67,34 +70,81 @@ body {
 
     .question:hover {
         color: var(--orange-highlight-4); 
-        font-weight: bold;
-        letter-spacing: -1.8px;
+        background-color: var(--orange-highlight-3);
+        font-weight: 1000;
+        letter-spacing: 0px;
         /* text-decoration: underline; */
     }
 
     .answer {
         font-size: 20px;
         background-color: var(--orange-highlight-1);
-        margin-left: 100px;
+        margin-left: 5%;
         padding: 10px 0px;
 
         p {
             background-color: var(--main-bg-color-light);
             padding: 10px 50px 10px 50px;
-            margin: 200px 50px;
+            margin: 50px 20px;
             /* margin-top: 100px;
             margin-bottom: 150px; 
             margin-left: 100px; 
             margin-right: 150px;  */
         }
     }
-
-    
 }
 
-footer {
-    position: ;
-    bottom: 0px;
+img {
+    width: 100%; 
+}
+
+.image-box-horizontal {
+    display: flex;
+    overflow-x: auto;  /* Add overflow-x for horizontal scrolling if needed */
+    white-space: nowrap; /* Prevent wrapping onto multiple lines */
+    margin: 50px 0px;
+
+    img {
+        width: 70%;
+        margin: 15px;
+    }
+}
+
+figcaption {
+    text-align: center;
+    font-size: 18px;
+}
+
+.footer {
+    /* position: ; */
+    font-family: 'Courier New', Courier, monospace;
+    
+
+    .main-footer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        position: fixed;
+        bottom: 0px;
+        width: 95%;
+
+        line-height: 10px;
+        padding: 0px 20px 0px 0px;
+
+        background-color: var(--blue-highlight-3);
+
+        .left-footer {
+            text-align: left;
+        }
+
+        .right-footer {
+            text-align: right;
+        }
+        
+    }
+
+    .passive-footer {
+        margin-bottom: 80px;
+    }
 }
 
 
