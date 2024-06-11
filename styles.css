@@ -30,7 +30,7 @@ body {
 
 .form {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 25px;
+    font-size: 28px;
     font-weight: 500;
     margin: 5%;
 }
@@ -51,7 +51,7 @@ body {
 }
 
 .click-question {
-    font-size: 25px;
+    font-size: 28px;
     
 
     .question {
@@ -79,7 +79,8 @@ body {
     .answer {
         font-size: 20px;
         background-color: var(--orange-highlight-1);
-        margin: 0% 15%;
+        margin: 0% auto;
+        max-width: 600px;
         padding: 10px 0px;
 
         p {
@@ -90,12 +91,22 @@ body {
             margin-bottom: 150px; 
             margin-left: 100px; 
             margin-right: 150px;  */
+
+            
+        }
+
+        .references {
+            background-color: var(--blue-highlight-1);
+            padding: 10px 50px 10px 50px;
+            margin: 50px 20px;
         }
     }
 }
 
+
 img {
-    width: 100%; 
+    width: 90%; 
+    margin: 0px 5%;
 }
 
 .image-box-horizontal {
@@ -118,6 +129,7 @@ figcaption {
 .footer {
     /* position: ; */
     font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
     
 
     .main-footer {
@@ -129,13 +141,14 @@ figcaption {
         bottom: 0px;
         width: 95%;
 
-        line-height: 10px;
+        /* line-height: 10px; */
         padding: 0px 20px 0px 0px;
 
         background-color: var(--blue-highlight-3);
 
         .left-footer {
             text-align: left;
+            margin-left: 10px;
         }
 
         .right-footer {
@@ -145,7 +158,8 @@ figcaption {
     }
 
     .passive-footer {
-        margin-bottom: 80px;
+        font-size: 15px;
+        margin-bottom: 100px;
     }
 }
 
