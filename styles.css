@@ -77,10 +77,11 @@ body {
     }
 
     .answer {
-        font-size: 20px;
+        font-size: 25px;
+        /* font-size: calc(aspect-ratio * 5px); */
         background-color: var(--orange-highlight-1);
         margin: 0% auto;
-        max-width: 600px;
+        max-width: 1000px;
         padding: 10px 0px;
 
         p {
@@ -129,7 +130,7 @@ figcaption {
 .footer {
     /* position: ; */
     font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
+    font-size: 22px;
     
 
     .main-footer {
