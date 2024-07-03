@@ -20,6 +20,7 @@
     --blue-highlight-1: #a3c5ca; 
     --blue-highlight-2: #95bac4; 
     --blue-highlight-3: #6bb1cc; 
+    --blue-highlight-4: #1b80a8; 
 
 }
 
@@ -33,6 +34,10 @@ body {
     font-size: 28px;
     font-weight: 500;
     margin: 5%;
+}
+
+a {
+    color: var(--blue-highlight-4);
 }
 
 .intro {
@@ -76,6 +81,8 @@ body {
         /* text-decoration: underline; */
     }
 
+    
+
     .answer {
         font-size: 25px;
         /* font-size: calc(aspect-ratio * 5px); */
@@ -84,7 +91,7 @@ body {
         max-width: 1000px;
         padding: 10px 0px;
 
-        p {
+        .text-block {
             background-color: var(--main-bg-color-light);
             padding: 10px 50px 10px 50px;
             margin: 50px 20px;
@@ -92,8 +99,22 @@ body {
             margin-bottom: 150px; 
             margin-left: 100px; 
             margin-right: 150px;  */
-
+    
             
+        }
+
+        /* p {
+            background-color: var(--main-bg-color-light);
+            padding: 10px 50px 10px 50px;
+            margin: 50px 20px;
+            
+        } */
+
+        .list-item {
+            font-size: 18px;
+            background-color: var(--orange-highlight-1);
+            padding: 10px 50px 10px 50px;
+            margin: 50px 20px;
         }
 
         .references {
