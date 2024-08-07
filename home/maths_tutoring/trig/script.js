@@ -39,6 +39,7 @@ const sessionCount = document.getElementById("session-data");
 //-----------------------------------------------------------------------------
 
 const problemText = document.getElementById("problem-answer-output");
+problemText.style.display = 'none'; 
 
 const problemCanvas = document.getElementById("problem-canvas"); 
 const problemCTX = problemCanvas.getContext('2d'); 
@@ -53,8 +54,16 @@ generateProblemButton.addEventListener("click", () => {generateTrigProblem()})
 
 const toggleProblemButton = document.getElementById('toggle-problem-button');
 
-toggleProblemButton.addEventListener('click', function() {
-    problemText.style.display = problemText.style.display === 'none' ? 'inline' : 'none';
+toggleProblemButton.addEventListener('click', () => {
+    if (problemText.style.display === 'none') {
+        problemText.style.display = 'inline'
+        toggleProblemButton.textContent = "Hide Answer"
+    } else {
+        problemText.style.display = 'none'
+        toggleProblemButton.textContent = "See Answer"
+    }
+    
+    
 });
 
 // window.localStorage.setItem('totalCount', 0)
@@ -73,25 +82,25 @@ function wheelInput(event, inputElement) {
     event.preventDefault(); // Prevent default scrolling behavior
 }
 
-
+generateCosineAnswer()
 function generateCosineAnswer() {
-    // let answerSteps = []; 
+    let answerSteps = []; 
     const b = knownSide1.value
     const c = knownSide2.value
     const angleA = knownAngle.value
 
-    // answerSteps.push(`a² =   b²  +   c²  - 2bc       cos(A)`)
-    // answerSteps.push(`a² = (${b})² + (${c})² - 2(${b})(${c}) cos(${angleA}°)`)
-    // answerSteps.push(`a² = ${b**2} + ${c**2} - ${2*b*c} × ${toFix(Math.cos(angleA*Math.PI/180), 6)}`)
-    // const step3 = b**2+c**2-(2*b*c*Math.cos(angleA*Math.PI/180))
-    // answerSteps.push(`a² = ${toFix(step3, 6)}`)
-    // answerSteps.push(`a  = √(${toFix(step3, 6)})`)
-    // answerSteps.push(`a  = ${Math.sqrt(toFix(step3, 6))}`)
+    answerSteps.push(`a² =   b²  +   c²  - 2bc       cos(A)`)
+    answerSteps.push(`a² = (${b})² + (${c})² - 2(${b})(${c}) cos(${angleA}°)`)
+    answerSteps.push(`a² = ${b**2} + ${c**2} - ${2*b*c} × ${toFix(Math.cos(angleA*Math.PI/180), 6)}`)
+    const step3 = b**2+c**2-(2*b*c*Math.cos(angleA*Math.PI/180))
+    answerSteps.push(`a² = ${toFix(step3, 6)}`)
+    answerSteps.push(`a  = √(${toFix(step3, 6)})`)
+    answerSteps.push(`a  = ${Math.sqrt(toFix(step3, 6))}`)
 
-    // let stringAnswer = answerSteps.join("\n")
+    let stringAnswer = answerSteps.join("\n")
     answer = from2Sides(b, c, angleA, 2)
 
-    answerText.innerText = answer.method;
+    answerText.innerText = answerSteps.join("\n");
     incrementTotalCount(1)
     
     drawTriangle(cosineCTX, answer.sides, answer.angles)
@@ -107,9 +116,11 @@ function incrementTotalCount(incAmount) {
     sessionCount.innerText = total;
 }
 
+generateTrigProblem()
 function generateTrigProblem() {
     // const randomProblemPick = getRandomInt(1, 4)
-    
+    problemText.style.display = 'none'; 
+    toggleProblemButton.textContent = "See Answer"
     let answer = 0
     switch (getRandomInt(1, 4)) {
         case 1: {

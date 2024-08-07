@@ -22,7 +22,7 @@
 .cosine-rule-section {
     display: grid; 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 550px 550px;
+    grid-template-rows: 700px 700px;
     gap: 10px;
 
     .triangle-canvas {
@@ -59,6 +59,8 @@
 }
 
 
+
+
 .math-text { 
     font-optical-sizing: auto;
     font-weight: 400;
@@ -66,5 +68,6 @@
     font-size: 18px;
 
     white-space: pre;
+    
 }
 
