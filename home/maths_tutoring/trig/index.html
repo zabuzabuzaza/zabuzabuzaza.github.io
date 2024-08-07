@@ -13,6 +13,55 @@
     <a href="../">go back to list of topics</a>
     <p id="session-data">0</p>
     <div class="cosine-rule-section">
+        <div class="cosine-def">
+            <h1>Cosine Rule</h1>
+            <p>
+                For finding sides: 
+                $$a^2 = b^2 + c^2 - 2bc \cos(A)$$
+                and for finding angles: 
+                $$\cos(A) = \frac{b^2 +  c^2 - a^2}{- 2bc}$$
+                $$A = \cos^{-1}\left(\frac{b^2 +  c^2 - a^2}{- 2bc}\right)$$
+            </p>
+
+            <h1>Sine Rule</h1>
+            <p>
+                $$\frac{a}{\sin(A)} = \frac{b}{\sin(B)} = \frac{a}{\sin(B)} $$
+                or
+                $$\frac{\sin(A)}{a} = \frac{\sin(B)}{b} = \frac{\sin(B)}{a} $$
+                Both can be used
+            </p>
+
+            <h1>Pythagoras + Trigonometry Ratios</h1>
+            <p>
+                Don't forget these! 
+                <span class="red-text">RIGHT ANGLES ONLY</span>
+                $$h^2 = a^2 + b^2$$
+                and
+                $$\sin(\theta) = \frac{\text{opp}}{\text{hyp}}\qquad \cos(\theta) = \frac{\text{adj}}{\text{hyp}}\qquad \tan(\theta) = \frac{\text{opp}}{\text{adj}}$$
+            </p>
+            
+            
+        </div>
+        <div class="sine-def">
+            
+        </div>
+
+        <div class="problem-canvas">
+            <canvas id="problem-canvas" width="0" height="0"></canvas>
+        </div>
+        <div class="problem-answer">
+            <h2>Trig Problem Generator - Unlimited problems forever</h2>
+            <div>
+                <button id="generate-problem-button" type="button">New Problem</button>
+                <button id="toggle-problem-button" type="button">See Answer</button>
+            </div>
+            <div class="answer-text">
+                <span class="math-text answer-text mono" id="problem-answer-output">
+                    Answer will show up here
+                </span>
+            </div>
+        </div>
+
         <div class="triangle-canvas">
             <canvas id="cosine-canvas" width="0" height="0"></canvas>
         </div>
@@ -40,25 +89,10 @@
                 </span>
             </div>
         </div>
-
-        <div class="problem-canvas">
-            <canvas id="problem-canvas" width="0" height="0"></canvas>
-        </div>
-        <div class="problem-answer">
-            <h2>Trig Problem Generator - Unlimited problems forever</h2>
-            <div>
-                <button id="generate-problem-button" type="button">New Problem</button>
-                <button id="toggle-problem-button" type="button">See Answer</button>
-            </div>
-            <div class="answer-text">
-                <span class="math-text answer-text mono" id="problem-answer-output">
-                    Answer will show up here
-                </span>
-            </div>
-        </div>
     </div>
     
     
+    
     <script src="script.js"></script>
-    <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
