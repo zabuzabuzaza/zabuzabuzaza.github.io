@@ -53,6 +53,7 @@ body {
     overflow-x: clip;
 }
 
+
 ::selection {
     background-color: var(--yellow-dark-3); /* yellow */
     color: #ffffff; /* black */
@@ -76,6 +77,8 @@ a {
 
 .form {
     text-align: center;
+    max-width: 1000px;
+    margin: 0 auto; 
 
     h1 {
         font-size: 32px;
@@ -86,9 +89,9 @@ a {
 
         margin: 10% 25%;
     }
-
-    
 }
+
+
 
 .form-padding {
     padding: 300px 0px 0px 0; 
@@ -159,9 +162,12 @@ img {
 
 .drawing-grid {
     display: grid; 
-    grid-template-columns: 65vw 30vw; 
+    grid-template-columns: 65% 35%; 
     grid-template-rows: 1fr 1fr 1fr; 
     gap: 10px;
+
+    /* position: relative;
+    left: -100px;  */
 
     .drawing-grid-text {
         padding: 45% 0px 0px 0px; 
@@ -175,6 +181,10 @@ img {
     .count-comment {
         font-size: 18px;
     }
+
+    /* img {
+        max-width: 400px;
+    } */
 }
 
 .software-count {
