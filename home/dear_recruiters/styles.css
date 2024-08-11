@@ -1,0 +1,246 @@
+:root {
+    --main-bg-color-light: #F5F5E2; 
+    --main-bg-color-white: #ffffff; 
+
+    --yellow-dark-0: #F5F5E2;
+    --yellow-dark-1: #d9d9c6; 
+    --yellow-dark-2: #adad9b; 
+    --yellow-dark-3: #7d7d6c; 
+
+    --green-highlight-1: #c8cebc; 
+    --green-highlight-2: #9ab59a; 
+    --green-highlight-3: #6b9c79; 
+    --green-highlight-4: #306544; 
+
+    --orange-highlight-1: #ded4bb; 
+    --orange-highlight-2: #d5c38a; 
+    --orange-highlight-3: #b69d4b; 
+    --orange-highlight-4: #98751d; 
+
+    --red-highlight-1: #e9c1b4; 
+    --red-highlight-2: #d5a193; 
+    --red-highlight-3: #cb6e5e; 
+    --red-highlight-4: #b53c27; 
+
+    --blue-highlight-1: #a3c5ca; 
+    --blue-highlight-2: #95bac4; 
+    --blue-highlight-3: #6bb1cc; 
+    --blue-highlight-4: #1b80a8; 
+
+}
+
+@font-face {
+    font-family: 'Brygada 1918'; 
+    src: url('assets/Brygada1918-VariableFont_wght.ttf') format('truetype'); 
+}
+
+@font-face {
+    font-family: "Outfit"; /* Choose a font family name */
+    src: url('assets/Outfit-VariableFont_wght.ttf') format('truetype'); /* Path to the TTF file */
+} 
+
+/* .serif {
+    font-family: "Brygada 1918", serif;
+}
+
+.sans-serif {
+    font-family: "Outfit", sans-serif; 
+} */
+
+body {
+    background: var(--main-bg-color-light);
+    /* background-color: var(--main-bg-color-light); */
+    overflow-x: clip;
+}
+
+::selection {
+    background-color: var(--yellow-dark-3); /* yellow */
+    color: #ffffff; /* black */
+}
+
+.sans-serif, h1 {
+    font-family: "Outfit";
+    font-weight: 900;
+}
+
+.serif, p {
+    font-family: "Brygada 1918"; 
+    font-weight: 800;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.form {
+    text-align: center;
+
+    h1 {
+        font-size: 32px;
+    }
+
+    p {
+        font-size: 18px;
+
+        margin: 10% 25%;
+    }
+
+    
+}
+
+.form-padding {
+    padding: 300px 0px 0px 0; 
+}
+
+.project-group {
+    height: calc(100px + 3 * 20vw);
+    position: relative; 
+    padding-left: 0%;
+}
+
+.project-container {
+    position: relative; 
+
+    img {
+        /* position: absolute;  */
+        width: 100%; 
+        overflow: clip;
+    }
+    
+}
+
+.project-image-overlay {
+    position: absolute; 
+    z-index: 2;
+    top: 0; 
+}
+
+.foreground {
+    z-index: 4;
+}
+
+
+
+.sticky-text {
+    font-size: 50px;
+
+    position: sticky; 
+    bottom: 400px; 
+    z-index: 3;
+    /* inset: -50px 100px 300px 100px; */
+}
+
+.hiding-block-top {
+    background-color: var(--yellow-dark-0);
+    height: 100px; 
+    width: 100%;
+    position: absolute;
+    bottom: 100px;
+    z-index: 5;
+}
+
+.hiding-block {
+    background-color: var(--yellow-dark-0);
+    height: 100px; 
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    z-index: 5;
+}
+
+
+
+img {
+    /* position: absolute;  */
+    width: 100%; 
+}
+
+.drawing-grid {
+    display: grid; 
+    grid-template-columns: 65vw 30vw; 
+    grid-template-rows: 1fr 1fr 1fr; 
+    gap: 10px;
+
+    .drawing-grid-text {
+        padding: 45% 0px 0px 0px; 
+    }
+
+    .count-number {
+        font-size: 60px;
+        font-weight: 600;
+    }
+
+    .count-comment {
+        font-size: 18px;
+    }
+}
+
+.software-count {
+    font-size: 32px;
+}
+
+.references {
+    font-size: 24px;
+    .reference-group {
+        display: inline-block;
+        padding: 20px 10px 20px 10px;
+    }
+    
+    p {
+        padding: 0px; 
+    }
+
+    a {
+        text-decoration: underline;
+    }
+}
+
+
+.menu {
+    /* position: ; */
+    
+    font-size: 22px;
+    text-align: center;
+        
+    position: sticky;
+    bottom: 0px;
+    width: 110%;
+    margin-left: -5%;
+    z-index: 10;
+
+    padding: 0px 20px 20px 20px;
+
+    background-color: var(--yellow-dark-1);
+
+    transform: translateY(90%);
+    transition: transform 0.5s ease-in-out;
+
+    .menu-tag {
+        font-size: 48px;
+        
+        padding: 0px 0px 30px 0px; 
+        cursor: pointer;
+    }
+
+    .menu-info {
+        font-size: 28px; 
+        line-height: 100%;
+        padding: 0px 0px 20px 0px;
+    }
+
+    .menu-links {
+        font-size: 36px; 
+        line-height: 130%;
+        padding: 0px 0px 20px 0px;
+    }
+
+    .menu-disclaimer {
+        font-size: 14px; 
+        font-weight: 400;
+    }
+}
+
+
+
