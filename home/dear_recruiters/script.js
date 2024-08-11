@@ -5,7 +5,7 @@ const menuToggle = document.querySelector('.menu-tag');
 
 let markingCount = 0; 
 let assemblyCount = 0; 
-
+let partCount = 0; 
 
 const markingCounterElement = document.getElementById('marking-count');
 const assemblyCounterElement = document.getElementById('assembly-count');
@@ -61,7 +61,15 @@ setInterval(() => {
     assemblyCount = 0;
   }
   assemblyCounterElement.textContent = assemblyCount.toString();
-}, 100);
+}, 50);
+
+setInterval(() => {
+  partCount += 7;
+  if (partCount > 1512) {
+    partCount = 0;
+  }
+  partCounterElement.textContent = partCount.toString();
+}, 25);
 
 setInterval(() => {
   softwareCount++;
