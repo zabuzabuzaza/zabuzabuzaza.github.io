@@ -128,7 +128,7 @@ function generateCosineAnswer() {
     incrementTotalCount(1)
     
     drawTriangle(cosineCTX, answer.sides, answer.angles)
-    console.log(`Answer: ${answer.sides}, ${answer.angles}`)
+    // console.log(`Sides: ${answer.sides}, ${answer.angles}`)
 }
 
 function incrementTotalCount(incAmount) {
@@ -158,9 +158,9 @@ function generateTrigProblem() {
             answerMask[0] = ["", "", ""]
 
             console.log(`Problem One: Determine Triangle from 3 Sides: `); 
-            console.log(`Side 1: ${side1}`)
-            console.log(`Side 2: ${side2}`)
-            console.log(`Side 3: ${side3}`)
+            console.log(`\tSide a: ${side1}`)
+            console.log(`\tSide b: ${side2}`)
+            console.log(`\tSide c: ${side3}`)
 
             answer = from3Sides(side1, side2, side3)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
@@ -184,9 +184,9 @@ function generateTrigProblem() {
             answerMask[1][angleIndex] = ""
 
             console.log(`Problem Two: Determine Triangle from 2 Sides, 1 Angle`); 
-            console.log(`Side 1: ${side1}`)
-            console.log(`Side 2: ${side2}`)
-            console.log(`Unknown Angle: ${angleX} @ position oppisite side${((angleIndex+1)%3)}`)
+            console.log(`\tSide a: ${side1}`)
+            console.log(`\tSide b: ${side2}`)
+            console.log(`\tAngle ${answerLabels[1][angleIndex]}: ${angleX}`)
 
             answer = from2Sides(side1, side2, angleX, angleIndex)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
@@ -210,9 +210,9 @@ function generateTrigProblem() {
             answerMask[1][1] = ""
 
             console.log(`Problem Three: Determine Triangle from 1 Side, 2 Angles`); 
-            console.log(`Angle 1: ${angle1}`)
-            console.log(`Angle 2: ${angle2}`)
-            console.log(`Unknown Side: ${sideX} @ position oppisite side${(sideIndex+1)%3}`)
+            console.log(`\tAngle A: ${angle1}`)
+            console.log(`\tAngle B: ${angle2}`)
+            console.log(`\tSide ${answerLabels[0][sideIndex]}: ${sideX}`)
 
             answer = from1Sides(sideX, sideIndex, angle1, angle2)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
@@ -231,7 +231,15 @@ function generateTrigProblem() {
         console.log(`Invalid Triangle, trying again`)
         generateTrigProblem()
     } else {
-        console.log(`Answer: ${answer.sides}, ${answer.angles}`)
+        console.log(
+            `ANSWERS: \n` + 
+            `\tSide a: ${toFix(answer.sides[0], 4)} \n` +
+            `\tSide b: ${toFix(answer.sides[1], 4)} \n` +
+            `\tSide c: ${toFix(answer.sides[2], 4)} \n` +
+            `\tAngle A: ${toFix(answer.angles[0], 4)}° \n` +
+            `\tAngle B: ${toFix(answer.angles[1], 4)}° \n` +
+            `\tAngle C: ${toFix(answer.angles[2], 4)}° \n`
+        )
     }
     
     
@@ -242,13 +250,13 @@ function from3Sides(side0, side1, side2) {
     
     
     const angle0 = getCosineAngle(side0, side1, side2, 0)
-    console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
+    // console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
     
     const angle1 = getCosineAngle(side1, side0, side2, 1)
-    console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
+    // console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
     
     const angle2 = getCosineAngle(side2, side1, side0, 2)
-    console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
+    // console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
     let sides = [side0, side1, side2] 
     let angles = [angle0.result, angle1.result, angle2.result]
@@ -291,16 +299,16 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     if (angleIndex == 0) {
         const angle1 = getSineAngle(sides[1], sides[0], angles[0], 1, 0)
         angles[1] = angle1.result
-        console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
+        // console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
 
         // const angle2 = 180 - angles[0] - angles[1]
         const angle2 = get180Angle(angles[0], angles[1], 2)
         angles[2] = angle2.result
-        console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
+        // console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
         const side2 = getSineSide(sides[0], angles[2], angles[0], 2, 0)
         sides[2] = side2.result
-        console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
+        // console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         methodSteps = [angle1.method, angle2.method, side2.method]; 
         hintString = (
@@ -313,16 +321,16 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     } else if (angleIndex == 1) {
         const angle0 = getSineAngle(sides[0], sides[1], angles[1], 0, 1)
         angles[0] = angle0.result
-        console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
+        // console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
 
         // const angle2 = 180 - angles[0] - angles[1]
         const angle2 = get180Angle(angles[0], angles[1], 2)
         angles[2] = angle2.result
-        console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
+        // console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
         const side2 = getSineSide(sides[0], angles[2], angles[0], 2, 0)
         sides[2] = side2.result
-        console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
+        // console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         methodSteps = [angle0.method, angle2.method, side2.method]; 
         hintString = (
@@ -335,16 +343,16 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     } else if (angleIndex == 2) {
         const side2 = getCosineSide(sides[0], sides[1], angles[2], 2)
         sides[2] = side2.result
-        console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
+        // console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         const angle0 = getCosineAngle(sides[0], sides[1], sides[2], 0)
         angles[0] = angle0.result
-        console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
+        // console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
 
         // const angle1 = 180 - angles[2] - angles[0]
         const angle1 = get180Angle(angles[2], angles[0], 1)
         angles[1] = angle1.result
-        console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
+        // console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
 
         methodSteps = [side2.method, angle0.method, angle1.method]; 
         hintString = (
@@ -480,8 +488,6 @@ function drawTriangle(ctx, sides, angles, answerMask=[["", "", ""], ["", "", ""]
     const topAngleLabel  = (answerMask[1][1] == "")? answerLabels[1][1] + ": " +  toFix(topAngle, 1): answerMask[1][1]; 
     const botSideLabel   = (answerMask[0][2] == "")? answerLabels[0][2] + ": " +  toFix(botSide, 1): answerMask[0][2]; 
     const botAngleLabel  = (answerMask[1][2] == "")? answerLabels[1][2] + ": " +  toFix(botAngle, 1): answerMask[1][2]; 
-
-    console.log(`${leftSideLabel}| ${leftAngleLabel} |${topSideLabel} |${topAngleLabel} |${botSideLabel} |${botAngleLabel} |`)
 
     // plot labels 
     const PADDING = 5
