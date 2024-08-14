@@ -146,7 +146,8 @@ function generateTrigProblem() {
     problemText.style.display = 'none'; 
     toggleProblemButton.textContent = "See Answer"
     let answer = 0
-    switch (getRandomInt(1, 4)) {
+    // switch (getRandomInt(1, 4)) {
+    switch (getRandomInt(1, 6)) {
         case 1: {
             
             const side1 = getRandomInt(1, 100)
@@ -158,9 +159,9 @@ function generateTrigProblem() {
             answerMask[0] = ["", "", ""]
 
             console.log(`Problem One: Determine Triangle from 3 Sides: `); 
-            console.log(`\tSide a: ${side1}`)
-            console.log(`\tSide b: ${side2}`)
-            console.log(`\tSide c: ${side3}`)
+            console.log(`\tSide ${answerLabels[0][0]}: ${side1}`)
+            console.log(`\tSide ${answerLabels[0][1]}: ${side2}`)
+            console.log(`\tSide ${answerLabels[0][2]}: ${side3}`)
 
             answer = from3Sides(side1, side2, side3)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
@@ -184,8 +185,8 @@ function generateTrigProblem() {
             answerMask[1][angleIndex] = ""
 
             console.log(`Problem Two: Determine Triangle from 2 Sides, 1 Angle`); 
-            console.log(`\tSide a: ${side1}`)
-            console.log(`\tSide b: ${side2}`)
+            console.log(`\tSide ${answerLabels[0][0]}: ${side1}`)
+            console.log(`\tSide ${answerLabels[0][1]}: ${side2}`)
             console.log(`\tAngle ${answerLabels[1][angleIndex]}: ${angleX}`)
 
             answer = from2Sides(side1, side2, angleX, angleIndex)
@@ -210,12 +211,64 @@ function generateTrigProblem() {
             answerMask[1][1] = ""
 
             console.log(`Problem Three: Determine Triangle from 1 Side, 2 Angles`); 
-            console.log(`\tAngle A: ${angle1}`)
-            console.log(`\tAngle B: ${angle2}`)
+            console.log(`\tAngle ${answerLabels[1][0]}: ${angle1}`)
+            console.log(`\tAngle ${answerLabels[1][1]}: ${angle2}`)
             console.log(`\tSide ${answerLabels[0][sideIndex]}: ${sideX}`)
 
             answer = from1Sides(sideX, sideIndex, angle1, angle2)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
+
+            currentAnswer = answer.method; 
+            currentHint = answer.hint; 
+            // problemText.innerText = answer.method;
+            break;
+        }
+        case 4: {
+            const side2 = getRandomInt(1, 100)
+            const side1 = getRandomInt(1, side2)
+            const angle90 = 90
+            const angleIndex = getRandomInt(1, 3) // either index 1 or 2
+
+            // show first two sides and one of the angles [["", "", "c"], ["A", "B", "C"]]
+            let answerMask = [answerLabels[0].slice(), answerLabels[1].slice()]
+            answerMask[0][0] = ""
+            answerMask[0][1] = ""
+            answerMask[1][angleIndex] = ""
+
+            console.log(`Problem Four: Determine Triangle from 2 Sides, 1 Angle, Right Angled`); 
+            console.log(`\tSide ${answerLabels[0][0]}: ${side1}`)
+            console.log(`\tSide ${answerLabels[0][1]}: ${side2}`)
+            console.log(`\tAngle ${answerLabels[1][angleIndex]}: ${angle90} @ index ${angleIndex}`)
+
+            answer = from2Sides90(side1, side2, angle90, angleIndex)
+            
+            drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
+
+            currentAnswer = answer.method; 
+            currentHint = answer.hint; 
+            // problemText.innerText = answer.method;
+            break;
+        }
+        case 5: {
+            const sideX = getRandomInt(1, 100)
+            const sideIndex = getRandomInt(0, 3)
+            const angle1 = 90
+            const angle2 = getRandomInt(15, 75)
+            
+            // only show one of the sides and the first two angles [["a", "b", "c"], ["", "", "C"]]
+            let answerMask = [answerLabels[0].slice(), answerLabels[1].slice()]
+            answerMask[0][sideIndex] = ""
+            answerMask[1][0] = ""
+            answerMask[1][1] = ""
+
+            console.log(`Problem Five: Determine Triangle from 1 Side, 2 Angles, Right Angled`); 
+            console.log(`\tAngle ${answerLabels[1][0]}: ${angle1}`)
+            console.log(`\tAngle ${answerLabels[1][1]}: ${angle2}`)
+            console.log(`\tSide ${answerLabels[0][sideIndex]}: ${sideX} @ index ${sideIndex}`)
+
+            answer = from1Sides90(sideX, sideIndex, angle1, angle2)
+            drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
+            // console.log(`Sides ${answer.sides} \nAngles ${answer.angles}`)
 
             currentAnswer = answer.method; 
             currentHint = answer.hint; 
@@ -233,12 +286,12 @@ function generateTrigProblem() {
     } else {
         console.log(
             `ANSWERS: \n` + 
-            `\tSide a: ${toFix(answer.sides[0], 4)} \n` +
-            `\tSide b: ${toFix(answer.sides[1], 4)} \n` +
-            `\tSide c: ${toFix(answer.sides[2], 4)} \n` +
-            `\tAngle A: ${toFix(answer.angles[0], 4)}° \n` +
-            `\tAngle B: ${toFix(answer.angles[1], 4)}° \n` +
-            `\tAngle C: ${toFix(answer.angles[2], 4)}° \n`
+            `\tSide ${answerLabels[0][0]}: ${toFix(answer.sides[0], 4)} \n` +
+            `\tSide ${answerLabels[0][1]}: ${toFix(answer.sides[1], 4)} \n` +
+            `\tSide ${answerLabels[0][2]}: ${toFix(answer.sides[2], 4)} \n` +
+            `\tAngle ${answerLabels[1][0]}: ${toFix(answer.angles[0], 4)}° \n` +
+            `\tAngle ${answerLabels[1][1]}: ${toFix(answer.angles[1], 4)}° \n` +
+            `\tAngle ${answerLabels[1][2]}: ${toFix(answer.angles[2], 4)}° \n`
         )
     }
     
@@ -250,13 +303,10 @@ function from3Sides(side0, side1, side2) {
     
     
     const angle0 = getCosineAngle(side0, side1, side2, 0)
-    // console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
     
     const angle1 = getCosineAngle(side1, side0, side2, 1)
-    // console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
     
     const angle2 = getCosineAngle(side2, side1, side0, 2)
-    // console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
     let sides = [side0, side1, side2] 
     let angles = [angle0.result, angle1.result, angle2.result]
@@ -299,16 +349,13 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     if (angleIndex == 0) {
         const angle1 = getSineAngle(sides[1], sides[0], angles[0], 1, 0)
         angles[1] = angle1.result
-        // console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
 
         // const angle2 = 180 - angles[0] - angles[1]
         const angle2 = get180Angle(angles[0], angles[1], 2)
         angles[2] = angle2.result
-        // console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
         const side2 = getSineSide(sides[0], angles[2], angles[0], 2, 0)
         sides[2] = side2.result
-        // console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         methodSteps = [angle1.method, angle2.method, side2.method]; 
         hintString = (
@@ -321,16 +368,13 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     } else if (angleIndex == 1) {
         const angle0 = getSineAngle(sides[0], sides[1], angles[1], 0, 1)
         angles[0] = angle0.result
-        // console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
 
         // const angle2 = 180 - angles[0] - angles[1]
         const angle2 = get180Angle(angles[0], angles[1], 2)
         angles[2] = angle2.result
-        // console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
         const side2 = getSineSide(sides[0], angles[2], angles[0], 2, 0)
         sides[2] = side2.result
-        // console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         methodSteps = [angle0.method, angle2.method, side2.method]; 
         hintString = (
@@ -343,16 +387,13 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     } else if (angleIndex == 2) {
         const side2 = getCosineSide(sides[0], sides[1], angles[2], 2)
         sides[2] = side2.result
-        // console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         const angle0 = getCosineAngle(sides[0], sides[1], sides[2], 0)
         angles[0] = angle0.result
-        // console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
 
         // const angle1 = 180 - angles[2] - angles[0]
         const angle1 = get180Angle(angles[2], angles[0], 1)
         angles[1] = angle1.result
-        // console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
 
         methodSteps = [side2.method, angle0.method, angle1.method]; 
         hintString = (
@@ -368,13 +409,62 @@ function from2Sides(side0, side1, angleX, angleIndex) {
         console.log(`ERROR: UNKNOWN INDEX IN CALCULATING from2Sides`)
     }
 
-    
-    
     return {
         sides: sides, 
         angles: angles, 
         method: methodSteps.join("\n"), 
         hint: hintString
+    }
+}
+
+function from2Sides90(side0, side1, angleX, angleIndex) {
+    let sides = [side0, side1, 0]
+    let angles = [0, 0, 0]
+    let methodSteps = []
+    let hintString = ""
+
+    angles[angleIndex] = angleX
+
+    if (angleIndex == 1) {
+        // adjacent to be worked out
+        const side2 = getPythagB(sides[1], sides[0], 1, 2, 0)
+        sides[2] = side2.result
+
+        const angle0 = getSineAngle90(sides[0], sides[1], 0, 2, 1)
+        angles[0] = angle0.result
+
+        const angle2 = getSineAngle90(sides[2], sides[1], 2, 0, 1)
+        angles[2] = angle2.result
+
+        methodSteps = [side2.method, angle0.method, angle2.method]; 
+        
+    } else if (angleIndex == 2) {
+        // hypotenuse to be worked out
+        const side2 = getPythagA(sides[0], sides[1], 2)
+        sides[2] = side2.result
+
+        const angle1 = getSineAngle90(sides[1], sides[2], [1], [0], [2])
+        angles[1] = angle1.result
+
+        const angle0 = getSineAngle90(sides[0], sides[2], [0], [1], [2])
+        angles[0] = angle0.result
+
+        methodSteps = [side2.method, angle1.method, angle0.method]; 
+    } else {
+        console.log(`INDEX NOT 1 OR 2`)
+    }
+    
+
+
+    return {
+        sides: sides, 
+        angles: angles, 
+        method: methodSteps.join("\n"), 
+        hint: (
+            `It's a right angled triangle. \n` + 
+            `So use Pythagoras and SOH CAH TOA instead of \n` +
+            `Cosine and Sine Rule`
+        )
     }
 }
 
@@ -420,11 +510,54 @@ function from1Sides(sideX, sideIndex, angle0, angle1) {
             `picking side ${answerLabels[0][sideIndex]} and angle ${answerLabels[1][sideIndex]} \n` + 
             `and the opposite angle to the side you are trying to work out.`
         )
-
     }
 }
 
+function from1Sides90(sideX, sideIndex, angle0, angle1) {
+    let sides = [0, 0, 0]
+    let angles = [angle0, angle1, 0]
+    let methodSteps = []
 
+    // angles[2] = 180 - angle0 - angle1
+    const angle2 = get180Angle(angle0, angle1, 2)
+    angles[2] = angle2.result
+    sides[sideIndex] = sideX
+
+    if (sideIndex == 0) {
+        // side is hypotenuse
+        const side1 = getSineOpp(angles[1], sides[sideIndex], 1, 2, 0)
+        sides[1] = side1.result
+
+        const side2 = getSineOpp(angles[2], sides[sideIndex], 2, 1, 0)
+        sides[2] = side2.result
+
+        methodSteps = [angle2.method, side1.method, side2.method]; 
+    } else {
+        // side0 is the hypotenuse
+        const side0 = getSineHyp(angles[sideIndex], sides[sideIndex], sideIndex, 0)
+        sides[0] = side0.result
+
+        adjIndex = (sideIndex+1)%3 == 0 ? (sideIndex+2)%3: (sideIndex+1)%3
+        const sideAdj = getSineOpp(angles[adjIndex], sides[0], adjIndex, 0)
+        sides[adjIndex] = sideAdj.result
+
+        methodSteps = [angle2.method, side0.method, sideAdj.method]; 
+    }
+
+
+    return {
+        sides: sides, 
+        angles: angles, 
+        method: methodSteps.join("\n"), 
+        hint: (
+            `You already know two angles, so figure out \n` +
+            `the last angle ${answerLabels[1][sideIndex]} first (all angles add to 180). \n\n` + 
+            `It is a right angled triangle, \n ` +
+            `So use Pythagoras and SOH CAH TOA instead of \n` + 
+            `Cosine and Sine Rule` 
+        )
+    }
+}
 
 function drawTriangle(ctx, sides, angles, answerMask=[["", "", ""], ["", "", ""]]) {
     ctx.reset(); 
@@ -493,7 +626,7 @@ function drawTriangle(ctx, sides, angles, answerMask=[["", "", ""], ["", "", ""]
     const PADDING = 5
     ctx.font = "bold 28px serif";
     ctx.fillText(`${leftSideLabel}`, 
-        points[0][0] - 16*PADDING, 
+        points[0][0] - 20*PADDING, 
         (points[1][1] + points[0][1])/2
     )
     ctx.fillText(`${topSideLabel}`, 
@@ -647,6 +780,240 @@ function get180Angle(angle1, angle2, labelIndexX) {
         method: answerSteps.join("\n")
     }
 }
+
+//------------------------------------------------
+// RIGHT ANGLE
+//------------------------------------------------
+
+function getPythagA(sideB, sideC, sideAIndex) {
+    const A = answerLabels[0][sideAIndex]
+    const B = answerLabels[0][(sideAIndex+1)%3]
+    const C = answerLabels[0][(sideAIndex+2)%3]
+
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, \nwork out side ${A} with Pythagoras:`)
+    answerSteps.push(`${A}² = ${B}² + ${C}²`)
+    answerSteps.push(`${A}² = ${sideB}² + ${sideC}²`)
+    answerSteps.push(`${A}² = ${sideB**2} + ${sideC**2}`)
+    const step3 = Math.sqrt(sideB**2 + sideC**2)
+    answerSteps.push(` ${A} = √${sideB**2 + sideC**2}`)
+    answerSteps.push(` ${A} = ${toFix(step3, 6)}`)
+    answerSteps.push(" ")
+
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getPythagB(sideA, sideC, sideAIndex, sideBIndex, sideCIndex) {
+    const B = answerLabels[0][sideBIndex]
+    const C = answerLabels[0][sideCIndex]
+    const A = answerLabels[0][sideAIndex]
+
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, \nwork out side ${B} with Pythagoras:`)
+    answerSteps.push(`${A}² = ${B}² + ${C}²`)
+    answerSteps.push(`${B}² = ${A}² - ${C}²`)
+    answerSteps.push(`${B}² = ${sideA}² - ${sideC}²`)
+    answerSteps.push(`${B}² = ${sideA**2} - ${sideC**2}`)
+    const step3 = Math.sqrt(sideA**2 - sideC**2)
+    answerSteps.push(` ${B} = ${toFix(step3, 6)}`)
+    answerSteps.push(" ")
+
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getSineAngle90(sideOpp, sideHyp, oppIndex, adjIndex, hypIndex) {
+    const opp = answerLabels[0][oppIndex]
+    const hyp = answerLabels[0][hypIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Work out angle ${A} with SOH CAH TOA:`)
+    answerSteps.push(`sin(${A}) = (opp)/(hyp)`)
+    answerSteps.push(`sin(${A}) = (${opp})/(${hyp})`)
+    answerSteps.push(`sin(${A}) = (${sideOpp})/(${sideHyp})`)
+    answerSteps.push(`     ${A} = sin⁻¹(${sideOpp}/${sideHyp})`)
+    const step3 = rad2deg(Math.asin(sideOpp/sideHyp))
+    answerSteps.push(`     ${A} = ${toFix(step3, 6)}°`)
+    answerSteps.push(" ")
+
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getSineOpp(angle, sideHyp, oppIndex, hypIndex) {
+    const opp = answerLabels[0][oppIndex]
+    const hyp = answerLabels[0][hypIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Work out opposite ${opp} with SOH CAH TOA:`)
+    answerSteps.push(`sin(${A}) = (opp)/(hyp)`)
+    answerSteps.push(`sin(${A}) = (${opp})/(${hyp})`)
+    answerSteps.push(`     ${opp} = ${hyp} × sin(${A}°)`)
+    answerSteps.push(`     ${opp} = ${sideHyp} × sin(${angle}°)`)
+    const step3 = sideHyp * Math.sin(deg2Rad(angle))
+    answerSteps.push(`     ${opp} = ${toFix(step3, 6)}`)
+    answerSteps.push(" ")
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getSineHyp(angle, sideOpp, oppIndex, hypIndex) {
+    const opp = answerLabels[0][oppIndex]
+    const hyp = answerLabels[0][hypIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out hypotenuse ${hyp} with SOH CAH TOA:`)
+    answerSteps.push(`sin(${A}) = (opp)/(hyp)`)
+    answerSteps.push(`sin(${A}) = (${opp})/(${hyp})`)
+    answerSteps.push(`     ${hyp} = ${opp}/sin(${A}°)`)
+    answerSteps.push(`     ${hyp} = ${sideOpp}/sin(${angle}°)`)
+    const step3 = sideOpp / Math.sin(deg2Rad(angle))
+    answerSteps.push(`     ${hyp} = ${toFix(step3, 6)}`)
+    answerSteps.push(" ")
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getCosAngle90(sideAdj, sideHyp, oppIndex, adjIndex, hypIndex) {
+    const adj = answerLabels[0][adjIndex]
+    const hyp = answerLabels[0][hypIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out angle ${A} with SOH CAH TOA:`)
+    answerSteps.push(`cos(${A}) = (adj)/(hyp)`)
+    answerSteps.push(`cos(${A}) = (${adj})/(${hyp})`)
+    answerSteps.push(`      ${A} = (cos⁻¹(${adj})/(${hyp})`)
+    const step3 = rad2deg(Math.acos(sideAdj/sideHyp))
+    answerSteps.push(`          ${A}  = ${toFix(step3, 6)}°`)
+    answerSteps.push(" ")
+
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getCosAdj(angle, sideHyp, oppIndex, adjIndex, hypIndex) {
+    const adj = answerLabels[0][adjIndex]
+    const hyp = answerLabels[0][hypIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out adacent ${adj} with SOH CAH TOA:`)
+    answerSteps.push(`cos(${A}) = (adj)/(hyp)`)
+    answerSteps.push(`cos(${A}) = (${adj})/(${hyp})`)
+    answerSteps.push(`${adj} = ${hyp} × cos(${A}°)`)
+    answerSteps.push(`${opp} = ${sideHyp} × cos(${angle}°)`)
+    const step3 = sideHyp * Math.cos(deg2Rad(angle))
+    answerSteps.push(`          ${opp} = ${step3})`)
+    answerSteps.push(" ")
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getCosHyp(angle, sideOpp, oppIndex, adjIndex, hypIndex) {
+    const adj = answerLabels[0][adjIndex]
+    const hyp = answerLabels[0][hypIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out hypotenuse ${hyp} with SOH CAH TOA:`)
+    answerSteps.push(`cos(${A}) = (adj)/(hyp)`)
+    answerSteps.push(`cos(${A}) = (${adj})/(${hyp})`)
+    answerSteps.push(`${hyp} = ${adj}/cos(${A}°)`)
+    answerSteps.push(`${hyp} = ${sideAdj}/cos(${angle}°)`)
+    const step3 = sideAdj / Math.cos(deg2Rad(angle))
+    answerSteps.push(`          ${hyp} = ${step3})`)
+    answerSteps.push(" ")
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getTanAngle90(sideAdj, sideOpp, oppIndex, adjIndex, hypIndex) {
+    const adj = answerLabels[0][adjIndex]
+    const opp = answerLabels[0][oppIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out angle ${A} with SOH CAH TOA:`)
+    answerSteps.push(`tan(${A}) = (opp)/(adj)`)
+    answerSteps.push(`tan(${A}) = (${opp})/(${adj})`)
+    answerSteps.push(`      ${A} = (tan⁻¹(${opp})/(${adj})`)
+    const step3 = rad2deg(Math.atan(sideOpp/sideAdj))
+    answerSteps.push(`          ${A}  = ${toFix(step3, 6)}°`)
+    answerSteps.push(" ")
+
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getTanOpp(angle, sideAdj, oppIndex, adjIndex, hypIndex) {
+    const adj = answerLabels[0][adjIndex]
+    const opp = answerLabels[0][oppIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out opposite ${opp} with SOH CAH TOA:`)
+    answerSteps.push(`tan(${A}) = (opp)/(adj)`)
+    answerSteps.push(`tan(${A}) = (${opp})/(${adj})`)
+    answerSteps.push(`${opp} = ${adj} × tan(${A}°)`)
+    answerSteps.push(`${opp} = ${sideAdj} × tan(${angle}°)`)
+    const step3 = sideAdj * Math.tan(deg2Rad(angle))
+    answerSteps.push(`          ${opp} = ${step3})`)
+    answerSteps.push(" ")
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+function getCosAdj(angle, sideOpp, oppIndex, adjIndex, hypIndex) {
+    const adj = answerLabels[0][adjIndex]
+    const opp = answerLabels[0][oppIndex]
+    const A = answerLabels[1][oppIndex]
+
+    let answerSteps = []; 
+    answerSteps.push(`Since it's a right angled triangle, work out adacent ${adj} with SOH CAH TOA:`)
+    answerSteps.push(`tan(${A}) = (opp)/(adj)`)
+    answerSteps.push(`tan(${A}) = (${opp})/(${adj})`)
+    answerSteps.push(`${adj} = ${opp} / tan(${A}°)`)
+    answerSteps.push(`${adj} = ${sideOpp} / tan(${angle}°)`)
+    const step3 = sideOpp / Math.tan(deg2Rad(angle))
+    answerSteps.push(`          ${adj} = ${step3})`)
+    answerSteps.push(" ")
+    return {
+        result: step3, 
+        method: answerSteps.join("\n")
+    }
+}
+
+
+//----------------------------------------------------------------
+// CONVERSIONS
+//
 
 function deg2Rad(degree) {
     return degree*Math.PI/180
