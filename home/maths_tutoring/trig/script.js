@@ -7,6 +7,7 @@ const CANVAS_WIDTH = 500
 const CANVAS_HEIGHT = 500
 
 
+
 const knownSide1 = document.getElementById("known-side-1");
 const knownSide2 = document.getElementById("known-side-2");
 const knownAngle = document.getElementById("known-angle");
@@ -38,6 +39,10 @@ const sessionCount = document.getElementById("session-data");
 // PROBLEM SECTION
 //-----------------------------------------------------------------------------
 
+const answerLabels = [["a", "b", "c"], ["A", "B", "C"]]
+var currentHint = ""
+var currentAnswer = ""
+
 const problemText = document.getElementById("problem-answer-output");
 problemText.style.display = 'none'; 
 
@@ -52,21 +57,40 @@ problemCTX.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 const generateProblemButton = document.getElementById("generate-problem-button");
 generateProblemButton.addEventListener("click", () => {generateTrigProblem()})
 
+const toggleHintButton = document.getElementById('toggle-hint-button');
 const toggleProblemButton = document.getElementById('toggle-problem-button');
 
 toggleProblemButton.addEventListener('click', () => {
-    if (problemText.style.display === 'none') {
+    problemText.innerText = currentAnswer
+    if (toggleProblemButton.textContent === "See Answer") {
         problemText.style.display = 'inline'
         toggleProblemButton.textContent = "Hide Answer"
     } else {
         problemText.style.display = 'none'
         toggleProblemButton.textContent = "See Answer"
     }
-    
-    
+    toggleHintButton.textContent = "See Hint"
+});
+
+toggleHintButton.addEventListener('click', () => {
+    problemText.innerText = currentHint
+    // if (problemText.style.display === 'none') {
+    //         problemText.style.display = 'inline'
+    //         // toggleHintButton.textContent = "Hide Hint"
+    // }
+    if (toggleHintButton.textContent === 'See Hint') {
+        problemText.style.display = 'inline'
+        toggleHintButton.textContent = "Hide Hint"
+    } else {
+        problemText.style.display = 'none'
+        toggleHintButton.textContent = "See Hint"
+    }
+    toggleProblemButton.textContent = "See Answer"
 });
 
 // window.localStorage.setItem('totalCount', 0)
+
+
 
 /**Allows for wheel scrolling to change numbers for inputs */
 function wheelInput(event, inputElement) {
@@ -128,14 +152,22 @@ function generateTrigProblem() {
             const side1 = getRandomInt(1, 100)
             const side2 = getRandomInt(side1*0.5, side1*1.5)
             const side3 = getRandomInt(Math.abs(side1-side2), side1+side2)
+
+            // only show side values [["", "", ""], ["A", "B", "C"]]
+            let answerMask = [answerLabels[0].slice(), answerLabels[1].slice()]
+            answerMask[0] = ["", "", ""]
+
             console.log(`Problem One: Determine Triangle from 3 Sides: `); 
             console.log(`Side 1: ${side1}`)
             console.log(`Side 2: ${side2}`)
             console.log(`Side 3: ${side3}`)
 
             answer = from3Sides(side1, side2, side3)
-            drawTriangle(problemCTX, answer.sides, answer.angles, [["", "", ""], ["X", "Y", "Z"]])
-            problemText.innerText = answer.method;
+            drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
+
+            currentAnswer = answer.method; 
+            currentHint = answer.hint; 
+            // problemText.innerText = answer.method;
             break;
         }
         case 2: {
@@ -144,7 +176,11 @@ function generateTrigProblem() {
             const side2 = getRandomInt(1, 100)
             const angleX = getRandomInt(15, 90)
             const angleIndex = getRandomInt(0, 3)
-            const answerMask = [["", "", "z"], ["X", "Y", "Z"]]
+            
+            // show first two sides and one of the angles [["", "", "c"], ["A", "B", "C"]]
+            let answerMask = [answerLabels[0].slice(), answerLabels[1].slice()]
+            answerMask[0][0] = ""
+            answerMask[0][1] = ""
             answerMask[1][angleIndex] = ""
 
             console.log(`Problem Two: Determine Triangle from 2 Sides, 1 Angle`); 
@@ -154,7 +190,10 @@ function generateTrigProblem() {
 
             answer = from2Sides(side1, side2, angleX, angleIndex)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
-            problemText.innerText = answer.method;
+
+            currentAnswer = answer.method; 
+            currentHint = answer.hint; 
+            // problemText.innerText = answer.method;
             break;
         }
         case 3: {
@@ -163,8 +202,12 @@ function generateTrigProblem() {
             const sideIndex = getRandomInt(0, 3)
             const angle1 = getRandomInt(15, 90)
             const angle2 = getRandomInt(15, 180-angle1)
-            const answerMask = [["x", "y", "x"], ["", "", "Z"]]
+            
+            // only show one of the sides and the first two angles [["a", "b", "c"], ["", "", "C"]]
+            let answerMask = [answerLabels[0].slice(), answerLabels[1].slice()]
             answerMask[0][sideIndex] = ""
+            answerMask[1][0] = ""
+            answerMask[1][1] = ""
 
             console.log(`Problem Three: Determine Triangle from 1 Side, 2 Angles`); 
             console.log(`Angle 1: ${angle1}`)
@@ -173,7 +216,10 @@ function generateTrigProblem() {
 
             answer = from1Sides(sideX, sideIndex, angle1, angle2)
             drawTriangle(problemCTX, answer.sides, answer.angles, answerMask)
-            problemText.innerText = answer.method;
+
+            currentAnswer = answer.method; 
+            currentHint = answer.hint; 
+            // problemText.innerText = answer.method;
             break;
         }
         default: 
@@ -194,10 +240,15 @@ function generateTrigProblem() {
 /** Computes triangle from 3 side lengths given */
 function from3Sides(side0, side1, side2) {
     
-
-    const angle0 = getCosineAngle(side0, side1, side2)
-    const angle1 = getCosineAngle(side1, side0, side2)
-    const angle2 = getCosineAngle(side2, side1, side0)
+    
+    const angle0 = getCosineAngle(side0, side1, side2, 0)
+    console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
+    
+    const angle1 = getCosineAngle(side1, side0, side2, 1)
+    console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
+    
+    const angle2 = getCosineAngle(side2, side1, side0, 2)
+    console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
     let sides = [side0, side1, side2] 
     let angles = [angle0.result, angle1.result, angle2.result]
@@ -205,7 +256,16 @@ function from3Sides(side0, side1, side2) {
 
     // problemText.innertext = methodSteps.join("\n")
     
-    return {sides: sides, angles: angles, method: methodSteps.join("\n")}
+    return {
+        sides: sides, 
+        angles: angles, 
+        method: methodSteps.join("\n"), 
+        hint: (
+            `Solve all three angles with Cosine Rule. \n` + 
+            `You can do it in any order you want.`
+        )
+
+    }
 }
 
 
@@ -224,52 +284,90 @@ function from2Sides(side0, side1, angleX, angleIndex) {
     let sides = [side0, side1, 0]
     let angles = [0, 0, 0]
     let methodSteps = []
+    let hintString = ""
 
     angles[angleIndex] = angleX
 
     if (angleIndex == 0) {
-        const angle1 = getSineAngle(sides[1], sides[0], angles[0])
+        const angle1 = getSineAngle(sides[1], sides[0], angles[0], 1, 0)
         angles[1] = angle1.result
+        console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
 
         // const angle2 = 180 - angles[0] - angles[1]
-        const angle2 = get180Angle(angles[0], angles[1])
+        const angle2 = get180Angle(angles[0], angles[1], 2)
         angles[2] = angle2.result
+        console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
-        const side2 = getSineSide(sides[0], angles[2], angles[0])
+        const side2 = getSineSide(sides[0], angles[2], angles[0], 2, 0)
         sides[2] = side2.result
+        console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         methodSteps = [angle1.method, angle2.method, side2.method]; 
+        hintString = (
+            `Side ${answerLabels[0][1]} has its opposite angle ${answerLabels[1][1]} missing? \n` + 
+            `Use Sine rule to find that out. \n` +
+            `Then find the 3rd angle ${answerLabels[1][2]} (you already know two of the other angles), \n` + 
+            `and you can use Cosine rule OR Sine rule \n` + 
+            `to find the last side ${answerLabels[0][2]}`
+        )
     } else if (angleIndex == 1) {
-        const angle0 = getSineAngle(sides[0], sides[1], angles[1])
+        const angle0 = getSineAngle(sides[0], sides[1], angles[1], 0, 1)
         angles[0] = angle0.result
+        console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
 
         // const angle2 = 180 - angles[0] - angles[1]
-        const angle2 = get180Angle(angles[0], angles[1])
+        const angle2 = get180Angle(angles[0], angles[1], 2)
         angles[2] = angle2.result
+        console.log(`solving angle ${answerLabels[1][2]} = ${angle2.result}`)
 
-        const side2 = getSineSide(sides[0], angles[2], angles[0])
+        const side2 = getSineSide(sides[0], angles[2], angles[0], 2, 0)
         sides[2] = side2.result
+        console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
         methodSteps = [angle0.method, angle2.method, side2.method]; 
+        hintString = (
+            `Side ${answerLabels[0][0]} has its opposite angle ${answerLabels[1][0]} missing? \n` + 
+            `Use Sine rule to find that out. \n` +
+            `Then find the 3rd angle ${answerLabels[1][2]} (you already know two of the other angles), \n` + 
+            `and you can use Cosine rule OR Sine rule \n` + 
+            `to find the last side ${answerLabels[0][2]}`
+        )
     } else if (angleIndex == 2) {
-        const side2 = getCosineSide(sides[0], sides[1], angles[2])
+        const side2 = getCosineSide(sides[0], sides[1], angles[2], 2)
         sides[2] = side2.result
+        console.log(`solving side ${answerLabels[0][2]} = ${side2.result}`)
 
-        const angle0 = getCosineAngle(sides[0], sides[1], sides[2])
+        const angle0 = getCosineAngle(sides[0], sides[1], sides[2], 0)
         angles[0] = angle0.result
+        console.log(`solving angle ${answerLabels[1][0]} = ${angle0.result}`)
 
         // const angle1 = 180 - angles[2] - angles[0]
-        const angle1 = get180Angle(angles[2], angles[0])
+        const angle1 = get180Angle(angles[2], angles[0], 1)
         angles[1] = angle1.result
+        console.log(`solving angle ${answerLabels[1][1]} = ${angle1.result}`)
 
         methodSteps = [side2.method, angle0.method, angle1.method]; 
+        hintString = (
+            `You can't use Sine rule because there's no side+angle pairs yet, \n` +
+            `but you do know at least one angle and two sides, \n` + 
+            `so you can find with last side ${answerLabels[0][2]} with Cosine Rule. \n\n` +
+            `Now with all three sides, you can use \n Cosine rule to find the other two angles. \n` +
+            `I'm going to pick angle ${answerLabels[1][0]} first but angle ${answerLabels[1][1]} is fine aswell. \n\n` +
+            `If you're lazy, you can work out \nthe last angle just by subtracting from 180, \n` + 
+            `or you can do it properly with Cosine Rule (both are fine).`
+        )
     } else {
         console.log(`ERROR: UNKNOWN INDEX IN CALCULATING from2Sides`)
     }
 
     
     
-    return {sides: sides, angles: angles, method: methodSteps.join("\n")}
+    return {
+        sides: sides, 
+        angles: angles, 
+        method: methodSteps.join("\n"), 
+        hint: hintString
+    }
 }
 
 /** Computes triangle from 1 side(s) given. For the angleIndex, side and angle pairs 
@@ -288,20 +386,34 @@ function from1Sides(sideX, sideIndex, angle0, angle1) {
     let angles = [angle0, angle1, 0]
 
     // angles[2] = 180 - angle0 - angle1
-    const angle2 = get180Angle(angle0, angle1)
+    const angle2 = get180Angle(angle0, angle1, 2)
     angles[2] = angle2.result
     sides[sideIndex] = sideX
 
     const unknownIndex1 = (sideIndex+1)%3
-    const unknownSide1 = getSineSide(sides[sideIndex], angles[unknownIndex1], angles[sideIndex])
+    const unknownSide1 = getSineSide(sides[sideIndex], angles[unknownIndex1], angles[sideIndex], unknownIndex1, sideIndex)
     sides[unknownIndex1] = unknownSide1.result
 
     const unknownIndex2 = (sideIndex+2)%3
-    const unknownSide2 = getSineSide(sides[sideIndex], angles[unknownIndex2], angles[sideIndex])
+    const unknownSide2 = getSineSide(sides[sideIndex], angles[unknownIndex2], angles[sideIndex], unknownIndex2, sideIndex)
     sides[unknownIndex2] = unknownSide2.result
 
     let methodSteps = [angle2.method, unknownSide1.method, unknownSide2.method]; 
-    return {sides: sides, angles: angles, method: methodSteps.join("\n")}
+    return {
+        sides: sides, 
+        angles: angles, 
+        method: methodSteps.join("\n"), 
+        hint: (
+            `You already know two angles, so figure out \n` +
+            `the last angle ${answerLabels[1][sideIndex]} first (all angles add to 180). \n\n` + 
+            `There's at least a side+angle pair that is already complete \n ` +
+            `(side ${answerLabels[0][sideIndex]} and angle ${answerLabels[1][sideIndex]}) \n` + 
+            `so you can work out the other sides with Sine rule by \n` +
+            `picking side ${answerLabels[0][sideIndex]} and angle ${answerLabels[1][sideIndex]} \n` + 
+            `and the opposite angle to the side you are trying to work out.`
+        )
+
+    }
 }
 
 
@@ -362,12 +474,12 @@ function drawTriangle(ctx, sides, angles, answerMask=[["", "", ""], ["", "", ""]
     ctx.fillRect(centreX/(CANVAS_WIDTH*0.8)+(CANVAS_WIDTH/2), centreY/(CANVAS_WIDTH*0.8)+(CANVAS_WIDTH/2), 3, 3)
 
     // check whether to show labels 
-    const leftSideLabel  = (answerMask[0][0] == "")? toFix(leftSide, 1): answerMask[0][0]; 
-    const leftAngleLabel = (answerMask[1][0] == "")? toFix(leftAngle, 1): answerMask[1][0]; 
-    const topSideLabel   = (answerMask[0][1] == "")? toFix(topSide, 1): answerMask[0][1]; 
-    const topAngleLabel  = (answerMask[1][1] == "")? toFix(topAngle, 1): answerMask[1][1]; 
-    const botSideLabel   = (answerMask[0][2] == "")? toFix(botSide, 1): answerMask[0][2]; 
-    const botAngleLabel  = (answerMask[1][2] == "")? toFix(botAngle, 1): answerMask[1][2]; 
+    const leftSideLabel  = (answerMask[0][0] == "")? answerLabels[0][0] + ": " + toFix(leftSide, 1): answerMask[0][0]; 
+    const leftAngleLabel = (answerMask[1][0] == "")? answerLabels[1][0] + ": " +  toFix(leftAngle, 1): answerMask[1][0]; 
+    const topSideLabel   = (answerMask[0][1] == "")? answerLabels[0][1] + ": " +  toFix(topSide, 1): answerMask[0][1]; 
+    const topAngleLabel  = (answerMask[1][1] == "")? answerLabels[1][1] + ": " +  toFix(topAngle, 1): answerMask[1][1]; 
+    const botSideLabel   = (answerMask[0][2] == "")? answerLabels[0][2] + ": " +  toFix(botSide, 1): answerMask[0][2]; 
+    const botAngleLabel  = (answerMask[1][2] == "")? answerLabels[1][2] + ": " +  toFix(botAngle, 1): answerMask[1][2]; 
 
     console.log(`${leftSideLabel}| ${leftAngleLabel} |${topSideLabel} |${topAngleLabel} |${botSideLabel} |${botAngleLabel} |`)
 
@@ -407,16 +519,21 @@ function drawTriangle(ctx, sides, angles, answerMask=[["", "", ""], ["", "", ""]
 
 
 /**To determine angleA */
-function getCosineAngle(sideA, sideB, sideC) {
+function getCosineAngle(sideA, sideB, sideC, labelIndexA) {
+    const a = answerLabels[0][labelIndexA]
+    const b = answerLabels[0][(labelIndexA+1)%3]
+    const c = answerLabels[0][(labelIndexA+2)%3]
+    const A = answerLabels[1][labelIndexA]
+
     let answerSteps = []; 
-    answerSteps.push("To work out next angle with Cosine Rule:")
-    answerSteps.push(`cos(A) = (b² +  c² - a²) / (- 2bc)`)
-    answerSteps.push(`cos(A) = ((${sideB})² +  (${sideC})² - (${sideA})²) / (- 2 × (${sideB}) × (${sideC}))`)
-    answerSteps.push(`cos(A) = ((${sideB**2}) +  (${sideC**2}) - (${sideA**2})) / (- ${2*sideB*sideC})`)
+    answerSteps.push(`To work out angle ${A} with Cosine Rule:`)
+    answerSteps.push(`cos(${A}) = (${b}² +  ${c}² - ${a}²) / (- 2${b}${c})`)
+    answerSteps.push(`cos(${A}) = ((${sideB})² +  (${sideC})² - (${sideA})²) / (- 2 × (${sideB}) × (${sideC}))`)
+    answerSteps.push(`cos(${A}) = ((${sideB**2}) +  (${sideC**2}) - (${sideA**2})) / (- ${2*sideB*sideC})`)
     const step3 = (sideB**2 + sideC**2 - sideA**2)/(2*sideB*sideC)
-    answerSteps.push(`cos(A) = ${toFix(step3, 6)}`)
-    answerSteps.push(`    A  = cos⁻¹(${toFix(step3, 6)})`)
-    answerSteps.push(`    A  = ${toFix(rad2deg(Math.acos(step3)), 6)}°`)
+    answerSteps.push(`cos(${A}) = ${toFix(step3, 6)}`)
+    answerSteps.push(`    ${A}  = cos⁻¹(${toFix(step3, 6)})`)
+    answerSteps.push(`    ${A}  = ${toFix(rad2deg(Math.acos(step3)), 6)}°`)
     answerSteps.push(" ")
 
     // let stringAnswer = 
@@ -427,16 +544,22 @@ function getCosineAngle(sideA, sideB, sideC) {
     }
 }
 
-function getCosineSide(sideB, sideC, angleA) {
+function getCosineSide(sideB, sideC, angleA, labelIndexA) {
+    const a = answerLabels[0][labelIndexA]
+    const b = answerLabels[0][(labelIndexA+1)%3]
+    const c = answerLabels[0][(labelIndexA+2)%3]
+    const A = answerLabels[1][labelIndexA]
+
+
     let answerSteps = []; 
-    answerSteps.push("To work out next side with Cosine Rule:")
-    answerSteps.push(`a² =   b²  +   c²  - 2bc       cos(A)`)
-    answerSteps.push(`a² = (${sideB})² + (${sideC})² - 2(${sideB})(${sideC}) cos(${angleA}°)`)
-    answerSteps.push(`a² = ${sideB**2} + ${sideC**2} - ${2*sideB*sideC} × ${toFix(Math.cos(angleA*Math.PI/180), 6)}`)
+    answerSteps.push(`To work out side ${a} with Cosine Rule:`)
+    answerSteps.push(`${a}² =   ${b}²  +   ${c}²  - 2${b}${c}       cos(${A})`)
+    answerSteps.push(`${a}² = (${sideB})² + (${sideC})² - 2(${sideB})(${sideC}) cos(${angleA}°)`)
+    answerSteps.push(`${a}² = ${sideB**2} + ${sideC**2} - ${2*sideB*sideC} × ${toFix(Math.cos(angleA*Math.PI/180), 6)}`)
     const step3 = sideB**2+sideC**2-(2*sideB*sideC*Math.cos(angleA*Math.PI/180))
-    answerSteps.push(`a² = ${toFix(step3, 6)}`)
-    answerSteps.push(`a  = √(${toFix(step3, 6)})`)
-    answerSteps.push(`a  = ${Math.sqrt(toFix(step3, 6))}`)
+    answerSteps.push(`${a}² = ${toFix(step3, 6)}`)
+    answerSteps.push(`${a}  = √(${toFix(step3, 6)})`)
+    answerSteps.push(`${a}  = ${Math.sqrt(toFix(step3, 6))}`)
     answerSteps.push(" ")
 
     // let stringAnswer = answerSteps.join("\n")
@@ -447,17 +570,25 @@ function getCosineSide(sideB, sideC, angleA) {
     }
 }
 
-/** Put the side whose angle you want first (side1 to find angle1) */
-function getSineAngle(side1, side2, angle2) {
+/** Put the side whose angle you want first (side1 to find angle1) 
+ * Label index is the index I'll call answerLabels with for the method prints
+*/
+function getSineAngle(side1, side2, angle2, labelIndex1, labelIndex2) {
+    const A = answerLabels[1][labelIndex1]
+    const a = answerLabels[0][labelIndex1]
+    const B = answerLabels[1][labelIndex2]
+    const b = answerLabels[0][labelIndex2]
+
+
     let answerSteps = []; 
-    answerSteps.push("To work out next angle with Sine Rule:")
-    answerSteps.push(`(sin(A))/(a) = (sin(B))/(b)`)
-    answerSteps.push(`      sin(A) = (sin(B) × a)/(b)`)
-    answerSteps.push(`      sin(A) = (sin${angle2}° × ${side1})/(${side2})`)
+    answerSteps.push(`To work out angle ${A} with Sine Rule:`)
+    answerSteps.push(`(sin(${A}))/(${a}) = (sin(${B}))/(${b})`)
+    answerSteps.push(`      sin(${A}) = (sin(${B}) × ${a})/(${b})`)
+    answerSteps.push(`      sin(${A}) = (sin${angle2}° × ${side1})/(${side2})`)
     const step3 = (Math.sin(deg2Rad(angle2))*side1)/side2
-    answerSteps.push(`      sin(A) = ${toFix(step3, 6)}`)
-    answerSteps.push(`          A  = sin⁻¹(${toFix(step3, 6)})`)
-    answerSteps.push(`          A  = ${toFix(rad2deg(Math.asin(step3)), 6)}°`)
+    answerSteps.push(`      sin(${A}) = ${toFix(step3, 6)}`)
+    answerSteps.push(`          ${A}  = sin⁻¹(${toFix(step3, 6)})`)
+    answerSteps.push(`          ${A}  = ${toFix(rad2deg(Math.asin(step3)), 6)}°`)
     answerSteps.push(" ")
 
     return {
@@ -466,15 +597,22 @@ function getSineAngle(side1, side2, angle2) {
     }
 }
 
-/** Put the angle whose side you want first (angle1 to find side1)  */
-function getSineSide(side2, angle1, angle2) {
+/** Put the angle whose side you want first (angle1 to find side1)  
+ * Label index is the index I'll call answerLabels with for the method prints
+*/
+function getSineSide(side2, angle1, angle2, labelIndex1, labelIndex2) {
+    const A = answerLabels[1][labelIndex1]
+    const a = answerLabels[0][labelIndex1]
+    const B = answerLabels[1][labelIndex2]
+    const b = answerLabels[0][labelIndex2] 
+
     let answerSteps = []; 
-    answerSteps.push("To work out next side with Sine Rule:")
-    answerSteps.push(`(a)/(sin(A)) = (b)/(sin(B))`)
-    answerSteps.push(`           a = (b × sin(A))/(sin(B))`)
-    answerSteps.push(`           a = (${side2} × sin(${angle1}°))/(sin(${angle2}°))`)
+    answerSteps.push(`To work out side ${a} with Sine Rule:`)
+    answerSteps.push(`(${a})/(sin(${A})) = (${b})/(sin(${B}))`)
+    answerSteps.push(`           ${a} = (${b} × sin(${A}))/(sin(${B}))`)
+    answerSteps.push(`           ${a} = (${side2} × sin(${angle1}°))/(sin(${angle2}°))`)
     const step3 = (Math.sin(deg2Rad(angle1))*side2)/Math.sin(deg2Rad(angle2))
-    answerSteps.push(`           a = ${toFix(step3, 6)}`)
+    answerSteps.push(`           ${a} = ${toFix(step3, 6)}`)
     answerSteps.push(" ")
 
     return {
@@ -483,14 +621,19 @@ function getSineSide(side2, angle1, angle2) {
     }
 }
 
-function get180Angle(angle1, angle2) {
+function get180Angle(angle1, angle2, labelIndexX) {
+    const X = answerLabels[1][labelIndexX]
+    const Y = answerLabels[1][(labelIndexX+1)%3]
+    const Z = answerLabels[1][(labelIndexX+2)%3]
+
+
     let answerSteps = []; 
-    answerSteps.push("To work out the last angle, ")
-    answerSteps.push("remember that all angles add up to 180:")
-    answerSteps.push(`X° + Y° + Z° = 180`)
-    answerSteps.push(`          X° = 180 - Y° - Z°`)
-    answerSteps.push(`          X° = 180 - ${angle1}° - ${angle2}°`)
-    answerSteps.push(`          X° = ${180 - angle1 - angle2}`)
+    answerSteps.push(`To work out the angle ${X}, `)
+    answerSteps.push(`remember that all angles add up to 180:`)
+    answerSteps.push(`${X}° + ${Y}° + ${Z}° = 180`)
+    answerSteps.push(`          ${X}° = 180 - ${Y}° - ${Z}°`)
+    answerSteps.push(`          ${X}° = 180 - ${angle1}° - ${angle2}°`)
+    answerSteps.push(`          ${X}° = ${180 - angle1 - angle2}°`)
     answerSteps.push(" ")
 
     return {
@@ -511,6 +654,7 @@ function norm(array, divisor) {
     return array.map(x => x / divisor)
 }
 
+/**Used to round numbers to how ever many decimal places */
 function toFix(num, places) {
     return (Math.round(num * 10**(places)) / 10**(places)).toFixed(places);
 }
