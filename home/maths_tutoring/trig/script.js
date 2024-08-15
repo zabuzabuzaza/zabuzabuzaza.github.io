@@ -665,14 +665,23 @@ function getCosineAngle(sideA, sideB, sideC, labelIndexA) {
     const A = answerLabels[1][labelIndexA]
 
     let answerSteps = []; 
+    // answerSteps.push(`To work out angle ${A} with Cosine Rule:`)
+    // answerSteps.push(`cos(${A}) = (${b}² +  ${c}² - ${a}²) / (2${b}${c})`)
+    // answerSteps.push(`cos(${A}) = ((${sideB})² +  (${sideC})² - (${sideA})²) / (2 × (${sideB}) × (${sideC}))`)
+    // answerSteps.push(`cos(${A}) = ((${sideB**2}) +  (${sideC**2}) - (${sideA**2})) / (${2*sideB*sideC})`)
+    // const step3 = (sideB**2 + sideC**2 - sideA**2)/(2*sideB*sideC)
+    // answerSteps.push(`cos(${A}) = ${toFix(step3, 6)}`)
+    // answerSteps.push(`    ${A}  = cos⁻¹(${toFix(step3, 6)})`)
+    // answerSteps.push(`    ${A}  = ${toFix(rad2deg(Math.acos(step3)), 6)}°`)
+    // answerSteps.push(" ")
+
     answerSteps.push(`To work out angle ${A} with Cosine Rule:`)
-    answerSteps.push(`cos(${A}) = (${b}² +  ${c}² - ${a}²) / (- 2${b}${c})`)
-    answerSteps.push(`cos(${A}) = ((${sideB})² +  (${sideC})² - (${sideA})²) / (- 2 × (${sideB}) × (${sideC}))`)
-    answerSteps.push(`cos(${A}) = ((${sideB**2}) +  (${sideC**2}) - (${sideA**2})) / (- ${2*sideB*sideC})`)
+    answerSteps.push(`\t${A} = cos⁻¹((${b}² +  ${c}² - ${a}²) / (2${b}${c}))`)
+    answerSteps.push(`\t${A} = cos⁻¹(((${sideB})² +  (${sideC})² - (${sideA})²) / (2 × (${sideB}) × (${sideC})))`)
+    answerSteps.push(`\t${A} = cos⁻¹(((${sideB**2}) +  (${sideC**2}) - (${sideA**2})) / (${2*sideB*sideC}))`)
     const step3 = (sideB**2 + sideC**2 - sideA**2)/(2*sideB*sideC)
-    answerSteps.push(`cos(${A}) = ${toFix(step3, 6)}`)
-    answerSteps.push(`    ${A}  = cos⁻¹(${toFix(step3, 6)})`)
-    answerSteps.push(`    ${A}  = ${toFix(rad2deg(Math.acos(step3)), 6)}°`)
+    answerSteps.push(`\t${A} = cos⁻¹(${toFix(step3, 6)})`)
+    answerSteps.push(`\t${A} = ${toFix(rad2deg(Math.acos(step3)), 6)}°`)
     answerSteps.push(" ")
 
     // let stringAnswer = 
