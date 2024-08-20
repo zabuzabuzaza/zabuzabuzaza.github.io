@@ -15,6 +15,12 @@
       <h1>An OK Palette Deck</h3>
       <div class="deck">
         <div class="deck-section" id="deck-section-top">
+          <div class="colour-block" id="colour-block-1">
+
+          </div>
+          <div class="colour-block" id="colour-block-2">
+
+          </div>
         </div>
 
 
@@ -25,9 +31,11 @@
             <div class="hue-input" id="platter-left-hue-input">
               <span class="overlay slider-text label-text horizontal-text">HUE</span>
               <span class="overlay slider-text horizontal-text" id="platter-controls-left-labels-hue">Hue</span>
+              <input type="number" id="input-left-hue" min="0" max="360" step="1" value="0" style="margin-left: 60%;">
             </div>
 
             <div class="light-slider" id="platter-left-light-slider">
+              <span class="overlay slider-text label-text vertical-text">LIGHTNESS</span>
               <span class="overlay slider-text vertical-text" id="platter-controls-left-labels-lht">Lightness</span>
               <input type="range" class="vertical-slider" id="slider-left-lht" min="0" max="1" step="0.001" value="0.65">
             </div>
@@ -38,6 +46,7 @@
             </div>
 
             <div class="chroma-slider" id="platter-left-chroma-slider">
+              <span class="overlay slider-text label-text horizontal-text">CHROMA</span>
               <span class="overlay slider-text horizontal-text" id="platter-controls-left-labels-chr">Chroma</span>
               <input type="range" class="horizontal-slider" id="slider-left-chr" min="0" max="0.4" step="0.001" value="0.25" style="direction: rtl;">
             </div>
@@ -57,9 +66,11 @@
             <div class="hue-input" id="platter-right-hue-input">
               <span class="overlay slider-text label-text horizontal-text">HUE</span>
               <span class="overlay slider-text horizontal-text" id="platter-controls-right-labels-hue">Hue</span>
+              <input type="number" id="input-right-hue" min="0" max="360" step="1" value="270" style="margin-left: 60%;">
             </div>
 
             <div class="light-slider" id="platter-right-light-slider">
+              <span class="overlay slider-text label-text vertical-text">LIGHTNESS</span>
               <span class="overlay slider-text vertical-text" id="platter-controls-right-labels-lht">Lightness</span>
               <input type="range" class="vertical-slider" id="slider-right-lht" min="0" max="1" step="0.001" value="0.65">
             </div>
@@ -70,6 +81,7 @@
             </div>
             
             <div class="chroma-slider" id="platter-right-chroma-slider">
+              <span class="overlay slider-text label-text horizontal-text">CHROMA</span>
               <span class="overlay slider-text horizontal-text" id="platter-controls-right-labels-chr">Chroma</span>
               <input type="range" class="horizontal-slider" id="slider-right-chr" min="0" max="0.4" step="0.001" value="0.15">
             </div>
@@ -81,18 +93,18 @@
 
         <div class="deck-section" id="deck-section-bottom">
           <div class="platter-controls" id="platter-controls-left">
-            <div>
+            <!-- <div>
               <input type="range" id="slider-left-hue" min="0" max="360" step="1" value="0">
               H: 
               
-            </div>
+            </div> -->
           </div>
           <div class="platter-controls" id="platter-controls-right">
-            <div>
+            <!-- <div>
               <input type="range" id="slider-right-hue" min="0" max="360" step="1" value="270">
               H: 
               
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

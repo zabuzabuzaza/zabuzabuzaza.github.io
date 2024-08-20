@@ -25,6 +25,10 @@ const MIXER_CHROMA_SCALING = 0.9
 // GENERAL STYLE ELEMENTS
 
 
+// TOP DECK
+const leftColourBlock = document.getElementById("colour-block-1")
+const rightColourBlock = document.getElementById("colour-block-2")
+
 // MAIN MIDDLE DECK
 //   LEFT PLATTER
 
@@ -51,7 +55,7 @@ const leftPlatter = {
     }   
 }
 
-const sliderLeftHue = document.getElementById("slider-left-hue");
+const sliderLeftHue = document.getElementById("input-left-hue");
 const sliderLeftChr = document.getElementById("slider-left-chr");
 const sliderLeftLht = document.getElementById("slider-left-lht");
 const colourLeftHueLabel = document.getElementById("platter-controls-left-labels-hue");
@@ -71,6 +75,28 @@ sliderLeftChr.addEventListener('input', (InputEvent) => {
 sliderLeftLht.addEventListener('input', (InputEvent) => {
     rightSideActive = false; 
     left.lht = InputEvent.target.value; 
+    onSliderChange(left)
+});
+
+// add wheel events as well
+sliderLeftHue.addEventListener('wheel', (WheelEvent) => {
+    wheelInputLoop(WheelEvent, sliderLeftHue, 1)
+    rightSideActive = false; 
+    left.hue = WheelEvent.target.value; 
+    onSliderChange(left)
+}); 
+sliderLeftChr.addEventListener('wheel', (WheelEvent) => {
+    // wheelInput(WheelEvent, sliderLeftChr, parseFloat(sliderLeftChr.getAttribute("step")))
+    wheelInput(WheelEvent, sliderLeftChr, 0.001)
+    rightSideActive = false; 
+    left.chr = WheelEvent.target.value; 
+    onSliderChange(left)
+});
+sliderLeftLht.addEventListener('wheel', (WheelEvent) => {
+    // wheelInput(WheelEvent, sliderLeftLht, parseFloat(sliderLeftLht.getAttribute("step")))
+    wheelInput(WheelEvent, sliderLeftLht, 0.001)
+    rightSideActive = false; 
+    left.lht = WheelEvent.target.value; 
     onSliderChange(left)
 });
 
@@ -164,7 +190,7 @@ const rightPlatter = {
 
 
 
-const sliderRightHue = document.getElementById("slider-right-hue");
+const sliderRightHue = document.getElementById("input-right-hue");
 const sliderRightChr = document.getElementById("slider-right-chr");
 const sliderRightLht = document.getElementById("slider-right-lht");
 const colourRightHueLabel = document.getElementById("platter-controls-right-labels-hue");
@@ -184,6 +210,26 @@ sliderRightChr.addEventListener('input', (InputEvent) => {
 sliderRightLht.addEventListener('input', (InputEvent) => {
     rightSideActive = true; 
     right.lht = InputEvent.target.value; 
+    onSliderChange(right)
+});
+
+// wheel events 
+sliderRightHue.addEventListener('wheel', (WheelEvent) => {
+    wheelInputLoop(WheelEvent, sliderRightHue, 1)
+    rightSideActive = true; 
+    right.hue = WheelEvent.target.value; 
+    onSliderChange(right)
+}); 
+sliderRightChr.addEventListener('wheel', (WheelEvent) => {
+    wheelInput(WheelEvent, sliderRightChr, 0.001)
+    rightSideActive = true; 
+    right.chr = WheelEvent.target.value; 
+    onSliderChange(right)
+});
+sliderRightLht.addEventListener('wheel', (WheelEvent) => {
+    wheelInput(WheelEvent, sliderRightLht, 0.001)
+    rightSideActive = true; 
+    right.lht = WheelEvent.target.value; 
     onSliderChange(right)
 });
 
@@ -430,6 +476,12 @@ function setColourPositionsNoChroma() {
 
 /** Set new x, y positions based on lch values */
 function setColourPositions() {
+
+    // resultant colours 
+    leftColourBlock.style.background = `oklch(${left.lht} ${left.chr} ${left.hue})`
+    rightColourBlock.style.background = `oklch(${right.lht} ${right.chr} ${right.hue})`
+
+    // overlay lines on plots 
     const newLeftPos = left.transform_func(left.lht, left.chr, 0, true)
     left.position[0] = (1-newLeftPos.x)*PLATTER_WIDTH
     left.position[1] = (1-newLeftPos.y)*PLATTER_HEIGHT
@@ -447,11 +499,11 @@ function setColourPositions() {
     middleMixer.hue_angle = activeColour.hue
 
     // set slider labels 
-    sliderLeftHue.value = left.hue
+    sliderLeftHue.value = parseInt(left.hue)
     sliderLeftChr.value = left.chr
     sliderLeftLht.value = left.lht
 
-    sliderRightHue.value = right.hue
+    sliderRightHue.value = parseInt(right.hue)
     sliderRightChr.value = right.chr
     sliderRightLht.value = right.lht
 
@@ -462,6 +514,38 @@ function setColourPositions() {
     colourRightHueLabel.textContent = `${String(parseInt(right.hue)).padStart(3, '0')}`; 
     colourRightChrLabel.textContent = `${parseFloat(right.chr).toFixed(3)}`; 
     colourRightLhtLabel.textContent = `${parseFloat(right.lht).toFixed(3)}`; 
+}
+
+function wheelInput(event, inputElement, step) {
+
+    if (event.deltaY < 0) {// Scrolling up
+        if (parseFloat(inputElement.value) + step <= parseFloat(inputElement.getAttribute("max"))) {
+            inputElement.value = parseFloat(inputElement.value) + step;
+            // console.log(`${}`)
+        }
+      
+    } else if (parseFloat(inputElement.value) - step >= parseFloat(inputElement.getAttribute("min"))) { // Scrolling down
+        inputElement.value = parseFloat(inputElement.value) - step;
+    }
+    event.preventDefault(); // Prevent default scrolling behavior
+}
+
+function wheelInputLoop(event, inputElement, step) {
+
+    if (event.deltaY < 0) {// Scrolling up
+        if (parseFloat(inputElement.value) + step <= parseFloat(inputElement.getAttribute("max"))) {
+            inputElement.value = parseFloat(inputElement.value) + step;
+            // console.log(`${}`)
+        } else {
+            inputElement.value = inputElement.getAttribute("min");
+        }
+      
+    } else if (parseFloat(inputElement.value) - step >= parseFloat(inputElement.getAttribute("min"))) { // Scrolling down
+        inputElement.value = parseFloat(inputElement.value) - step;
+    } else {
+        inputElement.value = inputElement.getAttribute("max");
+    }
+    event.preventDefault(); // Prevent default scrolling behavior
 }
 
 

@@ -50,6 +50,17 @@ h1 {
   font-size: 50px;
 }
 
+span {
+  z-index: 1;
+}
+
+.colour-block {
+  height: 100px;
+  width: 400px;
+  background: #a29cd6;
+  margin: 20px 125px;
+}
+
 .deck-section {
   background: #d1d1d1; 
   margin: 10px;
@@ -177,12 +188,13 @@ h1 {
 .label-text {
   color: #a29cd6;
   bottom: 10%;
-  left: 0%;
+  left: 10%;
 }
 
 .vertical-text {
   writing-mode: vertical-lr;
   text-orientation: sideways;
+
 }
 
 
