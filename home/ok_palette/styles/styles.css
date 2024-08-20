@@ -25,6 +25,7 @@
 
 body {
   background: oklch(0.99 0 120);
+  user-select: none;
 }
 
 .serif {
