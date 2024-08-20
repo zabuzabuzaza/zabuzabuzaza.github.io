@@ -11,20 +11,19 @@
 
 
   <body>
-    <div>
-      <h3>Palette Deck</h3>
+    <div class="sans-serif">
+      <h1>An OK Palette Deck</h3>
       <div class="deck">
         <div class="deck-section" id="deck-section-top">
-          Top Section
         </div>
+
+
+
         <div class="deck-section" id="deck-section-middle">
-          Middle Section
           <div class="main-deck-section platter" id="platter-left">
 
             <canvas class="palette-canvas chroma-canvas" id="chroma-canvas-left" width="0" height="0"></canvas>
             <canvas class="palette-canvas-overlay chroma-canvas-overlay" id="chroma-canvas-overlay-left" width="0" height="0"></canvas>
-
-            
 
           </div>
           <div class="main-deck-section mixer" id="mixer-middle">
@@ -39,41 +38,43 @@
             <canvas class="palette-canvas chroma-canvas" id="chroma-canvas-right" width="0" height="0"></canvas>
             <canvas class="palette-canvas-overlay chroma-canvas-overlay" id="chroma-canvas-overlay-right" width="0" height="0"></canvas>
 
-            
           </div>
         </div>
+
+
+
         <div class="deck-section" id="deck-section-bottom">
           Bottom Section
-          <div class="platter-controls" id="platter-controls-left">
+          <div class="platter-controls monospace" id="platter-controls-left">
             <div>
               <input type="range" id="slider-left-hue" min="0" max="360" step="1" value="0">
               H: 
               <span id="platter-controls-left-labels-hue">Hue</span>
             </div>
             <div>
-              <input type="range" id="slider-left-chr" min="0" max="0.4" step="0.001" value="0">
+              <input type="range" id="slider-left-chr" min="0" max="0.4" step="0.001" value="0.25">
               C: 
               <span id="platter-controls-left-labels-chr">Chroma</span>
             </div>
             <div>
-              <input type="range" id="slider-left-lht" min="0" max="1" step="0.001" value="0">
+              <input type="range" id="slider-left-lht" min="0" max="1" step="0.001" value="0.65">
               L: 
               <span id="platter-controls-left-labels-lht">Lightness</span>
             </div>
           </div>
-          <div class="platter-controls" id="platter-controls-right">
+          <div class="platter-controls monospace" id="platter-controls-right">
             <div>
-              <input type="range" id="slider-right-hue" min="0" max="360" step="1" value="0">
+              <input type="range" id="slider-right-hue" min="0" max="360" step="1" value="270">
               H: 
               <span id="platter-controls-right-labels-hue">Hue</span>
             </div>
             <div>
-              <input type="range" id="slider-right-chr" min="0" max="0.4" step="0.001" value="0">
+              <input type="range" id="slider-right-chr" min="0" max="0.4" step="0.001" value="0.15">
               C: 
               <span id="platter-controls-right-labels-chr">Chroma</span>
             </div>
             <div>
-              <input type="range" id="slider-right-lht" min="0" max="1" step="0.001" value="0">
+              <input type="range" id="slider-right-lht" min="0" max="1" step="0.001" value="0.65">
               L: 
               <span id="platter-controls-right-labels-lht">Lightness</span>
             </div>

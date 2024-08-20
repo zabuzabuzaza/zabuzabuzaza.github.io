@@ -20,7 +20,7 @@ const PLATTER_HEIGHT = 400
 const MIXER_WIDTH = 400
 const MIXER_HEIGHT = 400
 
-const MIXER_CHROMA_SCALING = 0.8
+const MIXER_CHROMA_SCALING = 0.9
 
 // const CHROMA_RANGE = 
 
@@ -105,6 +105,7 @@ middleMixerOverlayCanvas.style.left = 0 + "px" // in the future, the offset is -
 
 const middleMixer = {
     position: [0, 0], 
+    hue_angle: 0, 
     canvas: {
         element: middleMixerCanvas, 
         ctx: middleMixerCanvas.getContext('2d', {willReadFrequently: true}), 
@@ -230,11 +231,21 @@ const right = {
 //--------------------------------------------------------------------------
 // ON LOAD 
 //-----------------------------------------------------------------------------
-
-createRingMask(MIXER_WIDTH, MIXER_HEIGHT)
-
+onLoad()
 
 
+
+
+function onLoad() {
+    createRingMask(MIXER_WIDTH, MIXER_HEIGHT)
+    plotLight(middleMixer, right.chr, right.lht)
+    plotHue(right)
+    plotHue(left)
+
+    updateOverlays(left)
+    updateOverlays(right)
+
+}
 
 /**
  * Gets the mouse cursor co-ordinates for the platter canvases, and translates 
@@ -302,6 +313,7 @@ function getMixerColour(event) {
         let colourObj = (rightSideActive) ? right: left; 
         colourObj.chr = polarConvert.rad
         colourObj.hue = polarConvert.angle
+        
         updateOverlays(colourObj)
 
         plotHue(colourObj)
@@ -337,14 +349,20 @@ function onSliderChange(colourObj) {
  * radius is the chroma value
  */
 function updateOverlays(colourObj) {
-    setColourPositions()
-
-
+    // check if input is only for hue, or for hue + chroma
+    const midx = middleMixer.position[0]
+    const midy = middleMixer.position[1]
+    if ((midx-MIXER_WIDTH/2)**2 + (midy-MIXER_HEIGHT/2)**2 > 160**2) {
+        setColourPositionsNoChroma()
+    } else {
+        setColourPositions()
+    }
+    
     // update platter overlay
     const platterCTX = colourObj.plot.overlay.ctx; 
     platterCTX.reset()
     platterCTX.strokeStyle = "black";
-    platterCTX.strokeRect(colourObj.position[0], colourObj.position[1], 3, 3); 
+    // platterCTX.strokeRect(colourObj.position[0], colourObj.position[1], 3, 3); 
 
     // horizontal
     platterCTX.fillRect(0, colourObj.position[1], PLATTER_WIDTH, 1)
@@ -353,28 +371,43 @@ function updateOverlays(colourObj) {
     platterCTX.fillRect(colourObj.position[0], 0, 1, PLATTER_HEIGHT)
 
     // update mixer overlay
-    const x = middleMixer.position[0]
-    const y = middleMixer.position[1]
-    // console.log(`${x} ${y}`)
-
     const middleCTX = middleMixer.overlay.ctx; 
     middleCTX.reset()
     middleCTX.strokeStyle = "black";
-    middleCTX.strokeRect(x, y, 3, 3); 
-    
+    // middleCTX.strokeRect(midx, midy, 3, 3); 
 
     // ray (line from middle to edge, then rotate)
-    middleCTX.beginPath()
-    middleCTX.moveTo(MIXER_WIDTH/2, MIXER_HEIGHT/2)
-    middleCTX.lineTo(x, y)
-    middleCTX.stroke()
+    middleCTX.translate(MIXER_WIDTH/2, MIXER_HEIGHT/2)
+
+    middleCTX.rotate((middleMixer.hue_angle-90)*Math.PI/180)
+    middleCTX.fillRect(0, 0, 1, 160)
+    middleCTX.strokeRect(-3, 179, 6, 16)
+    
+    middleCTX.translate(-MIXER_WIDTH/2, -MIXER_HEIGHT/2)
+    
 
     // ring 
     // un-normalise radius value
-    const radius = colourObj.chr*MIXER_HEIGHT/MIXER_CHROMA_SCALING
+    let radius = colourObj.chr*MIXER_HEIGHT/MIXER_CHROMA_SCALING
     middleCTX.beginPath()
     middleCTX.ellipse(MIXER_WIDTH/2, MIXER_HEIGHT/2, radius, radius, 0, 0, Math.PI*2); 
     middleCTX.stroke();
+    
+}
+
+
+
+/** Wrapper for setColourPositionsNoChroma, but does not update chroma position. 
+ * This is for middleMixer inputs for the outer hue ring, where we want to keep 
+ * chroma where it is. 
+ */
+function setColourPositionsNoChroma() {
+    left.chr = sliderLeftChr.value
+    right.chr = sliderRightChr.value
+
+    setColourPositions()
+
+    
 }
 
 /** Set new x, y positions based on lch values */
@@ -393,6 +426,7 @@ function setColourPositions() {
     
     middleMixer.position[0] = newMiddlePos.ax*MIXER_WIDTH
     middleMixer.position[1] = newMiddlePos.by*MIXER_HEIGHT
+    middleMixer.hue_angle = activeColour.hue
 
     // set slider labels 
     sliderLeftHue.value = left.hue

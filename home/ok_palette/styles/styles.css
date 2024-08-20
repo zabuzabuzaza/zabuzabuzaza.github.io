@@ -1,5 +1,42 @@
+@font-face {
+  font-family: 'Brygada 1918'; 
+  src: url('../../../fonts/Brygada1918-VariableFont_wght.ttf') format('truetype'); 
+}
+
+@font-face {
+  font-family: "Outfit"; /* Choose a font family name */
+  src: url('../../../fonts/Outfit-VariableFont_wght.ttf') format('truetype'); /* Path to the TTF file */
+} 
+
+@font-face {
+  font-family: "IBM PLex"; /* Choose a font family name */
+  src: url('../../../fonts/IBMPlexMono-Bold.ttf') format('truetype'); /* Path to the TTF file */
+} 
+
 body {
   background: oklch(0.99 0 120);
+}
+
+.serif {
+  font-family: "Brygada 1918";
+  font-weight: 600;
+}
+
+.sans-serif {
+  font-family: "Outfit";
+  font-weight: 800;
+}
+
+.monospace {
+  font-family: "IBM PLex";
+}
+
+div {
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 50px;
 }
 
 .deck-section {

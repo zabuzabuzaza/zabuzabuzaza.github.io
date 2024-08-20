@@ -1,8 +1,20 @@
 // import Color from "https://colorjs.io/dist/color.js"; 
 // 
+/**For all "ring calculations", it is dist = (x-width/2)**2 + (y-height/2)**2 */
+const INNER_RING = 180 
+const INNER_RING_COMPARE = INNER_RING**2; 
+
+/**For all "ring calculations", it is dist = (x-width/2)**2 + (y-height/2)**2 */
+const OUTER_RING = 195; 
+const OUTER_RING_COMPARE = OUTER_RING**2; 
+
+
 
 var ringMaskData = new Uint8Array(1).fill(1)
+var leftMaskData = new Uint8Array(1).fill(1)
+var rightMaskData = new Uint8Array(1).fill(1)
 
+/**Creates a mask for the area of the hue ring */
 export function createRingMask(width, height) {
     ringMaskData = new Uint8Array(width * height).fill(1)
     for (let x = 0; x < width; x+= 1) {
@@ -10,7 +22,7 @@ export function createRingMask(width, height) {
             const offset = (x + y*width)
             const dist = (x-width/2)**2 + (y-height/2)**2; 
 
-            if (dist < 32500 || dist > 39000) {
+            if (dist < INNER_RING_COMPARE || dist > OUTER_RING_COMPARE) {
                 
                 ringMaskData[offset] = 0; // A
             } 
@@ -18,6 +30,7 @@ export function createRingMask(width, height) {
     }
 }
 
+/**Plots the middle canvas with new lightness value for all hues and chroma + hue ring*/
 export function plotLight(mixerObj, chroma, lightness) {
     /**calculate hue and draw ring */
     function calcAndDraw(x, y) {
@@ -95,43 +108,7 @@ export function plotLight(mixerObj, chroma, lightness) {
     canvasCTX.strokeRect(width/2, height/2, 1, 1); 
 }
 
-export function plotLight2(mixerObj, chroma, lightness) {
-    plotChroma(mixerObj, chroma, lightness)
-
-    const width = mixerObj.canvas.element.width
-    const height = mixerObj.canvas.element.height
-    var canvasData = mixerObj.canvas.ctx.createImageData(width, height)
-    const canvasPixelData = new Uint8ClampedArray(canvasData.data.buffer).fill(255);
-
-    for (let x = 0; x <= width; x+= 1) {
-        for (let y = 0; y <= height; y+= 1) { 
-            // RANGES: a* = [-0.35, 0.35], b* = [-0.35, 0.35]
-            const scaled = mixerObj.transform_func(x/width, y/height, 0)
-            let col = okLAB2RGB(lightness, scaled.ax, scaled.by); 
-
-            const offset = (x + y * width) * 4;
-            
-            canvasPixelData[offset] = col[0]*255; // R
-            canvasPixelData[offset + 1] = col[1]*255; // G
-            canvasPixelData[offset + 2] = col[2]*255; // B
-            if (gamutCheck(col)) {
-                canvasPixelData[offset + 3] = 255; // A
-            } else {
-                // pixelData[offset] = 255; // R
-                // pixelData[offset + 1] = 255; // G
-                // pixelData[offset + 2] = 255; // B
-                canvasPixelData[offset + 3] = 55; // A
-            }
-        }
-    }
-    // const imageData = new ImageData(pixelData, 500, 500);
-    mixerObj.canvas.ctx.putImageData(canvasData, 0, 0);
-
-    // add dot for centre
-    mixerObj.canvas.ctx.strokeStyle = "black";
-    mixerObj.canvas.ctx.strokeRect(width/2, height/2, 1, 1); 
-}
-
+/** Plots to left or right canvas based in new hue infomation */
 export function plotHue(colourObj) {
     const width = colourObj.plot.canvas.element.width
     const height = colourObj.plot.canvas.element.height
@@ -170,7 +147,9 @@ export function plotHue(colourObj) {
 
 /**
  * Plots the hue ring on a canvas at a specific chroma value (in radius distance
- * from the centre). Lightness is constant/ 
+ * from the centre). Lightness is constant. Only calls from input from mixer, 
+ * since mixer plot itself would not change from mixer input, to save redrawing 
+ * unchanged mixer/ 
  * @param {*} canvasCTX 
  * @param {*} chroma 
  */
