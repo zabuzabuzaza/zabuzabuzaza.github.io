@@ -22,10 +22,13 @@ const MIXER_HEIGHT = 400
 
 const MIXER_CHROMA_SCALING = 0.9
 
-// const CHROMA_RANGE = 
+// GENERAL STYLE ELEMENTS
+
 
 // MAIN MIDDLE DECK
 //   LEFT PLATTER
+
+const platterElementLeft = document.getElementById("platter-left")
 
 const leftPlatterCanvas = document.getElementById("chroma-canvas-left"); 
 leftPlatterCanvas.width = PLATTER_WIDTH
@@ -34,7 +37,8 @@ leftPlatterCanvas.height = PLATTER_HEIGHT
 const leftPlatterOverlayCanvas = document.getElementById("chroma-canvas-overlay-left"); 
 leftPlatterOverlayCanvas.width = PLATTER_WIDTH
 leftPlatterOverlayCanvas.height = PLATTER_HEIGHT
-leftPlatterOverlayCanvas.style.right = 0 + "px"
+leftPlatterOverlayCanvas.style.left = (PLATTER_WIDTH*0) + "px"
+// leftPlatterOverlayCanvas.style.top = (PLATTER_WIDTH*0) + "px"
 
 const leftPlatter = {
     canvas: {
@@ -136,6 +140,8 @@ middleMixerOverlayCanvas.addEventListener(
 
 
 //   RIGHT PLATTER 
+const platterElementRight = document.getElementById("platter-right")
+
 const rightPlatterCanvas = document.getElementById("chroma-canvas-right"); 
 rightPlatterCanvas.width = PLATTER_WIDTH
 rightPlatterCanvas.height = PLATTER_HEIGHT
@@ -245,6 +251,16 @@ function onLoad() {
     updateOverlays(left)
     updateOverlays(right)
 
+}
+
+function setActiveColour() {
+    if (rightSideActive) {
+        platterElementRight.style.outlineColor = "black";
+        platterElementLeft.style.outlineColor = "white";
+    } else {
+        platterElementLeft.style.outlineColor = "black";
+        platterElementRight.style.outlineColor = "white";
+    }
 }
 
 /**
@@ -357,6 +373,8 @@ function updateOverlays(colourObj) {
     } else {
         setColourPositions()
     }
+
+    setActiveColour()
     
     // update platter overlay
     const platterCTX = colourObj.plot.overlay.ctx; 
@@ -437,13 +455,13 @@ function setColourPositions() {
     sliderRightChr.value = right.chr
     sliderRightLht.value = right.lht
 
-    colourLeftHueLabel.textContent = `${parseInt(sliderLeftHue.value)}`; 
-    colourLeftChrLabel.textContent = `${parseFloat(sliderLeftChr.value)}`; 
-    colourLeftLhtLabel.textContent = `${parseFloat(sliderLeftLht.value)}`; 
+    colourLeftHueLabel.textContent = `${String(parseInt(left.hue)).padStart(3, '0')}`; 
+    colourLeftChrLabel.textContent = `${parseFloat(left.chr).toFixed(3)}`; 
+    colourLeftLhtLabel.textContent = `${parseFloat(left.lht).toFixed(3)}`; 
 
-    colourRightHueLabel.textContent = `${parseInt(sliderRightHue.value)}`; 
-    colourRightChrLabel.textContent = `${parseFloat(sliderRightChr.value)}`; 
-    colourRightLhtLabel.textContent = `${parseFloat(sliderRightLht.value)}`; 
+    colourRightHueLabel.textContent = `${String(parseInt(right.hue)).padStart(3, '0')}`; 
+    colourRightChrLabel.textContent = `${parseFloat(right.chr).toFixed(3)}`; 
+    colourRightLhtLabel.textContent = `${parseFloat(right.lht).toFixed(3)}`; 
 }
 
 
