@@ -438,6 +438,7 @@ function updateOverlays(colourObj) {
     const middleCTX = middleMixer.overlay.ctx; 
     middleCTX.reset()
     middleCTX.strokeStyle = "black";
+    middleCTX.lineWidth = 3
     // middleCTX.strokeRect(midx, midy, 3, 3); 
 
     // ray (line from middle to edge, then rotate)
@@ -445,12 +446,13 @@ function updateOverlays(colourObj) {
 
     middleCTX.rotate((middleMixer.hue_angle-90)*Math.PI/180)
     middleCTX.fillRect(0, 0, 1, 160)
-    middleCTX.strokeRect(-3, 179, 6, 16)
+    middleCTX.strokeRect(-3, 179, 8, 17)
     
     middleCTX.translate(-MIXER_WIDTH/2, -MIXER_HEIGHT/2)
     
 
     // ring 
+    middleCTX.lineWidth = 1
     // un-normalise radius value
     let radius = colourObj.chr*MIXER_HEIGHT/MIXER_CHROMA_SCALING
     middleCTX.beginPath()

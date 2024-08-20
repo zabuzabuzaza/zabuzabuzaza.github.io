@@ -191,6 +191,12 @@ span {
   left: 10%;
 }
 
+.label-text-vertical {
+  color: #a29cd6;
+  top: 10%;
+  right: 10%;
+}
+
 .vertical-text {
   writing-mode: vertical-lr;
   text-orientation: sideways;
