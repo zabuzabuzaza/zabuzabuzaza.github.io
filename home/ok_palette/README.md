@@ -1,6 +1,6 @@
 # An OK Palette Generator 
 
-Based on the OKLAB / LCH colourspace by Björn Ottosson outlined [here](https://bottosson.github.io/posts/oklab/), and inspired by many other colour pickers like [this one]("https://oklch.com/"). 
+Based on the OKLAB / LCH colourspace by Björn Ottosson outlined [here](https://bottosson.github.io/posts/oklab/), and inspired by many other colour pickers like [this one](https://oklch.com/). 
 
 Was supposed to be modelled around a DJ deck, what with the two decks and the mixer in the middle, and the sans-serif font reminded me of Raw Data Feel / Endless. 
 
