@@ -64,6 +64,31 @@ span {
 .deck-section {
   background: #d1d1d1; 
   margin: 10px;
+}
+
+#deck-section-top {
+  
+  
+  #palette-blend {
+    
+    display: grid;
+    grid-template-rows: 100px;
+    grid-template-columns: 1fr;
+
+    .palette-blend-canvas {
+      margin: auto;
+      grid-row: 1; 
+      grid-column: 1; 
+
+      width: 99%; 
+      height: 90%; 
+      display: block;
+    }
+  }
+}
+
+
+#deck-section-middle {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 1fr 1fr 1fr;
@@ -166,6 +191,11 @@ span {
     /* margin-left: auto;
     margin-right: auto; */
     /* padding-top: 50px; */
+
+    .overlay {
+      left: 0px; 
+      top: 0px; 
+    }
   }
 
   .platter-controls {

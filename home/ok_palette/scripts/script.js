@@ -8,7 +8,8 @@
 |                          |                         |                         |   
 ------------------------------------------------------------------------------*/
 import { 
-    plotHue, plotLight, plotChroma, cart2Polar, polar2Cart, createRingMask
+    plotHue, plotLight, plotChroma, cart2Polar, polar2Cart, createRingMask, 
+    plotPaletteLCHBlend, plotPaletteLABBlend, plotPaletteRGBBlend
 } from "./colours.js"
 
 
@@ -28,6 +29,16 @@ const MIXER_CHROMA_SCALING = 0.9
 // TOP DECK
 const leftColourBlock = document.getElementById("colour-block-1")
 const rightColourBlock = document.getElementById("colour-block-2")
+
+const lchpaletteBlendCanvas = document.getElementById("lch-palette-blend-canvas")
+const lchpaletteBlendCTX = lchpaletteBlendCanvas.getContext('2d')
+const labpaletteBlendCanvas = document.getElementById("lab-palette-blend-canvas")
+const labpaletteBlendCTX = labpaletteBlendCanvas.getContext('2d')
+const rgbpaletteBlendCanvas = document.getElementById("rgb-palette-blend-canvas")
+const rgbpaletteBlendCTX = rgbpaletteBlendCanvas.getContext('2d')
+
+// paletteBlendCTX.fillStyle = `red`
+// paletteBlendCTX.fillRect(0, 0, paletteBlendCanvas.width, paletteBlendCanvas.height)
 
 // MAIN MIDDLE DECK
 //   LEFT PLATTER
@@ -127,11 +138,13 @@ const middleMixerRing = document.getElementById("lightness-canvas-ring");
 middleMixerRing.width = MIXER_WIDTH
 middleMixerRing.height = MIXER_HEIGHT
 middleMixerRing.style.left = 0 + "px"
+// middleMixerRing.style.top = 0 + "px"
 
 const middleMixerOverlayCanvas = document.getElementById("lightness-canvas-overlay"); 
 middleMixerOverlayCanvas.width = MIXER_WIDTH
 middleMixerOverlayCanvas.height = MIXER_HEIGHT
 middleMixerOverlayCanvas.style.left = 0 + "px" // in the future, the offset is -helf of difference between canvas and overlay size
+// middleMixerOverlayCanvas.style.top = 0 + "px"
 
 const middleMixer = {
     position: [0, 0], 
@@ -421,6 +434,9 @@ function updateOverlays(colourObj) {
     }
 
     setActiveColour()
+    plotPaletteLCHBlend(left, right, lchpaletteBlendCTX)
+    plotPaletteLABBlend(left, right, labpaletteBlendCTX)
+    plotPaletteRGBBlend(left, right, rgbpaletteBlendCTX)
     
     // update platter overlay
     const platterCTX = colourObj.plot.overlay.ctx; 
@@ -463,7 +479,8 @@ function updateOverlays(colourObj) {
 
 
 
-/** Wrapper for setColourPositionsNoChroma, but does not update chroma position. 
+
+/** Wrapper for setColourPositions, but does not update chroma position. 
  * This is for middleMixer inputs for the outer hue ring, where we want to keep 
  * chroma where it is. 
  */
@@ -479,9 +496,9 @@ function setColourPositionsNoChroma() {
 /** Set new x, y positions based on lch values */
 function setColourPositions() {
 
-    // resultant colours 
-    leftColourBlock.style.background = `oklch(${left.lht} ${left.chr} ${left.hue})`
-    rightColourBlock.style.background = `oklch(${right.lht} ${right.chr} ${right.hue})`
+    // // resultant colours 
+    // leftColourBlock.style.background = `oklch(${left.lht} ${left.chr} ${left.hue})`
+    // rightColourBlock.style.background = `oklch(${right.lht} ${right.chr} ${right.hue})`
 
     // overlay lines on plots 
     const newLeftPos = left.transform_func(left.lht, left.chr, 0, true)

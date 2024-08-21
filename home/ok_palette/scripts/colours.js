@@ -194,6 +194,74 @@ export function plotChroma(middleObj, chroma, lightness) {
     plotCTX.putImageData(imageData, 0, 0);
 }
 
+/**Plots the blended gradient between the current left and right colours 
+ * on the top canvas
+ */
+export function plotPaletteRGBBlend(leftObj, rightObj, plotCTX) {
+    const width = plotCTX.canvas.width
+    const height = plotCTX.canvas.height
+    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
+    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
+
+    const gradient = plotCTX.createLinearGradient(0, 0, width, 0)
+
+    gradient.addColorStop(0, `oklch(${leftObj.lht} ${leftObj.chr} ${leftObj.hue})`)
+    gradient.addColorStop(1, `oklch(${rightObj.lht} ${rightObj.chr} ${rightObj.hue})`)
+
+    plotCTX.fillStyle = gradient
+    plotCTX.fillRect(0, 0, width, height)
+}
+
+/**Plots the blended gradient between the current left and right colours 
+ * on the top canvas
+ */
+export function plotPaletteLCHBlend(leftObj, rightObj, plotCTX) {
+    const width = plotCTX.canvas.width
+    const height = plotCTX.canvas.height
+    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
+    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
+
+
+
+    for (let x = 0; x <= width; x++) {
+        const normX = x / width
+
+        const interLht = (normX * (parseFloat(rightObj.lht) - parseFloat(leftObj.lht))) + parseFloat(leftObj.lht)
+        const interChr = (normX * (parseFloat(rightObj.chr) - parseFloat(leftObj.chr))) + parseFloat(leftObj.chr)
+        const interHue = interpAngle(parseFloat(leftObj.hue), parseFloat(rightObj.hue), normX)
+
+        plotCTX.fillStyle = `oklch(${interLht} ${interChr} ${interHue})`
+        plotCTX.fillRect(x, 0, 1, height)
+        // console.log(`${interLht} | ${interChr} | ${interHue})`)
+    }
+}
+
+/**Plots the blended gradient between the current left and right colours 
+ * on the top canvas
+ */
+export function plotPaletteLABBlend(leftObj, rightObj, plotCTX) {
+    const width = plotCTX.canvas.width
+    const height = plotCTX.canvas.height
+    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
+    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
+
+    const leftLAB = okLCH2LAB(leftObj.lht, leftObj.chr, leftObj.hue)
+    const rightLAB = okLCH2LAB(rightObj.lht, rightObj.chr, rightObj.hue)
+
+    for (let x = 0; x <= width; x++) {
+        const normX = x / width
+
+        const interL = (normX * (parseFloat(rightLAB[0]) - parseFloat(leftLAB[0]))) + parseFloat(leftLAB[0])
+        const interA = (normX * (parseFloat(rightLAB[1]) - parseFloat(leftLAB[1]))) + parseFloat(leftLAB[1])
+        const interB = (normX * (parseFloat(rightLAB[2]) - parseFloat(leftLAB[2]))) + parseFloat(leftLAB[2])
+
+        plotCTX.fillStyle = `oklab(${interL} ${interA} ${interB})`
+        plotCTX.fillRect(x, 0, 1, height)
+        // console.log(`${interLht} | ${interChr} | ${interHue})`)
+    }
+}
+
+
 
 export function polar2Cart(theta, radius) {
     const a = radius * Math.cos(theta * Math.PI / 180);
@@ -219,8 +287,13 @@ function gamutCheck(colourArray) {
     return true
 }
 function okLCH2RGB(l, c, h) {
-    let polar = polar2Cart(h, c)
+    const polar = polar2Cart(h, c)
     return okLAB2RGB(l, polar.a, polar.b)
+}
+
+function okLCH2LAB(l, c, h) {
+    const polar = polar2Cart(h, c)
+    return [l, polar.a, polar.b]
 }
 
 function okLAB2RGB(l, a, b_star) {
@@ -244,6 +317,12 @@ function okLAB2RGB(l, a, b_star) {
     b = 1.49*b*b*b -3.23*b*b + 2.74*b
 
     return [r, g, b]
+}
+
+/**Angles need to be in degrees pls */
+function interpAngle(a0, a1, x) {
+    const delta = ((((a1-a0) % 360)+540) % 360) - 180 
+    return (x*delta + a0 + 360) % 360
 }
 
 
