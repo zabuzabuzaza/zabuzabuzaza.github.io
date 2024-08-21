@@ -69,10 +69,10 @@ span {
 #deck-section-top {
   
   
-  #palette-blend {
+  .palette-blend {
     
     display: grid;
-    grid-template-rows: 100px;
+    grid-template-rows: 60px;
     grid-template-columns: 1fr;
 
     .palette-blend-canvas {
@@ -83,6 +83,42 @@ span {
       width: 99%; 
       height: 90%; 
       display: block;
+    }
+  }
+
+  .palette-block {
+    margin: 0px 6px;
+    
+    div {
+      display: inline-block;
+      position: relative; 
+      height: 100px;
+      
+
+      user-select: text;
+      /* text-align: center; */
+      white-space: pre;
+
+      div {
+        padding: 10px 10px;
+        position: absolute;
+      }
+
+      .left {
+        text-align: left;
+      }
+
+      .mid {
+        position: relative;
+        margin: auto;
+        left: 37%;
+        text-align: center;
+      }
+
+      .right {
+        right: 0;
+        text-align: right;
+      }
     }
   }
 }

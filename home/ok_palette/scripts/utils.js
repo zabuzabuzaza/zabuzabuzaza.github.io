@@ -134,6 +134,57 @@ export function plotColours32(canvasCTX, lightnessF) {
     canvasCTX.putImageData(data, 0, 0);
 }
 
+/**Plots the blended gradient between the current left and right colours 
+ * on the top canvas
+ */
+export function plotPaletteRGBBlend(leftObj, rightObj, plotCTX) {
+    const width = plotCTX.canvas.width
+    const height = plotCTX.canvas.height
+    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
+    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
+
+    const gradient = plotCTX.createLinearGradient(0, 0, width, 0)
+
+    gradient.addColorStop(0, `oklch(${leftObj.lht} ${leftObj.chr} ${leftObj.hue})`)
+    gradient.addColorStop(1, `oklch(${rightObj.lht} ${rightObj.chr} ${rightObj.hue})`)
+
+    plotCTX.fillStyle = gradient
+    plotCTX.fillRect(0, 0, width, height)
+}
+
+
+/**Plots the blended gradient between the current left and right colours 
+ * on the top canvas
+ */
+export function plotPaletteLCHBlend(leftObj, rightObj, plotCTX, steps) {
+    const width = plotCTX.canvas.width
+    const height = plotCTX.canvas.height
+    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
+    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
+
+    switch (steps) {
+        case 0: {
+            steps = width
+            break; 
+        }
+        case 1: {
+            steps = 2
+        }
+    }
+
+    for (let x = 0; x <= steps; x++) {
+        const normX = x / steps
+
+        const interLht = (normX * (parseFloat(rightObj.lht) - parseFloat(leftObj.lht))) + parseFloat(leftObj.lht)
+        const interChr = (normX * (parseFloat(rightObj.chr) - parseFloat(leftObj.chr))) + parseFloat(leftObj.chr)
+        const interHue = interpAngle(parseFloat(leftObj.hue), parseFloat(rightObj.hue), normX)
+
+        plotCTX.fillStyle = `oklch(${interLht} ${interChr} ${interHue})`
+        plotCTX.fillRect(parseInt(x*width/(steps+1)), 0, parseInt(width/(steps+1))+1, height)
+        // console.log(`x: ${x} | ${interLht} | ${interChr} | ${interHue})`)
+    }
+}
+
 function okLAB2RGB(l, a, b_star) {
     // oklab to xyz
     const l1 = 0.9999999984505196*l + 0.39633779217376774*a + 0.2158037580607588*b_star

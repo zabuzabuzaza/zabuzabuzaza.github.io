@@ -9,7 +9,7 @@
 ------------------------------------------------------------------------------*/
 import { 
     plotHue, plotLight, plotChroma, cart2Polar, polar2Cart, createRingMask, 
-    plotPaletteLCHBlend, plotPaletteLABBlend, plotPaletteRGBBlend
+    plotPaletteLABBlend
 } from "./colours.js"
 
 
@@ -27,15 +27,10 @@ const MIXER_CHROMA_SCALING = 0.9
 
 
 // TOP DECK
-const leftColourBlock = document.getElementById("colour-block-1")
-const rightColourBlock = document.getElementById("colour-block-2")
-
-const lchpaletteBlendCanvas = document.getElementById("lch-palette-blend-canvas")
-const lchpaletteBlendCTX = lchpaletteBlendCanvas.getContext('2d')
 const labpaletteBlendCanvas = document.getElementById("lab-palette-blend-canvas")
 const labpaletteBlendCTX = labpaletteBlendCanvas.getContext('2d')
-const rgbpaletteBlendCanvas = document.getElementById("rgb-palette-blend-canvas")
-const rgbpaletteBlendCTX = rgbpaletteBlendCanvas.getContext('2d')
+
+const paletteContainer = document.getElementById("palette-blocks-group")
 
 // paletteBlendCTX.fillStyle = `red`
 // paletteBlendCTX.fillRect(0, 0, paletteBlendCanvas.width, paletteBlendCanvas.height)
@@ -434,9 +429,7 @@ function updateOverlays(colourObj) {
     }
 
     setActiveColour()
-    plotPaletteLCHBlend(left, right, lchpaletteBlendCTX)
-    plotPaletteLABBlend(left, right, labpaletteBlendCTX)
-    plotPaletteRGBBlend(left, right, rgbpaletteBlendCTX)
+    setPaletteColours()
     
     // update platter overlay
     const platterCTX = colourObj.plot.overlay.ctx; 
@@ -477,7 +470,61 @@ function updateOverlays(colourObj) {
     
 }
 
+function setPaletteColours() {
+    // plotPaletteLABBlend(left, right, lchpaletteBlendCTX, 0)
+    const stepColours = plotPaletteLABBlend(left, right, labpaletteBlendCTX, 4)
 
+    // remove all previous blocks
+    while (paletteContainer.firstChild) {
+        paletteContainer.removeChild(paletteContainer.firstChild);
+      }
+
+    for (let i = 0; i < stepColours.length; i++) {
+        const block = document.createElement('div')
+        block.style.backgroundColor = `oklch(${stepColours[i].lch[0]} ${stepColours[i].lch[1]} ${stepColours[i].lch[2]})`; // Generate a different color for each block
+        block.style.width = `${100 / stepColours.length}%`; // Set the width of each block based on the number of blocks
+
+        const leftText = document.createElement('div')
+        const midText = document.createElement('div')
+        const rightText = document.createElement('div')
+
+        leftText.classList.add("left")
+        midText.classList.add("mid")
+        rightText.classList.add("right")
+
+        leftText.textContent = (
+            `LCH\n` +
+            `${toFix(stepColours[i].lch[0], 3)}\n` + 
+            `${toFix(stepColours[i].lch[1], 3)}\n` +
+            `${toFix(stepColours[i].lch[2], 1)}` 
+        )
+        midText.textContent = (
+            `RGB\n` +
+            `${toFix(stepColours[i].rgb[0], 3)}\n` + 
+            `${toFix(stepColours[i].rgb[1], 3)}\n` +
+            `${toFix(stepColours[i].rgb[2], 3)}` 
+        )
+        rightText.textContent = (
+            `LAB\n` +
+            `${toFix(stepColours[i].lab[0], 3)}\n` + 
+            `${toFix(stepColours[i].lab[1], 3)}\n` +
+            `${toFix(stepColours[i].lab[2], 3)}` 
+        )
+
+        block.appendChild(leftText)
+        block.appendChild(midText)
+        block.appendChild(rightText)
+
+        // swap text colour if too dark
+        if (stepColours[i].lch[0] < 0.35) {
+            block.style.color = "white"
+        } else {
+            block.style.color = "black"
+        }
+
+        paletteContainer.appendChild(block);
+    }
+}
 
 
 /** Wrapper for setColourPositions, but does not update chroma position. 
@@ -620,6 +667,11 @@ function customMixerRange(ax, by, noChange, inverse=false) {
         by: (by-0.5)*MIXER_CHROMA_SCALING, 
         z: noChange, 
     }
+}
+
+/**Used to round numbers to how ever many decimal places */
+function toFix(num, places) {
+    return (Math.round(num * 10**(places)) / 10**(places)).toFixed(places);
 }
 
 

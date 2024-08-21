@@ -194,52 +194,11 @@ export function plotChroma(middleObj, chroma, lightness) {
     plotCTX.putImageData(imageData, 0, 0);
 }
 
-/**Plots the blended gradient between the current left and right colours 
- * on the top canvas
- */
-export function plotPaletteRGBBlend(leftObj, rightObj, plotCTX) {
-    const width = plotCTX.canvas.width
-    const height = plotCTX.canvas.height
-    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
-    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
-
-    const gradient = plotCTX.createLinearGradient(0, 0, width, 0)
-
-    gradient.addColorStop(0, `oklch(${leftObj.lht} ${leftObj.chr} ${leftObj.hue})`)
-    gradient.addColorStop(1, `oklch(${rightObj.lht} ${rightObj.chr} ${rightObj.hue})`)
-
-    plotCTX.fillStyle = gradient
-    plotCTX.fillRect(0, 0, width, height)
-}
 
 /**Plots the blended gradient between the current left and right colours 
  * on the top canvas
  */
-export function plotPaletteLCHBlend(leftObj, rightObj, plotCTX) {
-    const width = plotCTX.canvas.width
-    const height = plotCTX.canvas.height
-    // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
-    // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
-
-
-
-    for (let x = 0; x <= width; x++) {
-        const normX = x / width
-
-        const interLht = (normX * (parseFloat(rightObj.lht) - parseFloat(leftObj.lht))) + parseFloat(leftObj.lht)
-        const interChr = (normX * (parseFloat(rightObj.chr) - parseFloat(leftObj.chr))) + parseFloat(leftObj.chr)
-        const interHue = interpAngle(parseFloat(leftObj.hue), parseFloat(rightObj.hue), normX)
-
-        plotCTX.fillStyle = `oklch(${interLht} ${interChr} ${interHue})`
-        plotCTX.fillRect(x, 0, 1, height)
-        // console.log(`${interLht} | ${interChr} | ${interHue})`)
-    }
-}
-
-/**Plots the blended gradient between the current left and right colours 
- * on the top canvas
- */
-export function plotPaletteLABBlend(leftObj, rightObj, plotCTX) {
+export function plotPaletteLABBlend(leftObj, rightObj, plotCTX, steps) {
     const width = plotCTX.canvas.width
     const height = plotCTX.canvas.height
     // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
@@ -248,19 +207,60 @@ export function plotPaletteLABBlend(leftObj, rightObj, plotCTX) {
     const leftLAB = okLCH2LAB(leftObj.lht, leftObj.chr, leftObj.hue)
     const rightLAB = okLCH2LAB(rightObj.lht, rightObj.chr, rightObj.hue)
 
-    for (let x = 0; x <= width; x++) {
-        const normX = x / width
+    
+    // create array of colours first
+    let stepColours = Array(steps+1).fill(0)
+    for (let x = 0; x <= steps; x++) {
+        const normX = x / steps
+
+        const interL = (normX * (parseFloat(rightLAB[0]) - parseFloat(leftLAB[0]))) + parseFloat(leftLAB[0])
+        const interA = (normX * (parseFloat(rightLAB[1]) - parseFloat(leftLAB[1]))) + parseFloat(leftLAB[1])
+        const interB = (normX * (parseFloat(rightLAB[2]) - parseFloat(leftLAB[2]))) + parseFloat(leftLAB[2])
+
+    
+        stepColours[x] = {
+            lab: [interL, interA, interB], 
+            lch: okLAB2LCH(interL, interA, interB), 
+            rgb: okLAB2RGB(interL, interA, interB), 
+        }
+    }
+
+    // plot smooth gradient on CTX
+    steps = width
+    for (let x = 0; x <= steps; x++) {
+        const normX = x / steps
 
         const interL = (normX * (parseFloat(rightLAB[0]) - parseFloat(leftLAB[0]))) + parseFloat(leftLAB[0])
         const interA = (normX * (parseFloat(rightLAB[1]) - parseFloat(leftLAB[1]))) + parseFloat(leftLAB[1])
         const interB = (normX * (parseFloat(rightLAB[2]) - parseFloat(leftLAB[2]))) + parseFloat(leftLAB[2])
 
         plotCTX.fillStyle = `oklab(${interL} ${interA} ${interB})`
-        plotCTX.fillRect(x, 0, 1, height)
-        // console.log(`${interLht} | ${interChr} | ${interHue})`)
+        plotCTX.fillRect(parseInt(x*width/(steps+1)), 0, parseInt(width/(steps+1))+1, height)
+        // console.log(`x: ${x} | ${interL} | ${interA} | ${interB})`)
     }
+    return stepColours
 }
 
+function findFallbackColour(l, c, h) {
+    if (gamutCheck(okLCH2RGB(l, c, h))) {
+        return [l, c, h]
+    }
+
+    let low = 0
+    let high = c
+    
+    while ((high - low) > 0.001) {
+        const mid = (low + high) / 2.0
+
+        if (gamutCheck(okLCH2RGB(l, mid, h))) {
+            low = mid 
+        } else {
+            high = mid
+        }
+    }
+
+    return [l, c, h]
+}
 
 
 export function polar2Cart(theta, radius) {
@@ -277,6 +277,7 @@ export function cart2Polar(x, y) {
     return {rad: radius, angle: theta}
 }
 
+/** Accepts RGB normalised values, and checks for > 1 or < 0 */
 function gamutCheck(colourArray) {
     if (colourArray[0] > 1 || colourArray[1] > 1 || colourArray[2] > 1) {
         return false
@@ -286,14 +287,21 @@ function gamutCheck(colourArray) {
     } 
     return true
 }
+
+
 function okLCH2RGB(l, c, h) {
-    const polar = polar2Cart(h, c)
-    return okLAB2RGB(l, polar.a, polar.b)
+    const cart = polar2Cart(h, c)
+    return okLAB2RGB(l, cart.a, cart.b)
 }
 
 function okLCH2LAB(l, c, h) {
-    const polar = polar2Cart(h, c)
-    return [l, polar.a, polar.b]
+    const cart = polar2Cart(h, c)
+    return [l, cart.a, cart.b]
+}
+
+function okLAB2LCH(l, a, b) {
+    const polar = cart2Polar(a, b)
+    return [l, polar.rad, polar.angle]
 }
 
 function okLAB2RGB(l, a, b_star) {
