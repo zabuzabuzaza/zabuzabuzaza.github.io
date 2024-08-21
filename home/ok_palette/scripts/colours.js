@@ -216,14 +216,17 @@ export function plotPaletteLABBlend(leftObj, rightObj, plotCTX, steps) {
         const interL = (normX * (parseFloat(rightLAB[0]) - parseFloat(leftLAB[0]))) + parseFloat(leftLAB[0])
         const interA = (normX * (parseFloat(rightLAB[1]) - parseFloat(leftLAB[1]))) + parseFloat(leftLAB[1])
         const interB = (normX * (parseFloat(rightLAB[2]) - parseFloat(leftLAB[2]))) + parseFloat(leftLAB[2])
-
+        const rgbArray = okLAB2RGB(interL, interA, interB)//.map(x => x*255)
     
         stepColours[x] = {
             lab: [interL, interA, interB], 
             lch: okLAB2LCH(interL, interA, interB), 
-            rgb: okLAB2RGB(interL, interA, interB), 
+            rgb: rgbArray, 
+            hex: RGB2HEX(rgbArray), 
         }
     }
+
+    // console.log(stepColours[0].hex)
 
     // plot smooth gradient on CTX
     steps = width
@@ -304,6 +307,29 @@ function okLAB2LCH(l, a, b) {
     return [l, polar.rad, polar.angle]
 }
 
+// function notokLAB2RGB(l, a, b_star) {
+//     // oklab to xyz
+//     const l1 = 0.9999999984505196*l + 0.39633779217376774*a + 0.2158037580607588*b_star
+//     const m1 = 1.0000000088817607*l - 0.10556134232365633*a - 0.0638541747717059*b_star
+//     const s1 = 1.0000000546724108*l - 0.08948418209496574*a - 1.2914855378640917*b_star
+
+//     const ll = l1 * l1 * l1
+//     const m = m1 * m1 * m1 
+//     const s = s1 * s1 * s1
+
+//     let r = 4.07674166*ll -3.30771159*m + 0.23096993*s
+//     let g = -1.268438*ll + 2.6097574*m -0.3413194 *s
+//     let b = -0.07637294974672142*ll -0.4214933239627916*m + 1.5869240244272422*s
+
+//     // delinearise approx
+//     // http://stereopsis.com/polygamma.html
+//     r = 1.49*r*r*r -3.23*r*r + 2.74*r
+//     g = 1.49*g*g*g -3.23*g*g + 2.74*g
+//     b = 1.49*b*b*b -3.23*b*b + 2.74*b
+
+//     return [r, g, b]
+// }
+
 function okLAB2RGB(l, a, b_star) {
     // oklab to xyz
     const l1 = 0.9999999984505196*l + 0.39633779217376774*a + 0.2158037580607588*b_star
@@ -318,13 +344,25 @@ function okLAB2RGB(l, a, b_star) {
     let g = -1.268438*ll + 2.6097574*m -0.3413194 *s
     let b = -0.07637294974672142*ll -0.4214933239627916*m + 1.5869240244272422*s
 
-    // delinearise approx
-    // http://stereopsis.com/polygamma.html
-    r = 1.49*r*r*r -3.23*r*r + 2.74*r
-    g = 1.49*g*g*g -3.23*g*g + 2.74*g
-    b = 1.49*b*b*b -3.23*b*b + 2.74*b
+    // delinearise 
+    r = r <= 0.0031308 ? 12.92 * r : 1.055*(pow512(r)) - 0.055; 
+    g = g <= 0.0031308 ? 12.92 * g : 1.055*(pow512(g)) - 0.055;
+    b = b <= 0.0031308 ? 12.92 * b : 1.055*(pow512(b)) - 0.055;
+
+    // // delinearise approx
+    // // // http://stereopsis.com/polygamma.html
+    // https://stackoverflow.com/questions/6475373/optimizations-for-pow-with-const-non-integer-exponent/
+    // r = delinear(r)
+    // g = delinear(g)
+    // b = delinear(b)
 
     return [r, g, b]
+}
+
+/**Parameter is a 3 value array */
+function RGB2HEX(rgb) {
+    // return [rgb[0].toString(16), rgb[1].toString(16), rgb[2]).toString(16)]
+    return "#" + rgb.map(x => (x.toString(16)).toUpperCase()).join("")
 }
 
 /**Angles need to be in degrees pls */
@@ -333,4 +371,43 @@ function interpAngle(a0, a1, x) {
     return (x*delta + a0 + 360) % 360
 }
 
+function pow512(x) {
+    const cbrtx = Math.cbrt(x)
+    return cbrtx*Math.sqrt(Math.sqrt(cbrtx))
+}
 
+function delinear(x) {
+    if (x <= 0.0031308) {
+        return 12.92 * x
+    }
+
+    if (x <= 0.0523) return poly7(x, -6681.49576364495442248881,
+                                    1224.97114922729451791383,
+                                    -100.23413743425112443219,
+                                    6.60361150127077944916,
+                                    0.06114808961060447245,
+                                    -0.00022244138470139442,
+                                    0.00000041231840827815,
+                                    -0.00000000035133685895) / (x*x*x);
+
+    return poly7(x, -0.18730034115395793881,
+                    0.64677431008037400417,
+                    -0.99032868647877825286,
+                    1.20939072663263713636,
+                    0.33433459165487383613,
+                    -0.01345095746411287783,
+                    0.00044351684288719036,
+                    -0.00000664263587520855) / (x*x*x);
+}
+
+function poly7(x, a, b, c, d, e, f, g, h) {
+    const x2 = x*x; 
+    const x4 = x2*x2; 
+    const ab = a*x + b; 
+    const cd = c*x + d;
+    const ef = e*x + f; 
+    const gh = g*x + h;
+    const abcd = ab*x2 + cd; 
+    const efgh = ef*x2 + gh;
+    return abcd*x4 + efgh;
+}

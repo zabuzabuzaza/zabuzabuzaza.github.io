@@ -54,13 +54,6 @@ span {
   z-index: 1;
 }
 
-.colour-block {
-  height: 100px;
-  width: 400px;
-  background: #a29cd6;
-  margin: 20px 125px;
-}
-
 .deck-section {
   background: #d1d1d1; 
   margin: 10px;
@@ -89,7 +82,7 @@ span {
   .palette-block {
     margin: 0px 6px;
     
-    div {
+    .colour-block {
       display: inline-block;
       position: relative; 
       height: 100px;
@@ -102,14 +95,17 @@ span {
       div {
         padding: 10px 10px;
         position: absolute;
+        font-size: 0px;
       }
+
+      
+      
 
       .left {
         text-align: left;
       }
 
       .mid {
-        position: relative;
         margin: auto;
         left: 37%;
         text-align: center;
@@ -120,6 +116,16 @@ span {
         text-align: right;
       }
     }
+
+    .colour-block:hover {
+      /* color: transparent;  */
+      div {
+        font-size: 16px;
+        display: inline-block;
+      }
+      
+    }
+    
   }
 }
 

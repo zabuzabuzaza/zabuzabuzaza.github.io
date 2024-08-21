@@ -500,9 +500,9 @@ function setPaletteColours() {
         )
         midText.textContent = (
             `RGB\n` +
-            `${toFix(stepColours[i].rgb[0], 3)}\n` + 
-            `${toFix(stepColours[i].rgb[1], 3)}\n` +
-            `${toFix(stepColours[i].rgb[2], 3)}` 
+            `${toFix(stepColours[i].rgb[0]*255, 0)}\n` + 
+            `${toFix(stepColours[i].rgb[1]*255, 0)}\n` +
+            `${toFix(stepColours[i].rgb[2]*255, 0)}` 
         )
         rightText.textContent = (
             `LAB\n` +
@@ -514,6 +514,7 @@ function setPaletteColours() {
         block.appendChild(leftText)
         block.appendChild(midText)
         block.appendChild(rightText)
+        block.classList.add("colour-block")
 
         // swap text colour if too dark
         if (stepColours[i].lch[0] < 0.35) {
