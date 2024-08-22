@@ -526,17 +526,21 @@ function setPaletteColours() {
             `${toFix(stepColours[i].lch[2], 1)}` 
         )
         midText.textContent = (
+            `HEX\n` +
+            `${stepColours[i].hex}\n` 
+        )
+        rightText.textContent = (
             `RGB\n` +
             `${toFix(stepColours[i].rgb[0]*255, 0)}\n` + 
             `${toFix(stepColours[i].rgb[1]*255, 0)}\n` +
             `${toFix(stepColours[i].rgb[2]*255, 0)}` 
         )
-        rightText.textContent = (
-            `LAB\n` +
-            `${toFix(stepColours[i].lab[0], 3)}\n` + 
-            `${toFix(stepColours[i].lab[1], 3)}\n` +
-            `${toFix(stepColours[i].lab[2], 3)}` 
-        )
+        // midText.textContent = (
+        //     `LAB\n` +
+        //     `${toFix(stepColours[i].lab[0], 3)}\n` + 
+        //     `${toFix(stepColours[i].lab[1], 3)}\n` +
+        //     `${toFix(stepColours[i].lab[2], 3)}` 
+        // )
 
         block.appendChild(leftText)
         block.appendChild(midText)
@@ -551,6 +555,16 @@ function setPaletteColours() {
         }
 
         paletteContainer.appendChild(block);
+
+        block.addEventListener("click", (PointerEvent) => {
+            const hexBlock = PointerEvent.target.querySelector('.mid')
+            if (hexBlock) {
+                console.log(`clicked on colour block ${hexBlock.textContent}`)
+            } else {
+                console.log(`clicked on colour block ${PointerEvent.target.textContent}`)
+            }
+            
+        })
     }
 }
 
