@@ -31,7 +31,7 @@ export function createRingMask(width, height) {
 }
 
 /**Plots the middle canvas with new lightness value for all hues and chroma + hue ring*/
-export function plotLight(mixerObj, chroma, lightness) {
+export async function plotLight(mixerObj, chroma, lightness) {
     /**calculate hue and draw ring */
     function calcAndDraw(x, y) {
         const scaled = mixerObj.transform_func(x/width, y/height, 0)
@@ -109,7 +109,7 @@ export function plotLight(mixerObj, chroma, lightness) {
 }
 
 /** Plots to left or right canvas based in new hue infomation */
-export function plotHue(colourObj) {
+export async function plotHue(colourObj) {
     const width = colourObj.plot.canvas.element.width
     const height = colourObj.plot.canvas.element.height
     const imageData = colourObj.plot.canvas.ctx.createImageData(width, height)
@@ -145,6 +145,118 @@ export function plotHue(colourObj) {
     colourObj.plot.canvas.ctx.putImageData(imageData, 0, 0);
 }
 
+/** Plots to left or right canvas based in new hue infomation */
+export function plotHueWorker(colourObj) {
+    function drawPlatter() {
+        colourObj.plot.canvas.ctx.putImageData(imageData, 0, 0);
+    }
+    
+    const workerNum = 1
+    const workers = []
+    const width = colourObj.plot.canvas.element.width
+    const height = colourObj.plot.canvas.element.height
+    // const section_height = height / workerNum
+    // const length = height*width*4
+
+    
+    const imageData = colourObj.plot.canvas.ctx.createImageData(width, height)
+    const pixelDataFull = new Uint8ClampedArray(imageData.data.buffer);
+    let workersDone = 0
+
+
+    const platterWorker = new Worker('scripts/plotLeftPlatterWorker.js'); 
+    workers.push(platterWorker); 
+
+    platterWorker.onmessage = function(event) {
+        const { data, offset } = event.data;
+        // const more_offset = ((offset%length)+length*(workerNum+1)/workerNum)%length
+        pixelDataFull.set(data, 0); 
+        workersDone++; 
+
+
+        // Check if all workers are done
+        if (workersDone === workerNum) {
+            // All workers are done, draw the image
+            drawPlatter()
+        }
+    };
+
+    const hueValue = colourObj.hue
+    // let offsetFunc = colourObj.offset_func
+    // const workIndex = parseInt(work)
+
+    platterWorker.postMessage([height, width, hueValue])
+
+        // const result = calcPixData(work, section_height, height, width, colourObj)
+        // const more_offset = ((result.offset%length)+length*(workerNum+1)/workerNum)%length
+        // // console.log(more_offset)
+        // pixelDataFull.set(result.data, more_offset); 
+
+    // for (let i = 0; i < numWorkers; i++) {
+    //     const worker = new Worker('worker.js');
+    //     workers.push(worker);
+
+    //     worker.onmessage = function(event) {
+    //         const { startRow, data } = event.data;
+    //         results[i] = { startRow, data };
+
+    //         // Check if all workers are done
+    //         if (results.filter(r => r).length === numWorkers) {
+    //             // All workers are done, draw the image
+    //             drawImage();
+    //         }
+    //     };
+
+    //     // Assign each worker a portion of the image to compute
+    //     const startRow = i * rowsPerWorker;
+    //     const endRow = Math.min(startRow + rowsPerWorker, height);
+
+    //     worker.postMessage({ startRow, endRow, width });
+    // }
+
+    // 
+    // const imageData = new ImageData(pixelData, 500, 500);
+    // colourObj.plot.canvas.ctx.putImageData(imageData, 0, 0);
+}
+
+function calcPixData(index, section_height, height, width, colourObj) {
+    const pixelData = new Uint8ClampedArray(section_height*width*4).fill(255);
+    // console.log(`from row ${startRow} to row ${endRow}`)
+
+    const startRow = index*section_height
+    const endRow = (index+1)*section_height
+
+    for (let x = 0; x <= width; x+= 1) {
+        for (let y = startRow; y < endRow; y+= 1) { 
+            // for reference, these are the ranges of values
+            // lightness  = [1.05, -0.06111] (different to plotLight())
+            // chroma = [0, 1/2.8] = [0, 0.35714]
+            // hue = from param = [0, 360]
+            const scaled = colourObj.transform_func(y/height, x/width, colourObj.hue)
+            let col = okLCH2RGB(scaled.y, scaled.x, scaled.hue); 
+            
+            const offset = colourObj.offset_func(x, y-startRow, width, section_height); 
+            
+            
+            // if (col.inGamut('srgb')) {
+            pixelData[offset] = col[0]*255; // R
+            pixelData[offset + 1] = col[1]*255; // G
+            pixelData[offset + 2] = col[2]*255; // B
+            if (gamutCheck(col)) {
+                
+                pixelData[offset + 3] = 255; // A
+            } else {
+                // pixelData[offset] = 255; // R
+                // pixelData[offset + 1] = 255; // G
+                // pixelData[offset + 2] = 255; // B
+                pixelData[offset + 3] = 55; // A
+            }
+        }
+    }
+
+    return {data: pixelData, offset: colourObj.offset_func(0, -section_height+startRow, width, section_height)}
+}
+
 /**
  * Plots the hue ring on a canvas at a specific chroma value (in radius distance
  * from the centre). Lightness is constant. Only calls from input from mixer, 
@@ -153,7 +265,7 @@ export function plotHue(colourObj) {
  * @param {*} canvasCTX 
  * @param {*} chroma 
  */
-export function plotChroma(middleObj, chroma, lightness) {
+export async function plotChroma(middleObj, chroma, lightness) {
     let plotCTX = middleObj.ring.ctx
     const width = plotCTX.canvas.width
     const height = plotCTX.canvas.height
@@ -204,8 +316,12 @@ export function plotPaletteLABBlend(leftObj, rightObj, plotCTX, steps) {
     // console.log(`Left Colour: ${leftObj.lht} ${leftObj.chr} ${leftObj.hue}`)
     // console.log(`Right Colour: ${rightObj.lht} ${rightObj.chr} ${rightObj.hue}`)
 
-    const leftLAB = okLCH2LAB(leftObj.lht, leftObj.chr, leftObj.hue)
-    const rightLAB = okLCH2LAB(rightObj.lht, rightObj.chr, rightObj.hue)
+    // clamp to valid colour first 
+    const fallbackLeftLCH = findFallbackColour(leftObj.lht, leftObj.chr, leftObj.hue)
+    const fallbackRightLCH = findFallbackColour(rightObj.lht, rightObj.chr, rightObj.hue)
+
+    const leftLAB = okLCH2LAB(fallbackLeftLCH[0], fallbackLeftLCH[1], fallbackLeftLCH[2])
+    const rightLAB = okLCH2LAB(fallbackRightLCH[0], fallbackRightLCH[1], fallbackRightLCH[2])
 
     
     // create array of colours first
@@ -244,25 +360,36 @@ export function plotPaletteLABBlend(leftObj, rightObj, plotCTX, steps) {
     return stepColours
 }
 
-function findFallbackColour(l, c, h) {
+export function findFallbackColour(l, c, h) {
     if (gamutCheck(okLCH2RGB(l, c, h))) {
         return [l, c, h]
     }
 
+    if (l > 1) {
+        l = 1
+    } else if (l < 0) {
+        l = 0
+    }
+
     let low = 0
+    let mid = 0
     let high = c
-    
-    while ((high - low) > 0.001) {
-        const mid = (low + high) / 2.0
+    const maxIterations = 100
+    for (let i = 1; i < maxIterations; i++) {
+        mid = (low + high) / 2
 
         if (gamutCheck(okLCH2RGB(l, mid, h))) {
             low = mid 
         } else {
             high = mid
         }
+        
+        if ((high - low) < 0.0001) {
+            return [l, low, h]
+        }
     }
 
-    return [l, c, h]
+    return [Math.round(l), 0, h]
 }
 
 
@@ -340,9 +467,14 @@ function okLAB2RGB(l, a, b_star) {
     const m = m1 * m1 * m1 
     const s = s1 * s1 * s1
 
-    let r = 4.07674166*ll -3.30771159*m + 0.23096993*s
-    let g = -1.268438*ll + 2.6097574*m -0.3413194 *s
-    let b = -0.07637294974672142*ll -0.4214933239627916*m + 1.5869240244272422*s
+    let x = 1.2268798733741557*ll - 0.5578149965554813*m + 0.28139105017721594*s
+    let y = -0.04057576262431372*ll + 1.1122868293970594*m - 0.07171106666151696*s
+    let z = -0.07637294974672142*ll - 0.4214933239627916*m + 1.5869240244272422*s
+
+    // XYZ to linear RGB
+    let r = 3.2409699419045214*x - 1.5373831775700935*y - 0.49861076029300328*z
+    let g = -0.96924363628087983*x + 1.8759675015077207*y + 0.041555057407175613*z
+    let b = 0.055630079696993609*x - 0.20397695888897657*y + 1.0569715142428786*z
 
     // delinearise 
     r = r <= 0.0031308 ? 12.92 * r : 1.055*(pow512(r)) - 0.055; 
@@ -362,7 +494,7 @@ function okLAB2RGB(l, a, b_star) {
 /**Parameter is a 3 value array */
 function RGB2HEX(rgb) {
     // return [rgb[0].toString(16), rgb[1].toString(16), rgb[2]).toString(16)]
-    return "#" + rgb.map(x => (x.toString(16)).toUpperCase()).join("")
+    return "#" + rgb.map(x => ((Math.round(x*255)).toString(16)).padStart(2, '0').toUpperCase()).join("")
 }
 
 /**Angles need to be in degrees pls */
@@ -374,40 +506,8 @@ function interpAngle(a0, a1, x) {
 function pow512(x) {
     const cbrtx = Math.cbrt(x)
     return cbrtx*Math.sqrt(Math.sqrt(cbrtx))
+    // return x**(5/12)
 }
 
-function delinear(x) {
-    if (x <= 0.0031308) {
-        return 12.92 * x
-    }
 
-    if (x <= 0.0523) return poly7(x, -6681.49576364495442248881,
-                                    1224.97114922729451791383,
-                                    -100.23413743425112443219,
-                                    6.60361150127077944916,
-                                    0.06114808961060447245,
-                                    -0.00022244138470139442,
-                                    0.00000041231840827815,
-                                    -0.00000000035133685895) / (x*x*x);
 
-    return poly7(x, -0.18730034115395793881,
-                    0.64677431008037400417,
-                    -0.99032868647877825286,
-                    1.20939072663263713636,
-                    0.33433459165487383613,
-                    -0.01345095746411287783,
-                    0.00044351684288719036,
-                    -0.00000664263587520855) / (x*x*x);
-}
-
-function poly7(x, a, b, c, d, e, f, g, h) {
-    const x2 = x*x; 
-    const x4 = x2*x2; 
-    const ab = a*x + b; 
-    const cd = c*x + d;
-    const ef = e*x + f; 
-    const gh = g*x + h;
-    const abcd = ab*x2 + cd; 
-    const efgh = ef*x2 + gh;
-    return abcd*x4 + efgh;
-}

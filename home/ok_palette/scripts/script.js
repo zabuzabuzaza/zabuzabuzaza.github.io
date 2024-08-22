@@ -9,6 +9,7 @@
 ------------------------------------------------------------------------------*/
 import { 
     plotHue, plotLight, plotChroma, cart2Polar, polar2Cart, createRingMask, 
+    findFallbackColour, 
     plotPaletteLABBlend
 } from "./colours.js"
 
@@ -275,6 +276,7 @@ const left = {
     /**transforms x and y into lightness (-0.05, 1.0611) and chroma [0, 0.357]*/
     transform_func: customPlatterRangeFlipped, 
     offset_func: (x, y, width, height) => {return 4 * (width*height - (x + y * width))}, 
+    // offset_func: (x, y, width, height) => {return (x + y * width) * 4}
 }
 
 const right = {
@@ -337,13 +339,25 @@ function getPlatterColour(event, colourObj) {
         const rightSide = rightSideActive? 1: -1; 
         const normX = ((x / PLATTER_WIDTH)-0.5)*rightSide + 0.5; 
         const normY = ((y / PLATTER_HEIGHT)-0.5)*rightSide + 0.5; 
-
         // console.log(`Clicked at ${normX} ${normY}`)
 
         const scaled = colourObj.transform_func(normY, normX, 0)
-
         colourObj.chr = scaled.x
         colourObj.lht = scaled.y
+
+        // check colour 
+        const fallBackLCH = findFallbackColour(colourObj.lht, colourObj.chr, colourObj.hue)
+        
+        // and clamp the chroma back the way it bloody came from
+        colourObj.chr = fallBackLCH[1]
+        colourObj.lht = fallBackLCH[0]
+
+        const unscaled = colourObj.transform_func(scaled.y, scaled.x, 0, true)
+
+        colourObj.position[0] = (((unscaled.x - 0.5)/rightSide)+0.5)*PLATTER_WIDTH
+        colourObj.position[1] = (((unscaled.y - 0.5)/rightSide)+0.5)*PLATTER_HEIGHT
+
+        
         updateOverlays(colourObj)
 
         // console.log(`Clicked at C:${colourObj.chr} L:${colourObj.lht}`)
@@ -363,7 +377,7 @@ function getPlatterColour(event, colourObj) {
  * 
  * @param {*} event 
  */
-function getMixerColour(event) {
+async function getMixerColour(event) {
     if (mouseDown) {
         const x = event.offsetX; 
         const y = event.offsetY; 
@@ -374,8 +388,6 @@ function getMixerColour(event) {
         const normX = x / MIXER_WIDTH; 
         const normY = y / MIXER_HEIGHT; 
 
-        // console.log(`Mixer Clicked at ${normX} ${normY}`)
-
         // transform to chroma and lightness 
         const labScaled = middleMixer.transform_func(normX, normY, 0); 
         const polarConvert = cart2Polar(labScaled.ax, labScaled.by)
@@ -383,20 +395,34 @@ function getMixerColour(event) {
         let colourObj = (rightSideActive) ? right: left; 
         colourObj.chr = polarConvert.rad
         colourObj.hue = polarConvert.angle
+
+        // check colour 
+        const fallBackLCH = findFallbackColour(colourObj.lht, colourObj.chr, colourObj.hue)
+
+        // and clamp the chroma back from whence it came
+        colourObj.chr = fallBackLCH[1]
+        colourObj.hue = fallBackLCH[2]
+
+        const cartReverse = polar2Cart(polarConvert.angle, polarConvert.rad)
+        const unScaled = middleMixer.transform_func(cartReverse.a, cartReverse.b, 0, true)
+
+        middleMixer.position[0] = unScaled.ax * MIXER_WIDTH
+        middleMixer.position[1] = unScaled.by * MIXER_HEIGHT
+
+
+
+
         
         updateOverlays(colourObj)
 
-        plotHue(colourObj)
-        plotChroma(middleMixer, colourObj.chr, colourObj.lht)
-        
-        // hue ring still not working yet
-        
-        
-        // plotChroma(middleMixer, right.chr, right.lht)
-        // let pixelData = middleMixer.canvas.ctx.getImageData(0, 0, MIXER_WIDTH, MIXER_HEIGHT)
-        // const offset = (x+y*MIXER_WIDTH)*4
-        // console.log(`${pixelData.data[offset]} ${pixelData.data[offset+1]} ${pixelData.data[offset+2]} ${pixelData.data[offset+3]}`)
-        
+        const promises = []
+        promises.push(plotHue(colourObj))
+        promises.push(plotLight(middleMixer, colourObj.chr, colourObj.lht))
+        await Promise.all(promises)
+
+        // plotHue(colourObj)
+        // plotChroma(middleMixer, colourObj.chr, colourObj.lht)
+    
     }
 }
 
@@ -407,10 +433,11 @@ function getMixerColour(event) {
  * Also calls updateColourLabel(). 
  * @param leftPlatterCTX or rightPlatterCTX
  */
-function onSliderChange(colourObj) {
-    plotHue(colourObj)
-    
-    plotLight(middleMixer, colourObj.chr, colourObj.lht)
+async function onSliderChange(colourObj) {
+    const promises = []
+    promises.push(plotHue(colourObj))
+    promises.push(plotLight(middleMixer, colourObj.chr, colourObj.lht))
+    await Promise.all(promises)
 
     updateOverlays(colourObj)
 }
