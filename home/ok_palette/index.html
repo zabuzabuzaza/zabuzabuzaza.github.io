@@ -31,10 +31,11 @@
         <div class="deck-section" id="deck-section-middle">
           <div class="main-deck-section platter" id="platter-left">
 
-            <div class="hue-input" id="platter-left-hue-input">
+            <div class="hue-slider" id="platter-left-hue-input">
               <span class="overlay slider-text label-text horizontal-text">HUE</span>
               <span class="overlay slider-text horizontal-text" id="platter-controls-left-labels-hue">Hue</span>
-              <input type="number" id="input-left-hue" min="0" max="360" step="1" value="0" style="margin-left: 60%;">
+              <input type="range" class="horizontal-slider" id="slider-left-hue" min="0" max="360" step="1" value="0" style="direction: rtl;">
+              <!-- <input type="number" id="input-left-hue" min="0" max="360" step="1" value="0" style="margin-left: 60%;"> -->
             </div>
 
             <div class="light-slider" id="platter-left-light-slider">
@@ -66,10 +67,11 @@
           </div>
           <div class="main-deck-section platter" id="platter-right">
 
-            <div class="hue-input" id="platter-right-hue-input">
+            <div class="hue-slider" id="platter-right-hue-input">
               <span class="overlay slider-text label-text horizontal-text">HUE</span>
               <span class="overlay slider-text horizontal-text" id="platter-controls-right-labels-hue">Hue</span>
-              <input type="number" id="input-right-hue" min="0" max="360" step="1" value="270" style="margin-left: 60%;">
+              <input type="range" class="horizontal-slider" id="slider-right-hue" min="0" max="360" step="1" value="270">
+              <!-- <input type="number" id="input-right-hue" min="0" max="360" step="1" value="270" style="margin-left: 60%;"> -->
             </div>
 
             <div class="light-slider" id="platter-right-light-slider">

@@ -62,7 +62,7 @@ const leftPlatter = {
     }   
 }
 
-const sliderLeftHue = document.getElementById("input-left-hue");
+const sliderLeftHue = document.getElementById("slider-left-hue");
 const sliderLeftChr = document.getElementById("slider-left-chr");
 const sliderLeftLht = document.getElementById("slider-left-lht");
 const colourLeftHueLabel = document.getElementById("platter-controls-left-labels-hue");
@@ -199,7 +199,7 @@ const rightPlatter = {
 
 
 
-const sliderRightHue = document.getElementById("input-right-hue");
+const sliderRightHue = document.getElementById("slider-right-hue");
 const sliderRightChr = document.getElementById("slider-right-chr");
 const sliderRightLht = document.getElementById("slider-right-lht");
 const colourRightHueLabel = document.getElementById("platter-controls-right-labels-hue");
