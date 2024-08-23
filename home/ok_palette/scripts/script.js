@@ -499,17 +499,17 @@ function updateOverlays(colourObj) {
 
 function setPaletteColours() {
     // plotPaletteLABBlend(left, right, lchpaletteBlendCTX, 0)
-    const stepColours = plotPaletteLABBlend(left, right, labpaletteBlendCTX, 4)
+    const stepColours = plotPaletteLABBlend(left, right, labpaletteBlendCTX, 13)
 
     // remove all previous blocks
     while (paletteContainer.firstChild) {
         paletteContainer.removeChild(paletteContainer.firstChild);
-      }
+    }
 
     for (let i = 0; i < stepColours.length; i++) {
         const block = document.createElement('div')
         block.style.backgroundColor = `oklch(${stepColours[i].lch[0]} ${stepColours[i].lch[1]} ${stepColours[i].lch[2]})`; // Generate a different color for each block
-        block.style.width = `${100 / stepColours.length}%`; // Set the width of each block based on the number of blocks
+        block.style.flexBasis = `${100 / stepColours.length}%`; // Set the width of each block based on the number of blocks
 
         const leftText = document.createElement('div')
         const midText = document.createElement('div')
@@ -548,7 +548,7 @@ function setPaletteColours() {
         block.classList.add("colour-block")
 
         // swap text colour if too dark
-        if (stepColours[i].lch[0] < 0.35) {
+        if (stepColours[i].lch[0] < 0.40) {
             block.style.color = "white"
         } else {
             block.style.color = "black"
@@ -558,11 +558,27 @@ function setPaletteColours() {
 
         block.addEventListener("click", (PointerEvent) => {
             const hexBlock = PointerEvent.target.querySelector('.mid')
+            let targetElement = 0
             if (hexBlock) {
-                console.log(`clicked on colour block ${hexBlock.textContent}`)
+                targetElement = hexBlock
             } else {
-                console.log(`clicked on colour block ${PointerEvent.target.textContent}`)
+                targetElement = PointerEvent.target
             }
+
+            const originalString = targetElement.textContent
+            const splitString = originalString.split('\n')
+            navigator.clipboard.writeText(splitString.slice(1).join(" "))
+
+            targetElement.textContent = "COPIED\n" + splitString.slice(1).join("\n")
+            // console.log(block.style.backgroundColor)
+            targetElement.style.textShadow = `0px 0px 5px`
+
+            setTimeout(() => {
+                targetElement.textContent = originalString
+                targetElement.style.textShadow = `unset`
+                // targetElement.style.backgroundColor = "transparent"
+            }, 500)
+            
             
         })
     }

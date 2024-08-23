@@ -80,17 +80,21 @@ span {
   }
 
   .palette-block {
-    margin: 0px 6px;
+    margin: 0px 0.5%;
+    display: flex;
     
     .colour-block {
       display: inline-block;
       position: relative; 
       height: 100px;
+      flex-grow: 1;
       
+      transition: flex-basis 0.3s ease-in-out;
 
-      user-select: text;
+      /* user-select: text; */
       /* text-align: center; */
       white-space: pre;
+      cursor: pointer;
 
       div {
         padding: 10px 10px;
@@ -111,7 +115,7 @@ span {
 
       .mid {
         margin: auto;
-        left: 37%;
+        left: 32%;
         text-align: center;
       }
 
@@ -122,7 +126,8 @@ span {
     }
 
     .colour-block:hover {
-      /* color: transparent;  */
+      flex-basis: 250px !important;
+
       div {
         font-size: 16px;
         display: inline-block;
