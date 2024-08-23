@@ -13,3 +13,4 @@ TODO
 - [x] add a bisection method for finding fallback colour. also have an option to clamp the cursor to the uppermost chroma
   - [x] added clamp functionality, just need an option to turn off or on
 - [ ] add extra palettes on the side (chroma variable) and along the bottom (two anchors on each side, and gray at current lightness in the middle)
+- [ ] apply fallback check for slider changes
