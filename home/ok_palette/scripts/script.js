@@ -571,7 +571,7 @@ function setPaletteColours() {
 
             targetElement.textContent = "COPIED\n" + splitString.slice(1).join("\n")
             // console.log(block.style.backgroundColor)
-            targetElement.style.textShadow = `0px 0px 2px`
+            targetElement.style.textShadow = `0px 0px 1px`
 
             setTimeout(() => {
                 targetElement.textContent = originalString
