@@ -9,7 +9,7 @@
 ------------------------------------------------------------------------------*/
 import { 
     plotHue, plotLight, plotChroma, cart2Polar, polar2Cart, createRingMask, 
-    findFallbackColour, 
+    findFallbackColour, RGB2LCH, 
     plotPaletteLABBlend
 } from "./colours.js"
 
@@ -61,6 +61,17 @@ const leftPlatter = {
         ctx: leftPlatterOverlayCanvas.getContext('2d')
     }   
 }
+
+const pickerLeft = document.getElementById("picker-left"); 
+
+// pickerLeft.addEventListener('input', (InputEvent) => {
+//     rightSideActive = false; 
+//     plotFromRGB(InputEvent, left)
+// })
+pickerLeft.addEventListener('change', (InputEvent) => {
+    rightSideActive = false; 
+    plotFromRGB(InputEvent, left)
+})
 
 const sliderLeftHue = document.getElementById("slider-left-hue");
 const sliderLeftChr = document.getElementById("slider-left-chr");
@@ -197,7 +208,16 @@ const rightPlatter = {
     }   
 }
 
+const pickerRight = document.getElementById("picker-right"); 
 
+// pickerRight.addEventListener('input', (InputEvent) => {
+//     rightSideActive = true; 
+//     plotFromRGB(InputEvent, right)
+// })
+pickerRight.addEventListener('change', (InputEvent) => {
+    rightSideActive = true; 
+    plotFromRGB(InputEvent, right)
+})
 
 const sliderRightHue = document.getElementById("slider-right-hue");
 const sliderRightChr = document.getElementById("slider-right-chr");
@@ -306,6 +326,8 @@ function onLoad() {
 
     updateOverlays(left)
     updateOverlays(right)
+
+
 
 }
 
@@ -497,6 +519,39 @@ function updateOverlays(colourObj) {
     
 }
 
+function plotFromRGB(InputEvent, colourObj) {
+    const hex = InputEvent.target.value.slice(1)
+    const rgb = [
+        parseInt(hex.slice(0, 2), 16), 
+        parseInt(hex.slice(2, 4), 16),
+        parseInt(hex.slice(4), 16),
+    ]
+    
+
+    const lch = RGB2LCH(rgb[0]/255.0, rgb[1]/255.0, rgb[2]/255.0)
+    console.log(`rgb: ${rgb}`)
+    console.log(`lch: ${lch}`)
+
+    colourObj.lht = lch[0]
+    colourObj.chr = lch[1]
+    colourObj.hue = lch[2]
+
+    // console.log(`updatelch: ${left.lch[0]} ${lch[1]} ${lch[2]}`)
+    
+    onSliderChange(colourObj)
+    // setColourPositions()
+    // plotHue(colourObj)
+    // plotLight(middleMixer, colourObj.chr, colourObj.lht)
+    // updateOverlays(colourObj)
+}
+
+/**Please include the # in the hexValues */
+function updatePickers(leftHEX, rightHEX) {
+    // console.log(`setting left picker to:  ${leftHEX}`)
+    pickerLeft.value = leftHEX
+    pickerRight.value = rightHEX
+}
+
 function setPaletteColours() {
     // plotPaletteLABBlend(left, right, lchpaletteBlendCTX, 0)
     const stepColours = plotPaletteLABBlend(left, right, labpaletteBlendCTX, 13)
@@ -582,6 +637,8 @@ function setPaletteColours() {
             
         })
     }
+
+    updatePickers(stepColours[0].hex, stepColours[stepColours.length-1].hex)
 }
 
 

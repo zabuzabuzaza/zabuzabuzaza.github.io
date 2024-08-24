@@ -424,6 +424,13 @@ function okLCH2RGB(l, c, h) {
     return okLAB2RGB(l, cart.a, cart.b)
 }
 
+/**Please normalise beforehand */
+export function RGB2LCH(r, g, b) {
+    const lab = RGB2LAB(r, g, b) 
+    const polar = cart2Polar(lab[1], lab[2])
+    return [lab[0], polar.rad, polar.angle]
+}
+
 function okLCH2LAB(l, c, h) {
     const cart = polar2Cart(h, c)
     return [l, cart.a, cart.b]
@@ -458,6 +465,7 @@ function okLAB2LCH(l, a, b) {
 // }
 
 function okLAB2RGB(l, a, b_star) {
+    // https://bottosson.github.io/posts/oklab/
     // oklab to xyz
     const l1 = 0.9999999984505196*l + 0.39633779217376774*a + 0.2158037580607588*b_star
     const m1 = 1.0000000088817607*l - 0.10556134232365633*a - 0.0638541747717059*b_star
@@ -489,6 +497,28 @@ function okLAB2RGB(l, a, b_star) {
     // b = delinear(b)
 
     return [r, g, b]
+}
+
+function RGB2LAB(r, g, b) {
+    // https://bottosson.github.io/posts/oklab/
+    // https://bottosson.github.io/posts/colorwrong/#what-can-we-do%3F
+    r = r < 0.04045 ? r / 12.92 : ((r + 0.055)/(1 + 0.055))**2.4; 
+    g = g < 0.04045 ? g / 12.92 : ((g + 0.055)/(1 + 0.055))**2.4; 
+    b = b < 0.04045 ? b / 12.92 : ((b + 0.055)/(1 + 0.055))**2.4; 
+
+    let l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+	let m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+	let s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+
+    l = Math.cbrt(l);
+    m = Math.cbrt(m);
+    s = Math.cbrt(s);
+
+    const ok_l = 0.2104542553*l + 0.7936177850*m - 0.0040720468*s
+    const ok_a = 1.9779984951*l - 2.4285922050*m + 0.4505937099*s
+    const ok_b = 0.0259040371*l + 0.7827717662*m - 0.8086757660*s
+
+    return [ok_l, ok_a, ok_b]
 }
 
 /**Parameter is a 3 value array */
