@@ -92,11 +92,11 @@ a {
     margin: 0 auto; 
 
     h1 {
-        font-size: 8vw;
+        font-size: min(8vw, 48px);
     }
 
     p {
-        font-size: 4vw;
+        font-size: min(4vw, 24px);
 
         margin: 10% 20%;
     }
@@ -140,7 +140,6 @@ a {
 
 
 .sticky-text {
-    /* font-size: 50px; */
     div {
         white-space: pre-wrap;
     }
@@ -193,19 +192,19 @@ img {
     }
 
     .count-number {
-        font-size: 10vw;
+        font-size: min(10vw, 72px);
         font-weight: 600;
     }
 
     .count-comment {
-        font-size: 3vw;
+        font-size: min(3vw, 24px);
     }
 
     
 }
 
 .software-count {
-    font-size: 6vw;
+    font-size: min(6vw, 48px);
 }
 
 .references {
@@ -250,7 +249,7 @@ img {
     transition: box-shadow 0.2s ease-in-out;
 
     .menu-tag {
-        font-size: 12vw;
+        font-size: min(12vw, 60px);
         
         padding: 0px 0px 0px 0px; 
         cursor: pointer;
@@ -263,13 +262,13 @@ img {
     }
 
     .menu-info {
-        font-size: 5vw; 
+        font-size: min(5vw, 32px); 
         line-height: 100%;
         padding: 20px 0px 20px 0px;
     }
 
     .menu-links {
-        font-size: 7vw; 
+        font-size: min(7vw, 48px); 
         line-height: 130%;
         padding: 20px 0px 20px 0px;
 
@@ -286,7 +285,7 @@ img {
     
 
     .menu-disclaimer {
-        font-size: 2.5vw; 
+        font-size: min(2.5vw, 16px); 
         font-weight: 400;
         padding: 20px 0px 50px 0px;
     }
