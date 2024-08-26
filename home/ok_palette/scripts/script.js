@@ -548,8 +548,8 @@ function plotFromRGB(InputEvent, colourObj) {
 /**Please include the # in the hexValues */
 function updatePickers(leftHEX, rightHEX) {
     // console.log(`setting left picker to:  ${leftHEX}`)
-    pickerLeft.value = leftHEX
-    pickerRight.value = rightHEX
+    pickerLeft.value = "#" + leftHEX
+    pickerRight.value = "#" + rightHEX
 }
 
 function setPaletteColours() {

@@ -41,9 +41,9 @@ const softwareCounterElement = document.getElementById('software-count');
 menuToggle.addEventListener('click', () => {
   menuContent.classList.toggle('open');
   if (menuContent.classList.contains('open')) {
-    menuContent.style.transform = 'translateY(0%)';
+    menuContent.style.transform = 'translateY(10%)';
   } else {
-    menuContent.style.transform = 'translateY(90%)';
+    menuContent.style.transform = 'translateY(93%)';
   }
 });
 

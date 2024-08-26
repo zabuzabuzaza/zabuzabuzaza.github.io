@@ -27,6 +27,8 @@
     --blue-highlight-3: #6bb1cc; 
     --blue-highlight-4: #1b80a8; 
 
+    /* --widthFontSize */
+
 }
 
 @font-face {
@@ -73,6 +75,15 @@ body {
 a {
     color: inherit;
     text-decoration: none;
+
+    img {
+        transition: box-shadow 0.1s ease-in;
+        
+    }
+
+    img:hover {
+        box-shadow: 0px 0px 15px #363300 ;
+    }
 }
 
 .form {
@@ -81,26 +92,28 @@ a {
     margin: 0 auto; 
 
     h1 {
-        font-size: 32px;
+        font-size: 8vw;
     }
 
     p {
-        font-size: 18px;
+        font-size: 4vw;
 
-        margin: 10% 25%;
+        margin: 10% 20%;
     }
 }
 
 
 
 .form-padding {
-    padding: 300px 0px 0px 0; 
+    padding: 40vh 0px 0px 0; 
 }
 
 .project-group {
     height: calc(100px + 3 * 20vw);
     position: relative; 
     padding-left: 0%;
+
+    
 }
 
 .project-container {
@@ -127,7 +140,11 @@ a {
 
 
 .sticky-text {
-    font-size: 50px;
+    /* font-size: 50px; */
+    div {
+        white-space: pre-wrap;
+    }
+    
 
     position: sticky; 
     bottom: 400px; 
@@ -136,7 +153,8 @@ a {
 }
 
 .hiding-block-top {
-    background-color: var(--yellow-dark-0);
+    /* background-color: var(--yellow-dark-0); */
+    background-color: transparent;
     height: 100px; 
     width: 100%;
     position: absolute;
@@ -145,7 +163,8 @@ a {
 }
 
 .hiding-block {
-    background-color: var(--yellow-dark-0);
+    /* background-color: var(--yellow-dark-0); */
+    background-color: transparent;
     height: 100px; 
     width: 100%;
     position: absolute;
@@ -174,21 +193,19 @@ img {
     }
 
     .count-number {
-        font-size: 60px;
+        font-size: 10vw;
         font-weight: 600;
     }
 
     .count-comment {
-        font-size: 18px;
+        font-size: 3vw;
     }
 
-    /* img {
-        max-width: 400px;
-    } */
+    
 }
 
 .software-count {
-    font-size: 32px;
+    font-size: 6vw;
 }
 
 .references {
@@ -205,17 +222,21 @@ img {
     a {
         text-decoration: underline;
     }
+
+    a:hover {
+        text-shadow: 0 0 5px #363300 ;
+    }
 }
 
 
 .menu {
     /* position: ; */
     
-    font-size: 22px;
+    /* font-size: 22px; */
     text-align: center;
         
     position: sticky;
-    bottom: 0px;
+    bottom: 10px;
     width: 110%;
     margin-left: -5%;
     z-index: 10;
@@ -224,33 +245,57 @@ img {
 
     background-color: var(--yellow-dark-1);
 
-    transform: translateY(90%);
+    transform: translateY(93%);
     transition: transform 0.5s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
 
     .menu-tag {
-        font-size: 48px;
+        font-size: 12vw;
         
-        padding: 0px 0px 30px 0px; 
+        padding: 0px 0px 0px 0px; 
         cursor: pointer;
+
+        transition: transform 0.1s ease-in;
+    }
+
+    .menu-tag:hover {
+        transform: translateY(-5%);
     }
 
     .menu-info {
-        font-size: 28px; 
+        font-size: 5vw; 
         line-height: 100%;
-        padding: 0px 0px 20px 0px;
+        padding: 20px 0px 20px 0px;
     }
 
     .menu-links {
-        font-size: 36px; 
+        font-size: 7vw; 
         line-height: 130%;
-        padding: 0px 0px 20px 0px;
+        padding: 20px 0px 20px 0px;
+
+        div {
+            transition: color 0.05s ease-in;
+        }
+        
+
+        div:hover {
+            color: #ffffff;
+        }
     }
 
+    
+
     .menu-disclaimer {
-        font-size: 14px; 
+        font-size: 2.5vw; 
         font-weight: 400;
+        padding: 20px 0px 50px 0px;
     }
 }
+
+.menu:hover {
+    box-shadow: 0px 0px 20px #363300ce;
+}
+
 
 
 

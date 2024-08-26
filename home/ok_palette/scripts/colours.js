@@ -524,7 +524,8 @@ function RGB2LAB(r, g, b) {
 /**Parameter is a 3 value array */
 function RGB2HEX(rgb) {
     // return [rgb[0].toString(16), rgb[1].toString(16), rgb[2]).toString(16)]
-    return "#" + rgb.map(x => ((Math.round(x*255)).toString(16)).padStart(2, '0').toUpperCase()).join("")
+    // return "#" + rgb.map(x => ((Math.round(x*255)).toString(16)).padStart(2, '0').toUpperCase()).join("")
+    return rgb.map(x => ((Math.round(x*255)).toString(16)).padStart(2, '0').toUpperCase()).join("")
 }
 
 /**Angles need to be in degrees pls */
