@@ -321,7 +321,41 @@ span {
   padding: 0px 10px;
 }
 
+#deck-section-bottom {
+  width: 95vw;
+  display: inline-flex;
+  
+  .platter-controls {
+    div {
+      white-space: pre;
+      max-width: 400px;
+      text-wrap: wrap;
+    }
+  }
 
+  img {
+    /* margin: auto; */
+    width: 20%;
+    aspect-ratio: 1 / 1;
+  }
+
+  #platter-controls-left {
+    div {
+      text-align: right;
+    }
+    margin-left: auto;
+    
+  }
+
+  #platter-controls-right {
+    margin-right: auto;
+
+    div {
+      text-align: left;
+    }
+    
+  }
+}
 
 
 

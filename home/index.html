@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta content="text/html" charset="UTF-8">
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <base href="/home/">
 
     <title>Homepage</title>
@@ -11,33 +11,31 @@
 
 
   <body>
-    <h2>
-        Testing Underway
-    </h2>
-    Links to some stuff 
+    <div class="left">
+      <h1>
+        Warning: Construction Site
+    </h1>
+    Taking a break right now...
     <ul>
         <li>
             <a href="./maths_tutoring/">Maths Tutoring</a>
-            <ul>
-              <li>add flowchart for discerning different problems (right angle, 2 sides 1 angle, etc</li>
-              <li>add quiz and answer entry</li>
-              <li>link variable names to generated answer output</li>
-            </ul>
+            <div>
+              A collection of helpful teaching material
+            </div>
         </li>
         <li>
           <a href="./ok_palette/">An OK(LCH) Colour Picker / Palette</a>
-          <ul>
-            <li>colour backgrounds for sliders</li>
-            <li>selected colour for both platters (including check for out-of-gamut ranges). I will have to rely on css' already implemented fallback method since performance is rough enough as it is without another calculation</li>
-            <li>palettes for selected colour (top), across lightness (sides), and across chroma (below platters)</li>
-            <li>look into webGL. there's only so many quadratic approximations I can sub in before the conversions drift too far</li>
-          </ul>
+          <div>
+            A Colour Picker + Palette Generator based on the OKLAB/LCH colour space. 
+          </div>
         </li>
         <li>
           <a href="./dear_recruiters/">Resume Page</a>
         </li>
     </ul>
-  </body>
+    </div>
+    
+</body>
 
   <!-- <script type="module" src="scripts/script.js"></script>
   <script type="module" src="scripts/colours.js"></script> -->

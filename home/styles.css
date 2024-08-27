@@ -1,0 +1,59 @@
+:root {
+    --purple: #e69ddf; 
+    --purple-dark: #724e6e; 
+}
+
+@font-face {
+    font-family: 'Brygada 1918'; 
+    src: url('../fonts/Brygada1918-VariableFont_wght.ttf') format('truetype'); 
+}
+
+@font-face {
+    font-family: "Outfit"; /* Choose a font family name */
+    src: url('../fonts/Outfit-VariableFont_wght.ttf') format('truetype'); /* Path to the TTF file */
+} 
+
+body {
+    font-family: 'Brygada 1918';
+    color: white;
+
+    background: fixed;
+    background-image: url("home_assets/breaktime.png"); 
+    background-size: max(100%, 700px);
+
+    
+}
+
+a, h1 {
+    font-family: "Outfit";
+    font-weight: 900;
+    text-decoration: none;
+    color: white;
+
+    transition: text-shadow 0.1s ease-in;
+    transition: color 0.1s ease-in;
+    
+}
+
+a {
+    font-size: 30px;
+}
+
+a:hover {
+    color: var(--purple-dark);
+    text-shadow: 0 0 7px white;
+}
+
+h1 {
+    font-size: 42px;
+}
+
+.left {
+    margin-right: 40%;
+}
+
+::selection {
+    background-color: var(--purple); 
+    color: #ffffff; 
+}
+

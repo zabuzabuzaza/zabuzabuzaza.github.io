@@ -13,9 +13,7 @@
   <body>
     <div class="sans-serif">
       <h1>An OK(LCH) Palette Deck</h3>
-        <div>
-          <a href="https://github.com/zabuzabuzaza/zabuzabuzaza.github.io/tree/main/home/ok_palette">see this on github (ongoing project)</a>
-        </div>
+        <div></div>
       <div class="deck">
         <div class="deck-section" id="deck-section-top">
           <div class="palette-blend">
@@ -105,19 +103,31 @@
 
 
         <div class="deck-section" id="deck-section-bottom">
+          
           <div class="platter-controls" id="platter-controls-left">
-            <!-- <div>
-              <input type="range" id="slider-left-hue" min="0" max="360" step="1" value="0">
-              H: 
+            
+            <div>
+              <a href="https://github.com/zabuzabuzaza/zabuzabuzaza.github.io/tree/main/home/ok_palette">see this on github</a>
+              Based on the OKLAB / LCH colourspace by Björn Ottosson outlined <a href="https://bottosson.github.io/posts/oklab/">here</a>, 
+              and inspired by many other colour pickers like <a href="https://oklch.com/">this one</a>. 
+
+Was supposed to be modelled around a DJ deck, what with the two decks and the mixer in the middle, and the sans-serif font reminded me of Raw Data Feel / Endless. 
               
-            </div> -->
+            </div>
           </div>
+
+          <img src="assets/rotate.gif">
+
           <div class="platter-controls" id="platter-controls-right">
-            <!-- <div>
-              <input type="range" id="slider-right-hue" min="0" max="360" step="1" value="270">
-              H: 
-              
-            </div> -->
+            <div>
+              TODO
+              - [ ] add input to vary step number in the palette
+              - [x] add a bisection method for finding fallback colour. 
+                    also have an option to clamp the cursor to the uppermost chroma
+                - [x] added clamp functionality, just need an option to turn off or on
+              - [ ] add extra palettes on the side (chroma variable) and along the bottom 
+              - [ ] apply fallback check for slider changes
+            </div>
           </div>
         </div>
 
