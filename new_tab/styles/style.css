@@ -1,0 +1,136 @@
+:root { 
+	--colour-background: #df9c8d;
+	--colour-background-dark: #bc8477;
+	--colour-text-title: #ff4646;
+	--colour-text-content: #992593; 
+
+	--font-size-title: 40pt; 
+	--font-size-content: 18pt; 
+	--font-size-caption: 16pt; 
+
+	--size-gallery-image: 300px; 
+
+	--padding-horizontal: 10px; 
+	--padding-vertical-link-group:30px;
+}
+
+html{
+	font-family: "MS Mincho"; 
+	/*font-family: Georgia, serif;*/
+	font-size: var(--font-size-content);
+	font-weight: bold; 
+	color: var(--colour-text-content);
+	text-align: center;
+	line-height: 1.2;
+}
+
+body{
+	background-color: var(--colour-background);
+}
+
+a{
+	color: inherit;
+	text-decoration: inherit;
+}
+
+p{
+	margin: inherit; 
+}
+
+.title{
+	font-size: var(--font-size-title);
+	color: var(--colour-text-title);
+	width: 1500px;
+	height: auto; 
+	margin: 50px 0 20px;
+}
+
+#main-content {
+	display: flex; 
+}
+
+#column-of-links-left { 
+	margin: 0 var(--padding-horizontal);
+	text-align: left;
+	display: flex; 
+	flex-direction: column; 
+}
+
+#column-of-data-right {
+	flex-grow: 1;
+	text-align: right;
+}
+
+.list-stack {
+	position: relative;
+	display: inline-block;
+	list-style: none;
+	padding: 0; 
+	margin: 0 0 var(--padding-vertical-link-group); 
+}
+
+#api-text { 
+	margin: 0 10px 0 0; 
+}
+
+/* GALLERY SETTINGS */
+#gallery { 
+	/* width: calc(var(--size-gallery-image) + 50px);  */
+	margin-left: auto;
+}
+
+#gallery-image { 
+	width: fit-content; 
+	max-width: 60vw;
+	max-height: 60vh;
+	height: auto; 
+	margin: var(--padding-horizontal); 
+	border: 5px solid white; 
+}
+
+#gallery:hover #gallery-caption { 
+	display: block;
+}
+
+#gallery-caption { 
+	display: none;
+	margin-right: var(--padding-horizontal); 
+	font-size: var(--font-size-caption);
+}
+
+
+
+/* dropdown settings */
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown .dropdown-content { 
+	position: absolute;
+	display: none;
+	top: 0;
+    left: 100%;
+    margin: 0;
+    list-style: none;
+    width: 300%;
+    padding: 0px var(--padding-horizontal);
+}
+
+.dropdown-content li {
+	margin-right: var(--padding-horizontal);
+}
+
+.dropdown:hover .dropdown-content { 
+	display: flex; 
+}
+
+/* hover visual effects */
+.dropdown:hover p {
+	background: var(--colour-background-dark);
+	cursor: pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+}
