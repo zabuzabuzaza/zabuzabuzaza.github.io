@@ -5,7 +5,7 @@
 	--colour-text-content: #992593; 
 
 	--font-size-title: 40pt; 
-	--font-size-content: 18pt; 
+	--font-size-content: 16pt; 
 	--font-size-caption: 16pt; 
 
 	--size-gallery-image: 300px; 
@@ -14,10 +14,16 @@
 	--padding-vertical-link-group:30px;
 }
 
+@font-face {
+    font-family: 'Zen Kurenaido'; 
+    src: url('../../fonts/ZenKurenaido-Regular.ttf') format('truetype'); 
+}
+
 html{
-	font-family: "MS Mincho"; 
-	/*font-family: Georgia, serif;*/
-	font-size: var(--font-size-content);
+	/* font-family: "MS Mincho";  */
+	font-family: "Zen Kurenaido";
+	/* font-size: var(--font-size-content); */
+	font-size: max(var(--font-size-content), 2.7vh);
 	font-weight: bold; 
 	color: var(--colour-text-content);
 	text-align: center;
@@ -38,11 +44,12 @@ p{
 }
 
 .title{
-	font-size: var(--font-size-title);
+	font-size: max(var(--font-size-title), 6vw);
+	text-align: left;
 	color: var(--colour-text-title);
-	width: 1500px;
+	/* width: 1500px; */
 	height: auto; 
-	margin: 50px 0 20px;
+	margin: 20px 0 20px;
 }
 
 #main-content {
