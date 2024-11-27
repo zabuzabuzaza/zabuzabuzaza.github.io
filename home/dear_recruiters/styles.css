@@ -61,7 +61,7 @@ body {
     color: #ffffff; /* black */
 }
 
-.sans-serif, h1 {
+.sans-serif, h1, h2 {
     font-family: "Outfit";
     font-weight: 900;
 }
@@ -95,10 +95,24 @@ a {
         font-size: min(8vw, 48px);
     }
 
+    h2 {
+        font-size: min(8vw, 42px);
+    }
+
     p {
-        font-size: min(4vw, 36px);
+        font-size: min(4vw, 32px);
 
         margin: 10% 20%;
+    }
+
+    a {
+        text-decoration: underline;
+        transition: color 0.05s ease-in;
+    }
+
+    a:hover {
+        color: #ffffff;
+        text-shadow: 0 0 5px #000000;
     }
 }
 
