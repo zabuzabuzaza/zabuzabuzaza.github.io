@@ -27,6 +27,7 @@ type letterData struct {
 	Location         string
 	CurrentTime      string
 	MechJob          bool
+	MarginSize       string
 	Skills           []bool `json:"skill_flags"`
 }
 

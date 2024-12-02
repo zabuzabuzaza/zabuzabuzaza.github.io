@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         positionName,
         location,
         mechJob: document.querySelector('#mech-job').checked, 
+        marginSize: document.querySelector('#margin-size').value.toString(), 
         skill_flags: [
           document.querySelector('#skill-0').checked, 
           document.querySelector('#skill-1').checked, 
