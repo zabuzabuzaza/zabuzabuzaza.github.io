@@ -1,0 +1,92 @@
+\documentclass[10pt]{letter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------PAGE SETTINGS----------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.01cm]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%--------------------------PREAMBL(10^-----------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{units}
+\usepackage{multirow}
+\usepackage{ragged2e}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{anyfontsize}
+\usepackage{setspace}
+
+\usepackage{listings}
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------CUSTOM COMMANDS--------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\longindentation=0pt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------DOCUMENT BEGIN---------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\newgeometry{top=0.5in,bottom=0.5in,right=0.5in,left=0.5in} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------DOCUMENT BEGIN---------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{empty}
+
+\address{Deon Chen \\
+    i.am.deon.chen@gmail.com \\ 
+    (+61) 0430 342 826
+}
+
+\begin{letter}{
+    {{ .CompanyName }}
+} 
+
+\signature{Deon}
+
+\opening{}
+
+\textbf{
+    {{ .PositionName }} 
+}
+
+I am expressing interest in applying for the {{ .PositionName }} position situated {{ .Location }}. I hope that what I lack in experience, I will make up for in raw enthusiasm, and an aptitude for learning and adapting. 
+
+First off, please visit my website \underline{\textbf{\href{https://zabuzabuzaza.github.io/home/dear_recruiters/}{here}}}. It's a little site I made from scratch over a weekend specifically for hiring managers and recruiters. It's a nice way to convey my ability to learn things quickly and adapt, and hopefully it's much more interesting to read than another boring, plaintext cover letter. 
+
+So why me over someone else? Some other candidate, who's probably more qualified and/or has more experience. They probably got used to working in a professional setting for a medium to large firm. That firm was most likely properly run by managers that cared. They probably got adequate, if not exceptional on-site training immediately after joining from a senior that had enough time and resources dedicated to teaching new hires, rather than someone overworked, and with very little time set aside to manage new recruits, making them have to learn the in-house software, file system, and project workflow all by themselves. And that provided them with a really confortable environment to begin their professional while-collar career. 
+
+If it wasn't obvious, that wasn't me. If you were wondering how I worked my way up to lead structural steel detailer for the local Aus team in 5 months, it's because all the other senior detailers left due to pay and management issues, although that isn't to say that my technical ability and hard working attitude also allowed the regional director to trust me enough to take on that responsibility. That resulting in me leading projects, and being the main contact point for clients on these projects. Again, I may not have the backing of a big firm or recognisable company to bolster my CV, but I did not regret my time at ELLUC Projects. Where else do you get to work on state government infrastructure (Exhibition Station as part of the CrossRiver Rail Project) less than a year into the industry? 
+
+As well as my detailing and drafting responsibilities, I was also involved with 
+\begin{itemize} 
+    \item Managing projects, file organisation for incoming Civil and Architectural plans, and checking deliverables such as drawings and CNC files. 
+    \item Workload management, as a team leader of a group of 4 steel detailers, from seniors in the Philippines. 
+    \item Training and development of 3 other junior structural steel detailing trainees 
+    \item General IT support and onboarding for the office, as I just happened to be the most competent 
+    \item Was trusted with the office speaker (playlist link on my website)
+\end{itemize}
+
+Outside of my professional career so far, I have been continuously engaged with improving my software engineering skills, which were initially an outlet for creativily during my degree, which slowly morphed into a very practical demonstration of my critical thinking skills, and ability to learn things quickly. There are a few examples linked on my website, but can you also believe that this cover letter was generated by one of my scripts? Of course, it was still written my hand (LLMs can't replicate that human touch), but the replacement of the position information, dates, locations, as well as the formatting and generation of the pdf were all handled by a Golang script with pdfLatex, all with a UI hosted on a local server. This is just one example of the many skills I've developed, not just to look good on a CV, but to improve my own life (and hopefully your business's). 
+
+Again, I hope I have conveyed that when given the opportunity, I can prove myself. I may not have had all the opportunities that others may have had, having to spend more time during my degree to support myself rather than studying, but please don't be discouraged by it. Thanks for reading, and I hope to hear back from you. 
+
+
+\closing{Cheers,}
+
+\end{letter}
+
+\end{document}

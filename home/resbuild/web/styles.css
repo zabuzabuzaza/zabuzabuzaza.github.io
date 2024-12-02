@@ -1,0 +1,81 @@
+:root { 
+	--colour-background: #ffffff;
+	--colour-background-dark: #dac9c5;
+	--colour-text-title: #ff4646;
+	--colour-text-content: #6e0d6a; 
+
+	--font-size-title: 40pt; 
+	--font-size-content: 16pt; 
+	--font-size-caption: 16pt; 
+
+	--size-gallery-image: 300px; 
+
+	--padding-horizontal: 10px; 
+	--padding-vertical-link-group:30px;
+}
+
+@font-face {
+    font-family: 'Zen Kurenaido'; 
+    src: url('../../fonts/ZenKurenaido-Regular.ttf') format('truetype'); 
+}
+
+@font-face {
+    font-family: 'Outfit'; 
+    src: url('../../../fonts/Outfit-VariableFont_wght.ttf') format('truetype'); 
+}
+
+html{
+	/* font-family: "MS Mincho";  */
+	font-family: "Outfit";
+	/* font-size: var(--font-size-content); */
+	font-size: max(var(--font-size-content), 2.7vh);
+	font-weight: bold; 
+	color: var(--colour-text-content);
+	text-align: center;
+	line-height: 1.2;
+}
+
+.customise {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: minmax(100px, auto);
+	gap: 10px; 
+}
+
+.label {
+	grid-column: 1;
+	text-align: right;
+}
+
+.option {
+	grid-column: 2;
+	text-align: left;
+
+	div {
+		label {
+			font-size: 1.8vh;
+		}
+		font-size: 1.5vh;
+		margin: 10px;
+	}
+}
+
+.template {
+	grid-row: 1;
+}
+
+.company {
+	grid-row: 2;
+}
+
+.position-name {
+	grid-row: 3; 
+}
+
+.location {
+	grid-row: 4;
+}
+
+.qualified {
+	grid-row: 5;
+}

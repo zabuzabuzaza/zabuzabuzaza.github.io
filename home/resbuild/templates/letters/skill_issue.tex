@@ -1,0 +1,125 @@
+\documentclass[10pt]{letter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------PAGE SETTINGS----------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.01cm]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%--------------------------PREAMBL(10^-----------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{units}
+\usepackage{multirow}
+\usepackage{ragged2e}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{anyfontsize}
+\usepackage{setspace}
+
+\usepackage{listings}
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------CUSTOM COMMANDS--------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\longindentation=0pt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------DOCUMENT BEGIN---------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\newgeometry{top=0.5in,bottom=0.5in,right=0.5in,left=0.5in} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------DOCUMENT BEGIN---------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{empty}
+
+\address{Deon Chen \\
+    i.am.deon.chen@gmail.com \\ 
+    (+61) 0430 342 826
+}
+
+\begin{letter}{
+    {{ .CompanyName }}
+} 
+
+\signature{Deon}
+
+\opening{}
+
+\textbf{
+    {{ .PositionName }} 
+}
+% technical job 
+
+
+I am expressing interest in applying for the {{ .PositionName }} position situated {{ .Location }}. I hope that what I lack in experience, I will make up for in raw enthusiasm, and an aptitude for learning and adapting. 
+
+First off, please visit my website \underline{\textbf{\href{https://zabuzabuzazaa.xyz/home/dear_recruiters/}{here}}}. It's a little site I made from scratch over a weekend specifically for hiring managers and recruiters. It's a nice way to convey my ability to learn things quickly and adapt, and hopefully you'll agree that it's much more interesting to read than another boring, plaintext cover letter. 
+
+{{ if not .MechJob }}
+I would also like to address that while I do not have the strict qualifications that are outlined in the job description, I believe that the combination of transferable technical skills that I've acquired in my degree as well as my proven ability to learn anything on the job will make me successful in this particular position. Please don't be discouraged when you see "Bachelors of Mechanical Engineering" and click away. Let me convince you that that \$40,000 I spent wasn't a complete waste, and that you believe in the human spirit to adapt and grow. 
+{{ end }}
+
+But you're in a hurry, I bet? No problem!
+
+{{ if getFlagAt .Skills 0 }} % incompatible with CAD, Programming, 
+\textbf{Technical Competence}: Having no prior knowledge beforehand, I managed to work my way up to lead structural steel detailer for the local Aus team at my previous position in 5 months. I learnt how to make that website in under a weekend, and managed to host the entire thing on an old laptop I have running in my closet right as I type this (and as you read this too). There's no field or discipline that I would be scared of attempting to understand. And I'm not saying that I'll be instantly be great at it, but I know if I set my mind to it and I genuinely enjoy it, I will find moderate success at. 
+{{ end }}
+
+{{ if getFlagAt .Skills 1 }}
+\textbf{CAD Experience}: I got to use all the CAD suites my university could afford: AutoCAD, Inventor, Solidworks, Creo. But does it matter, you might wonder? Because I'll let you in on a secret -- once you know one, you know them all. That's how I -- without no prior experience in the drafting industry, managed to learn Tekla Structures and contribute to projects in a few weeks, accidently becoming lead steel detailer in 4 months. So much so that I was teaching new trainees how to use the software I only learnt a few months prior. It doesn't matter what software you're using, I'll be up and running in no time. 
+{{ end }}
+
+{{ if getFlagAt .Skills 2 }}
+\textbf{Laboratory Skills}: I've had plently of oppurtunities during my degree to conduct extensive lab work, ranging from basic mechanics and physics demonstrations, to more rigorous materials testing, fracture testing, fluid dynamics, acoustics field work, and many more. Structure and procedure is a very ingrained part of my work process, and I will be very comfortable in that environment. 
+{{ end }}
+
+{{ if getFlagAt .Skills 3 }}
+\textbf{FEA Analysis / Simulation}: As part of my contract with the devil (my degree), I got exposure to simualation software such as  ANSYS and the one bundled with Solidworks. Not only that, but as part of a numerical analysis course, I even built my own fluid dynamics simulation with Python. If I can build one, I can probably use the industry standard one. 
+{{ end }}
+
+{{ if getFlagAt .Skills 4 }}
+\textbf{Electrical / PCB Design and PLC Experience}: I can't compete with the EE graduates, but I did have to work extensively with Arduinos extensively as part of my final year project as the only member of the group with programming experience. This project involed both the acquisition of data from strain guages and hall effect sensors, as well as the operation and control of a hydraulic brake system. And unfortunately, all my research and proposals with working with PLC systems were wasted due to our budget constraints. So while I may not fare as well as a Mechatronics graduate, I won't be a flailing ME grad as a fish out of water. 
+{{ end }}
+
+{{ if getFlagAt .Skills 5 }}
+\textbf{Programming Experience}: Could you guess that this \LaTeX document was generated from a Golang (which I picked to learn over C++, sorry) script from a few templates that I have running on a local webserver? Well this one isn't, but most of my cover letters are actually generated that way (no AI of course). Some other small little projects I made recently include a colour picker based on an obscure colorspace remapping of RGB (hosted \underline{\textbf{\href{https://zabuzabuzazaa.xyz/home/ok_palette/}{here}}}), and a small script that scrapes wikiart.com for famous classical paintings and puts them in a flashcard deck for me to remember them. Again, I encourage you to go to my website and inspect my JS. You'll find it lacking in robustness, but full of enthusiasm you'll only find from someone who didn't study computer science but fell in love with programming anyway. 
+{{ end }}
+
+{{ if getFlagAt .Skills 6 }}
+\textbf{Adobe Creative Suite}: I'm very familiar with the workflow of using Photoshop and Illustrator, as well as many other similar programs such as Figma, Canva, and Affinity Designer. Not only that, I've got a working understanding of a few video editing software such as Davinci Resolve, as well as 3D modelling software such as Blender, which I've used plenty of times for personal projects. 
+{{ end }}
+
+{{ if getFlagAt .Skills 7 }}
+\textbf{Documentation Generation}: The document you're reading right now was produced from a \LaTeX file, which is fexible enough for small letters like this to the 140 page final thesis I was in charge of producing. Also Love reading and writing reports, documentation, risk assessments, etc. I prefer the Hobbit, but reports are fun to read as well (and you get paid to read them!). 
+{{ end }}
+
+{{ if getFlagAt .Skills 8 }}
+\textbf{Communication and Team Skills}: Through a series of unfortunate events, I ended up being the lead steel detailer for the local Aus team of 3 other juniors after only a few months of joining mt previous company. Not only did I have to teach them the software I only learnt a few months before them, I had to manage workloads for medium sized projects on my own (we're talking small shopping centres and school buildings). I loved being a junior and always asking questions and just doing the work I'm allocated, but I can also take on responsibility and handle the more administrative parts of a job. I also love escape rooms. 
+{{ end }}
+
+{{ if getFlagAt .Skills 9 }}
+\textbf{Project Management, Leadership Skills}: As part of a small team, I had plenty of opportunities to not only lead and manage our small steel detailing team, but manage and coordinate entire projects all by myself. That includes communicating with the engineers, architects and manufacturers, dealing with incoming RFIs and managing outgoing deliverables, which would usually be thousands of files. Want a list of projects that I've hand a significant part in? Go to my website!
+{{ end }}
+
+Again, I hope I have conveyed that when given the opportunity, I can prove myself. I may not have had all the opportunities that others may have had in terms of prestigious interships at big companies, but I hope you won't be discouraged by it. Thanks for reading, and I hope to hear back from you. 
+
+
+\closing{Cheers,}
+
+\end{letter}
+
+\end{document}

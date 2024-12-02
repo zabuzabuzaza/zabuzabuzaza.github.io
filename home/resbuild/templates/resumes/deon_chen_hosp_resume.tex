@@ -1,0 +1,131 @@
+\documentclass[10pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------PAGE SETTINGS----------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.01cm]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%--------------------------PREAMBL(10^-----------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{units}
+\usepackage{multirow}
+\usepackage{ragged2e}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{./img/}}
+
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{anyfontsize}
+\usepackage{setspace}
+
+\usepackage{listings}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------CUSTOM COMMANDS--------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\textBF}[1]{%
+    \pdfliteral direct {2 Tr 1 w} %the second factor is the boldness
+     #1%
+    \pdfliteral direct {0 Tr 0 w}%
+}
+
+\newcommand{\textDF}[1]{%
+    \pdfliteral direct {2 Tr 0.2 w} %the second factor is the boldness
+     #1%
+    \pdfliteral direct {0 Tr 0 w}%
+}
+
+\newcommand{\Lap}{\mathcal{L}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------DOCUMENT BEGIN---------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\bfseries\Huge Deon Chen}
+\author{i.am.deon.chen@gmail.com}
+\date{0430 342 826}
+
+\begin{document}
+
+\newgeometry{top=0.5in,bottom=0.5in,right=0.5in,left=0.5in} 
+\setstretch{0.9}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%-----------------------DOCUMENT BEGIN---------------------------%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \maketitle
+\thispagestyle{empty}
+% \pagenumbering{gobble}
+\begin{tabular}{ p{3cm} p{10cm}|r }
+    \multirow{2}{*}{\Huge \textbf{Deon Chen (B.Eng)}} & & i.am.deon.chen@gmail.com \\ 
+    & & (+61) 0430 342 826 \\ 
+    & & \\
+    & & Brisbane, Australia \\
+    & & 
+    \href{https://zabuzabuzaza.github.io}{\includegraphics[width=10px]{github.png}} \quad
+    \href{https://www.linkedin.com/in/deon-chen-12737a16a/}{\includegraphics[width=10px]{linkedin.png}} 
+    \\ \\
+\end{tabular}
+
+\vspace{0pt}
+
+\section*{Professional Experience}
+\begin{tabular}{ p{2cm}|p{15cm} }
+    % \multirow{4}{*}{2022-2023} 
+    2022-23 & \Large\textbf{Structural Steel Detailer \& Drafter} \\ \\
+    & \href{https://www.linkedin.com/company/ellucprojects/?originalSubdomain=uk}{\large\textbf{ELLUC Projects}} \\
+    & Multinational company with offices in the UK, Australia, and South East Asia \\
+    & Construction Consultation, BIM Coordination, Precast and Structural Steel Detailing \\
+    & \begin{itemize}
+        \setlength\itemsep{0pt} 
+        \item Lead Structural Steel Drafter for Aus team
+        \item Designing, modelling, and drafting of a wide variety of infrastructure, from school buildings, to large Queensland Government infrastructure
+        \item Had to communicate and collaborate with team members overseas, involving daily online team meetings, workload allocation, and file management
+        \item Experience consulting with clients throughout the lifespan of projects, and project management from conception to final delivery
+    \end{itemize} \\ \\
+    2018-19 & \Large\textbf{Chef / Kitchen Hand / Waiter} \\ \\ 
+    & \large\textbf{Burleigh Thai - Burleigh Heads} \\
+    & \begin{itemize}
+        \setlength\itemsep{0pt}
+        \item Worked as front-of-house for a small thai takeaway shop helping with food prep and serving before moving up to assistant chef in a few months
+        \item Experience with wok-cooking for rice and noodle dishes, pot cookingfor curries and soups, and deep-frying
+        \item Was responsible for opening shop (setting tables, checking inventory, etc) and closing (cleaning kitchen, emptying rubbish, returning food to storage)
+    \end{itemize} \\ \\
+    2016-21 & \Large\textbf{Kitchen Hand} \\ \\ 
+    & \large\textbf{Yum Cha Cuisine - Pacific Fair} \\
+    & \begin{itemize}
+        \setlength\itemsep{0pt}
+        \item Kitchen Hand for Dim Sum / Dumpling / Steamed item section of the kitchen
+        \item Ingredient prep, dumpling making, and serving
+    \end{itemize} 
+\end{tabular}
+
+\section*{Education}
+\begin{tabular}{ p{2cm}|p{17cm} } 
+    \multirow{1}{*}{2017-23} & \huge\textbf{Bachelor of Engineering (Honours)} \\
+    & \large{Mechanical Engineering} \\ \\
+    & \large\textbf{The University of Queensland} \\
+\end{tabular}
+
+\section*{References}
+\begin{tabular}{ p{2cm}|p{15cm} }
+    & \textbf{Michael Elms (Mobile : +61 (0) 428 587 604)} \\
+    &    \qquad Regional Director @ ELLUC Projects Aus -- 
+        \href{https://au.linkedin.com/in/michaeltroyelms}{\includegraphics[width=10px]{linkedin.png}} \\ \\
+    & \textbf{Erwin Mangubat (Mobile : +61 (0) 417 504 333)} \\
+    &    \qquad Detailing Manager @ ELLUC Projects Aus -- 
+        \href{https://au.linkedin.com/in/erwinmangubat}{\includegraphics[width=10px]{linkedin.png}} \\
+\end{tabular}
+
+
+
+
+\end{document}
