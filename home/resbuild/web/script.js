@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
           document.querySelector('#skill-7').checked, 
           document.querySelector('#skill-8').checked, 
           document.querySelector('#skill-9').checked, 
+          document.querySelector('#skill-10').checked, 
         ],
       };
       fetch("/form",
