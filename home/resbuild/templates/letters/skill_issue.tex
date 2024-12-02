@@ -70,6 +70,7 @@ I am expressing interest in applying for the {{ .PositionName }} position situat
 First off, please visit my website \underline{\textbf{\href{https://zabuzabuzazaa.xyz/home/dear_recruiters/}{here}}}. It's a little site I made from scratch over a weekend specifically for hiring managers and recruiters. It's a nice way to convey my ability to learn things quickly and adapt, and hopefully you'll agree that it's much more interesting to read than another boring, plaintext cover letter. 
 
 {{ if not .MechJob }}
+
 I would also like to address that while I do not have the strict qualifications that are outlined in the job description, I believe that the combination of transferable technical skills that I've acquired in my degree as well as my proven ability to learn anything on the job will make me successful in this particular position. Please don't be discouraged when you see "Bachelors of Mechanical Engineering" and click away. Let me convince you that that \$40,000 I spent wasn't a complete waste, and that you believe in the human spirit to adapt and grow. 
 {{ end }}
 
@@ -88,42 +89,63 @@ But you're in a hurry, I bet? No problem!
 {{ end }}
 
 {{ if getFlagAt .Skills 11 }}
+\begin{minipage}{\linewidth}
 \textbf{Acoustics Experience}: It was only one course, but I still took a preliminary acoustics analysis course during my degree, which involved very thorough investigations of the noise characteristics of various environments, including a small room, an auditorium, a swell as a busy road with lots of traffic. The consideration of many factors that go into noise analysis was quite a fascinating and enjoyable experience, and it is a career path worth pursuing. Not only do I have the technical skills to understand the theory behind it, as well as the software skills to do very complex computer modelling and numerical analysis, I'm very eager to get on site and wave a soundmeter around. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 2 }}
+\begin{minipage}{\linewidth}
 \textbf{Laboratory Skills}: I've had plently of oppurtunities during my degree to conduct extensive lab work, ranging from basic mechanics and physics demonstrations, to more rigorous materials testing, fracture testing, fluid dynamics, acoustics field work, and many more. Structure and procedure is a very ingrained part of my work process, and I will be very comfortable in that environment. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 3 }}
+\begin{minipage}{\linewidth}
 \textbf{FEA Analysis / Simulation}: As part of my contract with the devil (my degree), I got exposure to simualation software such as  ANSYS and the one bundled with Solidworks. Not only that, but as part of a numerical analysis course, I even built my own fluid dynamics simulation with Python. If I can build one, I can probably use the industry standard one. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 4 }}
+\begin{minipage}{\linewidth}
 \textbf{Electrical / PCB Design and PLC Experience}: I can't compete with the EE graduates, but I did have to work extensively with Arduinos extensively as part of my final year project as the only member of the group with programming experience. This project involed both the acquisition of data from strain guages and hall effect sensors, as well as the operation and control of a hydraulic brake system. And unfortunately, all my research and proposals with working with PLC systems were wasted due to our budget constraints. So while I may not fare as well as a Mechatronics graduate, I won't be a flailing ME grad as a fish out of water. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 5 }}
+\begin{minipage}{\linewidth}
 \textbf{Programming Experience}: Could you guess that this \LaTeX document was generated from a Golang (which I picked to learn over C++, sorry) script from a few templates that I have running on a local webserver? Well this one isn't, but most of my cover letters are actually generated that way (no AI of course). Some other small little projects I made recently include a colour picker based on an obscure colorspace remapping of RGB (hosted \underline{\textbf{\href{https://zabuzabuzazaa.xyz/home/ok_palette/}{here}}}), and a small script that scrapes wikiart.com for famous classical paintings and puts them in a flashcard deck for me to remember them. Again, I encourage you to go to my website and inspect my JS. You'll find it lacking in robustness, but full of enthusiasm you'll only find from someone who didn't study computer science but fell in love with programming anyway. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 6 }}
+\begin{minipage}{\linewidth}
 \textbf{Adobe Creative Suite}: I'm very familiar with the workflow of using Photoshop and Illustrator, as well as many other similar programs such as Figma, Canva, and Affinity Designer. Not only that, I've got a working understanding of a few video editing software such as Davinci Resolve, as well as 3D modelling software such as Blender, which I've used plenty of times for personal projects. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 7 }}
+\begin{minipage}{\linewidth}
 \textbf{Documentation Generation}: The document you're reading right now was produced from a \LaTeX file, which is fexible enough for small letters like this to the 140 page final thesis I was in charge of producing. Not only that, asa a drafter, I have to generate hundreds, if not thousands of assembly and part drawings for each and every structural steel project, making sure all dimensions and notes are accurate and readable. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 8 }}
+\begin{minipage}{\linewidth}
 \textbf{Communication and Team Skills}: Through a series of unfortunate events, I ended up being the lead steel detailer for the local Aus team of 3 other juniors after only a few months of joining mt previous company. Not only did I have to teach them the software I only learnt a few months before them, I had to manage workloads for medium sized projects on my own (we're talking small shopping centres and school buildings). I loved being a junior and always asking questions and just doing the work I'm allocated, but I can also take on responsibility and handle the more administrative parts of a job. I also love escape rooms. 
+\end{minipage}
 {{ end }}
 
 {{ if getFlagAt .Skills 9 }}
+\begin{minipage}{\linewidth}
 \textbf{Project Management, Leadership Skills}: As part of a small team, I had plenty of opportunities to not only lead and manage our small steel detailing team, but manage and coordinate entire projects all by myself. That includes communicating with the engineers, architects and manufacturers, dealing with incoming RFIs and managing outgoing deliverables, which would usually be thousands of files. Want a list of projects that I've hand a significant part in? Go to my website!
+\end{minipage}
 {{ end }}
 
+
+\begin{minipage}{\linewidth}
 Again, I hope I have conveyed that when given the opportunity, I can prove myself. I may not have had all the opportunities that others may have had in terms of prestigious interships at big companies, but I hope you won't be discouraged by it. Thanks for reading, and I hope to hear back from you. 
+\end{minipage}
 
 
 \closing{Cheers,}
