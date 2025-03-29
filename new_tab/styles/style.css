@@ -19,9 +19,15 @@
     src: url('../../fonts/ZenKurenaido-Regular.ttf') format('truetype'); 
 }
 
+@font-face {
+    font-family: 'EliteMathNew'; 
+    src: url('../../fonts/EliteMathNew.ttf') format('truetype'); 
+}
+
 html{
 	/* font-family: "MS Mincho";  */
 	font-family: "Zen Kurenaido";
+	
 	/* font-size: var(--font-size-content); */
 	font-size: max(var(--font-size-content), 2.7vh);
 	font-weight: bold; 
@@ -32,6 +38,7 @@ html{
 
 body{
 	background-color: var(--colour-background);
+
 }
 
 a{
@@ -54,6 +61,9 @@ p{
 
 #main-content {
 	display: flex; 
+
+	font-family: "EliteMathNew";
+	font-weight: 400;
 }
 
 #column-of-links-left { 
@@ -120,7 +130,7 @@ p{
     left: 100%;
     margin: 0;
     list-style: none;
-    width: 300%;
+    width: 100vh;
     padding: 0px var(--padding-horizontal);
 }
 
