@@ -1,14 +1,4 @@
-@font-face {
-    font-family: 'Playfair Display'; 
-    src: url('PlayfairDisplay-VariableFont_wght.ttf'); 
-    font-weight: normal; 
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: 'Merriweather'; /* Choose a font family name */
-    src: url('Merriweather-Regular.ttf'); /* Path to the TTF file */
-}
+@import url("/assets/fonts/fonts.css");
 
 .serif {
     /* font-family: "Playfair Display"; */

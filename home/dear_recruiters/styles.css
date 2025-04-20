@@ -1,3 +1,5 @@
+@import url("/assets/fonts/fonts.css");
+
 :root {
     --main-bg-color-light: #F5F5E2; 
     --main-bg-color-white: #ffffff; 
@@ -31,15 +33,7 @@
 
 }
 
-@font-face {
-    font-family: 'Brygada 1918'; 
-    src: url('../../fonts/Brygada1918-VariableFont_wght.ttf') format('truetype'); 
-}
-
-@font-face {
-    font-family: "Outfit"; /* Choose a font family name */
-    src: url('../../fonts/Outfit-VariableFont_wght.ttf') format('truetype'); /* Path to the TTF file */
-} 
+ 
 
 /* .serif {
     font-family: "Brygada 1918", serif;

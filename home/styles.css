@@ -1,4 +1,4 @@
-@import url("../styles.css");
+@import url("/assets/fonts/fonts.css");
 
 :root {
     --purple: #e69ddf; 
@@ -8,7 +8,7 @@
 
 
 body {
-    font-family: 'IBMPlexMono';
+    font-family: 'Jetbrains Mono';
     color: white;
 
     background: fixed;
@@ -19,8 +19,7 @@ body {
 }
 
 a, h1 {
-    font-family: 'IBMPlexMono';
-    font-weight: 900;
+    font-weight: 600;
     text-decoration: none;
     color: white;
 
@@ -39,6 +38,7 @@ a:hover {
 }
 
 h1 {
+    font-family: "Brygada 1918";
     font-size: 42px;
 }
 
